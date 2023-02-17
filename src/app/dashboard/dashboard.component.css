@@ -1,0 +1,17 @@
+.small-box h3 {
+    font-size: 27px;
+}
+.log-sources-tree-cover {
+    height: 212px;
+    overflow: hidden;
+}
+.mat-form-field {
+    font-size: 14px;
+    width: 100%;
+}
+.mat-input-element {
+    caret-color: #EEC75D;
+}
+ul.customfront {
+    min-height: 203px;
+}

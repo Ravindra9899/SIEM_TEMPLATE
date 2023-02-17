@@ -1,0 +1,30 @@
+.clusters-menu-header {
+    padding: 7px;
+    cursor: pointer;
+    margin-top: 9px;
+    border-radius: 4px;
+}
+.clusters-menu-header:hover {
+    background-color: #181c28;
+}
+.clusters-menu-header a.clusters-menu-item-link {
+    padding: 7px;
+}
+.clusters-menu-header ul.dropdown-menu {
+    margin-top: 10px;
+}
+.clusters-menu-header ul.dropdown-menu {
+    background-color: #222736;
+    border-color: #222736;
+}
+.clusters-menu-header ul.dropdown-menu li a:hover {
+    background-color: #181c28;
+    color: #EEC754;
+}
+.dropdown-menu>li>a {
+    color: #a1a1a1;
+}
+
+.top-bar-bg-color {
+    background-color: #222736 !important;
+}
