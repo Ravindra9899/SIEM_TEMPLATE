@@ -1,0 +1,41 @@
+<app-content>
+    <ng-container class="inner-dynamic-content">
+        <div class="config-content">
+            <div style="text-align: center;font-weight: bold; font-size: large; margin: 2vh 0 2vh 0;">
+                Configuration Page
+            </div>
+            <div style="text-align: center;">
+                <table>
+                    <tr>
+                        <th>S. No.</th>
+                        <th>API Name</th>
+                        <th>Status</th>
+                        <th>Actions</th>
+                    </tr>
+                    <tr *ngFor="let api of getAvailableApis()">
+                        <td>{{ api["id"] + 1 }}</td>
+                        <td>{{ api["apiName"] }}</td>
+                        <td
+                            [ngStyle]="{'color': api['status'] === 'Active' ? 'green' : api['status'] === 'Disabled' ? 'red' : 'yellow'}">
+                            {{ api["status"] }}</td>
+                        <td> <i 
+                            class="fa fa-eye" 
+                            aria-hidden="true"
+                            matTooltip="View" 
+                            (click)="onApiView(api['id'])"></i>
+                            <i class="fa fa-edit" 
+                            matTooltip="Edit"
+                            aria-hidden="true"></i>
+                            <i 
+                            class="fa" 
+                            [ngClass]="{'fa-ban': api['status']=='Active', 'fa-check': api['status']=='Inactive'}" 
+                            [matTooltip]="api['status']=='Active'? 'Disable':'Activate'"
+                            aria-hidden="true"></i>
+                            <!-- <i class="fa fa-trash" aria-hidden="true"></i> -->
+                        </td>
+                    </tr>
+                </table>
+            </div>
+        </div>
+    </ng-container>
+</app-content>

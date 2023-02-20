@@ -1,0 +1,21 @@
+.config-content{
+    background-color: #181818;
+    columns: whitesmoke;
+    height: 90vh;
+    /* width: 87vw; */
+    position: relative;
+    padding: 2vh 2vw;
+}
+
+.config-content>div{
+    color: whitesmoke;
+}
+
+td,th{
+    border: 1px solid #3f3c3c;
+    /* color: white; */
+}
+
+i{
+    margin-right: 1vw;
+}
