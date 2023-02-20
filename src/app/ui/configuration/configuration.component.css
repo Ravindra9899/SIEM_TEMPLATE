@@ -1,10 +1,12 @@
 .config-content{
-    background-color: #181818;
+    background-color: #14213d;
     color: whitesmoke;
-    height: 90vh;
+    max-height: 60vh;
+    height: 50vh;
     /* width: 87vw; */
-    position: relative;
+    /* position: relative; */
     padding: 2vh 2vw;
+    overflow: scroll;
 }
 
 .config-content>div{
@@ -18,4 +20,22 @@ td,th{
 
 i{
     margin-right: 1vw;
+}
+
+.config-content-2{
+    background-color: #14213d;
+    color: whitesmoke;
+    max-height: 50vh;
+    height: 40vh;
+    text-align: center;
+    vertical-align: middle;
+    margin: 2vh 0;
+    overflow: scroll;
+}
+
+button{
+    margin-top: 2vh;
+    background-color: rgb(252, 242, 242);
+    color: #1a1818c2;
+    font-weight: bolder;
 }

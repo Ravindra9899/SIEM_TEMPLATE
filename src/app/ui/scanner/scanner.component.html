@@ -4,7 +4,8 @@
             Lorem ipsum dolor sit amet consectetur adipisicing elit.
             Lorem ipsum dolor sit amet consectetur adipisicing elit.
             <div class="content-child">
-                <input type="text" name="ipAddress" id="ipInputField" placeholder="Enter the IP Address">
+                <input type="text" name="ipAddress" id="ipInputField" placeholder="Enter the IP Address"
+                    [(ngModel)]="ipAddress">
                 <br />
                 <!-- <div *ngFor="let row of getScanOptions().slice(0, 10)" class="row"> -->
                 <div *ngFor="let scanOption of getScanOptions()" class="checkbox-div">
@@ -15,7 +16,8 @@
                 </div>
                 <!-- </div> -->
 
-                <button type="submit" mat-button value="Start Scan" (click)="startScan()" [disabled]="getScanOptions().length>0">Submit</button>
+                <button type="submit" mat-button value="Start Scan" (click)="startScan()"
+                    [disabled]="getScanOptions().length>0">Submit</button>
             </div>
         </div>
     </ng-container>

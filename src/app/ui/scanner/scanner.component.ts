@@ -8,7 +8,7 @@ import { VirustotalServiceService } from '../../services/virustotal-service.serv
 })
 export class ScannerComponent implements OnInit {
 
-  private ipAddress: string = "";
+  public ipAddress: string = "";
   private scanOptions: string[] = [];
   private apiUsed: Record<string, boolean> = {};
 
@@ -56,17 +56,17 @@ export class ScannerComponent implements OnInit {
   }
 
   startScan() {
+    console.log(`this ${this.ipAddress}`)
+    if (this.isValidIPv4() && this.isValidIp()) {
 
-    if(this.isValidIPv4() && this.isValidIp()){
-
-    }else{
+    } else {
       // show error message
     }
 
   }
 
   setScanOptions() {
-    this.scanOptions = ["VirusTotal"];
+    // this.scanOptions = ["VirusTotal"];
 
     this.vtScanService.getAllActiveScanners().subscribe({
       "next": (response) => {
@@ -81,7 +81,7 @@ export class ScannerComponent implements OnInit {
 
           if (this.scanOptions.length > 0) {
             for (const label of this.scanOptions) {
-              this.apiUsed[label] = false;
+              this.apiUsed[label] = true;
             }
           }
 

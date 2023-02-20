@@ -14,17 +14,28 @@ export class VirustotalServiceService {
 
   constructor(private http: HttpClient, private scanStatusService: ScanStatusService) { }
 
-  getAllActiveScanners(): Observable<any>{
-    let url = `${environment.backendBaseUrl}/scanners`;
+  getAllScanners(): Observable<any> {
+    let url = `${environment.backendBaseUrl}/all`;
 
     return this.http.get(url).pipe(
-      catchError((err)=>{
-        console.log("cannot fetch available scanners "+ err);
+      catchError((err) => {
+        console.log("cannot fetch all scanners " + err);
         return of([]);
       })
     );
   }
-  
+
+  getAllActiveScanners(): Observable<any> {
+    let url = `${environment.backendBaseUrl}/scanners`;
+
+    return this.http.get(url).pipe(
+      catchError((err) => {
+        console.log("cannot fetch available scanners " + err);
+        return of([]);
+      })
+    );
+  }
+
   getVirusTotalResponse(ipToScan: string, numberOfScanners: Number, scanStatus: Subject<string>): Observable<any> {
     const N = numberOfScanners;
     this.scanIndex = 1;
