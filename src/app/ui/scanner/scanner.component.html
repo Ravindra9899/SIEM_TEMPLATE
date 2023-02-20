@@ -1,5 +1,22 @@
 <app-content>
-    <ng-container id="inner-dynami-content">
-        <p>scanner works!</p>
+    <ng-container class="inner-dynamic-content">
+        <div class="config-content">
+            Lorem ipsum dolor sit amet consectetur adipisicing elit.
+            Lorem ipsum dolor sit amet consectetur adipisicing elit.
+            <div class="content-child">
+                <input type="text" name="ipAddress" id="ipInputField" placeholder="Enter the IP Address">
+                <br />
+                <!-- <div *ngFor="let row of getScanOptions().slice(0, 10)" class="row"> -->
+                <div *ngFor="let scanOption of getScanOptions()" class="checkbox-div">
+                    <mat-checkbox [checked]="isChecked(scanOption)" color="accent"
+                        (change)="markOptionChange(scanOption)">
+                        {{ scanOption }}
+                    </mat-checkbox>
+                </div>
+                <!-- </div> -->
+
+                <button type="submit" mat-button value="Start Scan" (click)="startScan()" [disabled]="getScanOptions().length>0">Submit</button>
+            </div>
+        </div>
     </ng-container>
 </app-content>

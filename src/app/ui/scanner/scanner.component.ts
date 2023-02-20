@@ -1,4 +1,5 @@
 import { Component, OnInit } from '@angular/core';
+import { VirustotalServiceService } from '../../services/virustotal-service.service';
 
 @Component({
   selector: 'app-scanner',
@@ -7,9 +8,99 @@ import { Component, OnInit } from '@angular/core';
 })
 export class ScannerComponent implements OnInit {
 
-  constructor() { }
+  private ipAddress: string = "";
+  private scanOptions: string[] = [];
+  private apiUsed: Record<string, boolean> = {};
+
+  constructor(private vtScanService: VirustotalServiceService) { }
 
   ngOnInit(): void {
+    this.setScanOptions();
+
+    console.log(this.getScanOptions());
+    console.log(this.apiUsed);
   }
 
+  markOptionChange(scanOptionName: string) {
+    if (this.apiUsed[scanOptionName] != null) {
+      this.apiUsed[scanOptionName] = !this.apiUsed[scanOptionName];
+    }
+
+    console.log("changed " + scanOptionName + " " + this.apiUsed[scanOptionName]);
+  }
+
+  isChecked(scanOptionName: string) {
+    if (this.apiUsed[scanOptionName] != null) {
+      return this.apiUsed[scanOptionName];
+    } else {
+      return false;
+    }
+  }
+
+  isValidIp() {
+    const blocks = this.ipAddress.split('.');
+    if (blocks.length !== 4) {
+      return false;
+    }
+    for (const block of blocks) {
+      if (isNaN(Number(block)) || Number(block) < 0 || Number(block) > 255) {
+        return false;
+      }
+    }
+    return true;
+  }
+
+  isValidIPv4() {
+    let regex = /^((25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)\.){3}(25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)$/;
+    return regex.test(this.ipAddress);
+  }
+
+  startScan() {
+
+    if(this.isValidIPv4() && this.isValidIp()){
+
+    }else{
+      // show error message
+    }
+
+  }
+
+  setScanOptions() {
+    this.scanOptions = ["VirusTotal"];
+
+    this.vtScanService.getAllActiveScanners().subscribe({
+      "next": (response) => {
+        console.log("Response: ", response);
+        if (response.hasOwnProperty("message") &&
+          response.hasOwnProperty("infoText") &&
+          response.hasOwnProperty("data") &&
+          response["message"].toString() == "success" &&
+          response["data"] != null) {
+          this.scanOptions = response["data"];
+          console.log("Active scanners :", this.scanOptions);
+
+          if (this.scanOptions.length > 0) {
+            for (const label of this.scanOptions) {
+              this.apiUsed[label] = false;
+            }
+          }
+
+          console.log(this.scanOptions);
+        }
+      },
+      "error": (err) => {
+        console.error('Error occurred:', err);
+      },
+      complete: () => {
+        console.log('Request completed');
+      },
+    });
+  }
+
+  getScanOptions() {
+    return this.scanOptions;
+  }
+
+  vtScanProcessor() {
+  }
 }

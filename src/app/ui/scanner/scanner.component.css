@@ -1,0 +1,26 @@
+.config-content {
+    background-color: #181818;
+    color: whitesmoke;
+    height: 90vh;
+    /* width: 87vw; */
+    /* position: relative; */
+    padding: 2vh 2vw;
+}
+
+.content-child {
+    display: block;
+    margin-top: 5vh;
+    align-items: center;
+    text-align: center;
+}
+
+.content-child>button {
+    margin-top: 2vh;
+    background-color: rgb(252, 242, 242);
+    color: #1a1818c2;
+    font-weight: bolder;
+}
+
+::ng-deep .mat-checkbox-frame {
+    border-color: whitesmoke;
+}
