@@ -76,4 +76,10 @@ export class VirustotalServiceService {
     return scanObservable;
   }
 
+  updateConfigurationOfScanner(apiName:string, config: Record<string,any>){
+    console.log("send request to update data");
+    console.log(apiName);
+    console.log(config);
+  }
+
 }
