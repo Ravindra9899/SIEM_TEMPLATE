@@ -16,7 +16,7 @@ export class ConfigurationComponent implements OnInit {
   showEditor: boolean = false;
   currentIdOfApi: number = 0;
 
-  virusTotalNewAPIKey= '';
+  virusTotalNewAPIKey = '';
 
   constructor(
     private scanService: ScannerServiceService,
@@ -64,7 +64,7 @@ export class ConfigurationComponent implements OnInit {
   }
 
   onApiView(idOfApi: number) {
-    this.showEditor=false;
+    this.showEditor = false;
     let innerHTML = "";
     console.log("View API of Index ", idOfApi);
 
@@ -74,7 +74,7 @@ export class ConfigurationComponent implements OnInit {
       }
     }
 
-    if(innerHTML){
+    if (innerHTML) {
       this.openDialog(innerHTML);
     }
   }
@@ -86,28 +86,57 @@ export class ConfigurationComponent implements OnInit {
   onApiEdit(idOfApi: number) {
     console.log("Edit API at Index ", idOfApi);
 
-    if(idOfApi < this.availableApis.length){
+    if (idOfApi < this.availableApis.length) {
       this.showEditor = true;
 
       this.currentIdOfApi = idOfApi;
     }
   }
 
-  updateVirusTotalApiKey(){
-    if(confirm("Update API Key (This process is irreversible)?")){
+  updateVirusTotalApiKey() {
+    if (confirm("Update API Key (This process is irreversible)?")) {
       console.log("API Key updated");
       console.log(this.virusTotalNewAPIKey);
-    }else{
+    } else {
       console.log("edit cancelled");
     }
   }
 
   onApiDisable(idOfApi: number) {
-    console.log("Disable API at Index ", idOfApi);
+    console.log("Update the status API at Index ", idOfApi);
+    let textForNewStatus = this.availableApis[idOfApi]['status'] == "Active" ? "Disable" : "Activate";
 
-    if(confirm("Disable this scanner?")){
-      console.log("Disabled scanner ", this.availableApis[idOfApi]);
-    }else{
+    if (confirm(`${textForNewStatus} this scanner?`)) {
+
+      let objectId = this.availableApis[idOfApi]['ObjectId'];
+
+      let newStatus = this.availableApis[idOfApi]['status'] == "Active" ? "Inactive" : "Active";
+
+      this.scanService.updateStatusOfScanner(objectId, newStatus).subscribe({
+        error: (error) => {
+          console.error("Error in updating the scanner status");
+          console.error(error);
+        },
+        next: (response) => {
+          console.log(response.status);
+          if (response.hasOwnProperty("message") &&
+            response.hasOwnProperty("infoText") &&
+            response.hasOwnProperty("data") &&
+            response["message"].toString() == "success" &&
+            response["data"] != null) {
+
+            this.availableApis[idOfApi]['status'] = newStatus;
+
+            let innerHTML = this.configInnerHtmlGen.scannerStatusUpdatedHTMLGen(this.availableApis[idOfApi]['API_Name'], newStatus);
+
+            this.openDialog(innerHTML);
+          }
+        },
+        complete: () => {
+          console.log("update status request completed");
+        }
+      });
+    } else {
       console.log("disable cancelled");
     }
   }

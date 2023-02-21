@@ -76,10 +76,27 @@ export class ScannerServiceService {
     return scanObservable;
   }
 
-  updateConfigurationOfScanner(apiName:string, config: Record<string,any>){
+  updateConfigurationOfScanner(apiName: string, config: Record<string, any>) {
     console.log("send request to update data");
     console.log(apiName);
     console.log(config);
+  }
+
+  updateStatusOfScanner(objectId: string, newStatus: string): Observable<any> {
+
+    let url = `${environment.backendBaseUrl}/update-status`;
+
+    return this.http.post(url, {
+      "objectId": objectId,
+      "newStatus": newStatus
+    }).pipe(
+      catchError((err) => {
+        console.log("error in updating the status of the api at objectId " + objectId);
+        console.error(err);
+        return of([]);
+      })
+    );
+
   }
 
 }
