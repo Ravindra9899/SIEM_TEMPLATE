@@ -14,10 +14,31 @@
                         {{ scanOption }}
                     </mat-checkbox>
                 </div>
-                <!-- </div> -->
-
                 <button type="submit" mat-button value="Start Scan" (click)="startScan()"
-                    [disabled]="getScanOptions().length>0">Submit</button>
+                    [disabled]="!(getScanOptions().length>0)">Submit</button>
+            </div>
+            <br>
+
+            <div *ngIf="isScanStarted()" class="status-div">
+                {{ this.scanProgress }}
+            </div>
+            <div *ngIf="isScanStarted()">
+                <table>
+                    <tr>
+                        <th>S. No.</th>
+                        <th>Scanner Name</th>
+                        <th>Scan Completed</th>
+                        <th>Report Created</th>
+                        <th>View Full Report</th>
+                    </tr>
+                    <tr *ngFor="let element of this.selectedScanners">
+                        <td>{{ this.selectedScanners.indexOf(element) + 1 }}</td>
+                        <td>{{ element }}</td>
+                        <td>{{ this.scanReportStatus[element]}}</td>
+                        <td>{{ (this.scanReport[element] != null && this.scanReport[element] != "")?"Generated":"Not Generated" }}</td>
+                        <td><i class="fa fa-eye" *ngIf='(this.scanReport[element] != null && this.scanReport[element] != "")' (click)="viewReport(element)"></i></td>
+                    </tr>
+                </table>
             </div>
         </div>
     </ng-container>

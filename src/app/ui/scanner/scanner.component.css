@@ -24,3 +24,13 @@
 ::ng-deep .mat-checkbox-frame {
     border-color: whitesmoke;
 }
+
+.status-div{
+    text-align: center;
+}
+
+table, tr, th, td{
+    text-align: center;
+    border-color: rgb(145, 143, 143);
+    border-width: 1px;
+}

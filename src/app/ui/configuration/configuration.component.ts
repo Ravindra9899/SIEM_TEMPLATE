@@ -177,6 +177,12 @@ export class ConfigurationComponent implements OnInit {
   }
 
 
+  /**
+   * This function is called when the user clicks on the update button for a particular scanner. It
+   * checks if the scanner exists, and if it does, it checks if the user has entered a valid API key.
+   * If the API key is valid, it sends a request to the backend to update the API key
+   * @param {number} index - The index of the API in the list of available APIs.
+   */
   onApiConfigUpdateClick(index: number) {
     if (index < this.availableApis.length) {
       if (confirm(`Update the configurations for Scanner ${this.availableApis[index]['API_Name']}?`)) {
