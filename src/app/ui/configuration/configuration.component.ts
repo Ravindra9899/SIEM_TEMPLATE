@@ -2,7 +2,7 @@ import { Component, Inject, OnInit } from '@angular/core';
 import { MatDialog, MAT_DIALOG_DATA } from '@angular/material/dialog';
 import { DomSanitizer } from '@angular/platform-browser';
 import { ConfigInnerhtmlGeneratorService } from 'src/app/services/config-innerhtml-generator.service';
-import { VirustotalServiceService } from 'src/app/services/virustotal-service.service';
+import { ScannerServiceService } from 'src/app/services/scanner-service.service';
 
 @Component({
   selector: 'app-configuration',
@@ -19,7 +19,7 @@ export class ConfigurationComponent implements OnInit {
   virusTotalNewAPIKey= '';
 
   constructor(
-    private vtScanService: VirustotalServiceService,
+    private scanService: ScannerServiceService,
     private dialog: MatDialog,
     private configInnerHtmlGen: ConfigInnerhtmlGeneratorService
   ) { }
@@ -41,8 +41,7 @@ export class ConfigurationComponent implements OnInit {
   }
 
   setAvailableApis() {
-
-    this.vtScanService.getAllScanners().subscribe({
+    this.scanService.getAllScanners().subscribe({
       "next": (response) => {
         console.log("Response: ", response);
         if (response.hasOwnProperty("message") &&
@@ -80,9 +79,9 @@ export class ConfigurationComponent implements OnInit {
     }
   }
 
-  onApiDelete(idOfApi: number) {
-    console.log("Delete API at Index ", idOfApi);
-  }
+  // onApiDelete(idOfApi: number) {
+  //   console.log("Delete API at Index ", idOfApi);
+  // }
 
   onApiEdit(idOfApi: number) {
     console.log("Edit API at Index ", idOfApi);

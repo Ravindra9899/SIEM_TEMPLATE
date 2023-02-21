@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { VirustotalServiceService } from '../../services/virustotal-service.service';
+import { ScannerServiceService } from '../../services/scanner-service.service';
 
 @Component({
   selector: 'app-scanner',
@@ -12,7 +12,7 @@ export class ScannerComponent implements OnInit {
   private scanOptions: string[] = [];
   private apiUsed: Record<string, boolean> = {};
 
-  constructor(private vtScanService: VirustotalServiceService) { }
+  constructor(private scanService: ScannerServiceService) { }
 
   ngOnInit(): void {
     this.setScanOptions();
@@ -66,9 +66,7 @@ export class ScannerComponent implements OnInit {
   }
 
   setScanOptions() {
-    // this.scanOptions = ["VirusTotal"];
-
-    this.vtScanService.getAllActiveScanners().subscribe({
+    this.scanService.getAllActiveScanners().subscribe({
       "next": (response) => {
         console.log("Response: ", response);
         if (response.hasOwnProperty("message") &&
