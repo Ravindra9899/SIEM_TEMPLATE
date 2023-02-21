@@ -1,7 +1,13 @@
-#ipAddr{
+#inputIndex{
   color: white;
 }
 ::-webkit-input-placeholder
 {
     color: #fff;
+}
+
+#loading-gif{
+  vertical-align: middle;
+  height: 70px;
+  width: 70px;
 }

@@ -1,43 +1,11 @@
 <app-content>
   <ng-container class="inner-dynamic-content">
-    <div class="container">
-      <form class="row g-3" (ngSubmit)="onSubmit()">
-        <div class="col-md-6">
-          <label for="inputIndex" class="form-label">Select Indices</label>
-          <ng-multiselect-dropdown
-                [placeholder]="'Index-1, Index-2, ...'"
-                [settings]="dropdownSettings"
-                [data]="allIndices"
-                [(ngModel)]="selectedItems"
-                [ngModelOptions]="{ standalone: true }"
-                (onSelectAll)="onSelectAll($event)"
-                (onDeSelect)="onItemDeSelect($event)"
-                class="form-control"
-                id="inputIndex"
-              >
-          </ng-multiselect-dropdown>
-        </div>
-        <div class="col-md-4">
-          <label for="ipAddr" class="form-label">Input Ip Address</label>
-            <input
-              type="text"
-              [(ngModel)]="inputIpAddr"
-              id="ipAddr"
-              placeholder="Enter ipAddr"
-              [ngModelOptions]="{ standalone: true }"
-              class="form-control"
-            />
-        </div>
-        <div class="col-md-2">
-          <button class="btn btn-success" type="submit">
-            Get Graph
-          </button>
-        </div>
-      </form>
+    <!-- <div class="col-12" *ngIf="isSubmitted" style="display: inline-block; vertical-align: baseline;" >
+      <img src="assets/img/ajax-loader-big.gif" id="loading-gif" alt="loading graph">
     </div>
-    <div class="col-12" *ngIf="isDataLoaded" >
-      <!-- <app-ip-graph [ips]="ipList" [inpIp]="inputIpAddr"></app-ip-graph> -->
+    <div class="col-12" *ngIf="isDataLoaded">
+      <app-ip-graph [ips]="ipList" [inpIp]="inputIpAddr"></app-ip-graph>
       <app-am-charts-graph [ips]="ipList" [inpIp]="inputIpAddr"></app-am-charts-graph>
-    </div>
+    </div> -->
   </ng-container>
 </app-content>

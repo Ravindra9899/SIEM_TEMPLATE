@@ -1,87 +1,56 @@
-import { Component } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import { ElasticBackendService } from '../../elastic-backend.service';
-import { IDropdownSettings } from 'ng-multiselect-dropdown';
+import { ActivatedRoute } from '@angular/router';
 
 @Component({
   selector: 'app-ip-network-graph',
   templateUrl: './ip-network-graph.component.html',
   styleUrls: ['./ip-network-graph.component.css']
 })
-export class IpNetworkGraphComponent{
+export class IpNetworkGraphComponent implements OnInit{
   inputIpAddr: string;
-  allIndices: any = [];
-  isAllIndicesSelected: boolean;
-
-  selectedIndex: string[];
-  //dropdownList: { id: number; textName: string }[];
-  selectedItems: { id: number; itemNamet: string }[];
-  dropdownSettings: IDropdownSettings;
-
-  ipList: any = [];
+  ipList: {ip: string, count: string}[] = [];
   isDataLoaded: boolean;
 
-  constructor(private service: ElasticBackendService) {
+  constructor(private service: ElasticBackendService, private route: ActivatedRoute) {
     this.inputIpAddr = '';
-    this.allIndices = [];
-    this.isAllIndicesSelected = false;
-    this.selectedIndex = [];
-    //this.dropdownList = [];
-    this.selectedItems = [];
+    this.ipList = [];
+    this.isDataLoaded = false;
+  }
+
+  ngOnInit(): void {
+    this.route.queryParams.subscribe(params => {
+      const ip = params['ip'];
+      console.log("Got IP from URL param :: ", ip);
+      this.inputIpAddr = ip;
+    });
+
     this.isDataLoaded = false;
 
-    this.dropdownSettings = {
-      singleSelection: false,
-      selectAllText: 'Select All',
-      unSelectAllText: 'UnSelect All',
-      itemsShowLimit: 5,
-      allowSearchFilter: true,
+    let reqData = {
+      inputIpAddress: this.inputIpAddr
     };
 
-    this.ipList = [];
-
-    this.service.getAllIndex().subscribe(
-      (res) => {
-        this.allIndices = JSON.parse(JSON.stringify(res)).indexNames;
-      },
-      (error) => {
-        console.log('error is', error);
-      }
-    );
-  }
-
-  onSelectAll(item: any) {
-    this.isAllIndicesSelected = true;
-  }
-
-  onItemDeSelect(item: any) {
-    this.isAllIndicesSelected = false;
-  }
-
-  onSubmit() {
-    this.isDataLoaded = false;
-    let reqData = {};
-    if (this.isAllIndicesSelected) {
-      reqData = {
-        inputAddr: this.inputIpAddr,
-        getforAllIndex: this.isAllIndicesSelected,
-        indices: this.selectedItems,
-      };
-    } else {
-      reqData = {
-        inputAddr: this.inputIpAddr,
-        getforAllIndex: this.isAllIndicesSelected,
-        indices: [],
-      };
-    }
-    this.service.getDestIps(reqData).subscribe(
-      (res) => {
+    this.service.getDestIps(reqData).subscribe({
+      next: (res) => {
         this.ipList = JSON.parse(JSON.stringify(res));
-        // console.log('Got Ress::', this.ipList);
+        console.log('Recieved Data from backend:: ', this.ipList);
         this.isDataLoaded = true;
       },
-      (err) => {
-        console.log(err);
-      }
-    );
+      error: (err) => console.error(err),
+      complete: () => console.info('Post Request completed')
+    });
   }
+
+    // this.service.getDestIps(reqData).subscribe(
+    //   (res) => {
+    //     this.ipList = JSON.parse(JSON.stringify(res));
+    //     // console.log('Got Ress::', this.ipList);
+    //     this.isSubmitted = false;
+    //     this.isDataLoaded = true;
+    //   },
+    //   (err) => {
+    //     console.log(err);
+    //   }
+    // );
 }

@@ -6,13 +6,15 @@ import { HttpClient } from '@angular/common/http';
 })
 export class ElasticBackendService {
 
-  constructor(private http: HttpClient) { }
+  backendURL: string;
 
-  getAllIndex(){
-    return this.http.get('http://localhost:3000/destIps');
+  constructor(private http: HttpClient) {
+    this.backendURL = 'http://localhost:3000';
   }
 
   getDestIps(reqData: {}){
-    return this.http.post('http://localhost:3000/destIps', reqData);
+    let postUrl = this.backendURL+'/destIps';
+    console.log("Sending Data to '", postUrl, "':: ", reqData);
+    return this.http.post(postUrl, reqData);
   }
 }
