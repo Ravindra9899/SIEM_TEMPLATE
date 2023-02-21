@@ -28,6 +28,10 @@ export class ConfigurationComponent implements OnInit {
     this.setAvailableApis();
   }
 
+  /**
+   * The function opens a dialog box with the content of the innerHTML variable
+   * @param {string} innerHTML - string - this is the HTML that will be displayed in the dialog.
+   */
   openDialog(innerHTML: string) {
     const dialogRef = this.dialog.open(DialogComponent, {
       data: {
@@ -36,10 +40,19 @@ export class ConfigurationComponent implements OnInit {
     })
   }
 
+  /**
+   * It returns the value of the availableApis property
+   * @returns The availableApis array.
+   */
   getAvailableApis() {
     return this.availableApis;
   }
 
+  /**
+   * If the idOfApi is less than the length of the availableApis array, then set the showEditor
+   * variable to true and set the currentIdOfApi variable to the idOfApi
+   * @param {number} idOfApi - number - The index of the API in the availableApis array.
+   */
   setAvailableApis() {
     this.scanService.getAllScanners().subscribe({
       "next": (response) => {
@@ -83,6 +96,11 @@ export class ConfigurationComponent implements OnInit {
   //   console.log("Delete API at Index ", idOfApi);
   // }
 
+  /**
+   * If the idOfApi is less than the length of the availableApis array, then set the showEditor
+   * variable to true and set the currentIdOfApi variable to the idOfApi
+   * @param {number} idOfApi - number - The index of the API in the availableApis array.
+   */
   onApiEdit(idOfApi: number) {
     console.log("Edit API at Index ", idOfApi);
 
@@ -93,6 +111,9 @@ export class ConfigurationComponent implements OnInit {
     }
   }
 
+  /**
+   * If the user confirms the update, the API key is updated
+   */
   updateVirusTotalApiKey() {
     if (confirm("Update API Key (This process is irreversible)?")) {
       console.log("API Key updated");
@@ -102,6 +123,10 @@ export class ConfigurationComponent implements OnInit {
     }
   }
 
+  /**
+   * This function is called when the user clicks on the "Disable" button of a scanner
+   * @param {number} idOfApi - The index of the API in the availableApis array.
+   */
   onApiDisable(idOfApi: number) {
     console.log("Update the status API at Index ", idOfApi);
     let textForNewStatus = this.availableApis[idOfApi]['status'] == "Active" ? "Disable" : "Activate";
@@ -143,6 +168,7 @@ export class ConfigurationComponent implements OnInit {
 }
 
 
+/* It's a component that takes in a string of HTML and displays it */
 @Component({
   selector: 'app-dialog',
   template: '<div [innerHTML]="safeContent"></div>',

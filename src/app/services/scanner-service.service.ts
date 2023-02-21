@@ -14,6 +14,10 @@ export class ScannerServiceService {
 
   constructor(private http: HttpClient, private scanStatusService: ScanStatusService) { }
 
+  /**
+   * It returns an observable of an array of scanners
+   * @returns An observable of an array of scanners.
+   */
   getAllScanners(): Observable<any> {
     let url = `${environment.backendBaseUrl}/all`;
 
@@ -25,6 +29,10 @@ export class ScannerServiceService {
     );
   }
 
+  /**
+   * It returns an observable of an array of scanners
+   * @returns An observable of an array of scanners.
+   */
   getAllActiveScanners(): Observable<any> {
     let url = `${environment.backendBaseUrl}/scanners`;
 
@@ -36,6 +44,14 @@ export class ScannerServiceService {
     );
   }
 
+  /**
+   * The function takes an IP address, a number of scanners, and a scan status subject as input. It
+   * then returns an observable that emits the response from the backend
+   * @param {string} ipToScan - The IP address to scan
+   * @param {Number} numberOfScanners - This is the number of scanners that you want to use.
+   * @param scanStatus - Subject<string>
+   * @returns An observable of the response from the backend.
+   */
   getVirusTotalResponse(ipToScan: string, numberOfScanners: Number, scanStatus: Subject<string>): Observable<any> {
     const N = numberOfScanners;
     this.scanIndex = 1;
@@ -82,8 +98,14 @@ export class ScannerServiceService {
     console.log(config);
   }
 
+  /**
+   * It takes in an objectId and a newStatus, and then it updates the status of the scanner with the
+   * given objectId to the newStatus
+   * @param {string} objectId - The objectId of the scanner you want to update.
+   * @param {string} newStatus - The new status of the scanner.
+   * @returns An observable of the response from the backend.
+   */
   updateStatusOfScanner(objectId: string, newStatus: string): Observable<any> {
-
     let url = `${environment.backendBaseUrl}/update-status`;
 
     return this.http.post(url, {

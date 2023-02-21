@@ -10,7 +10,6 @@ export class ConfigInnerhtmlGeneratorService {
   constructor() { }
 
   virusTotalViewHtmlGenerator(api_data: Record<string, any>) {
-
     return `<h1 style="color: whitesmoke;">${api_data['API_Name']}</h1>
     <table>
     <tr>
