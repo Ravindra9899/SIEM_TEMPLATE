@@ -9,7 +9,7 @@ import { MatButtonModule } from "@angular/material/button";
 import { MatCheckboxModule } from "@angular/material/checkbox";
 import { HttpClientModule } from '@angular/common/http';
 import { MatDialogModule } from '@angular/material/dialog';
-import { FormsModule } from '@angular/forms';
+import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 
 import { ScannerComponent } from './ui/scanner/scanner.component';
 import { ConfigurationComponent } from './ui/configuration/configuration.component';
@@ -36,6 +36,7 @@ import { TemplatePartsModule } from './template-parts/template-parts.module';
     HttpClientModule,
     MatDialogModule,
     FormsModule,
+    ReactiveFormsModule
   ],
   providers: [],
   bootstrap: [AppComponent]

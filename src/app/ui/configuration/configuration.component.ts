@@ -1,6 +1,8 @@
 import { Component, Inject, OnInit } from '@angular/core';
 import { MatDialog, MAT_DIALOG_DATA } from '@angular/material/dialog';
 import { DomSanitizer } from '@angular/platform-browser';
+import { FormBuilder, FormGroup } from "@angular/forms";
+
 import { ConfigInnerhtmlGeneratorService } from 'src/app/services/config-innerhtml-generator.service';
 import { ScannerServiceService } from 'src/app/services/scanner-service.service';
 
@@ -17,15 +19,34 @@ export class ConfigurationComponent implements OnInit {
   currentIdOfApi: number = 0;
 
   virusTotalNewAPIKey = '';
+  forms: FormGroup[] | undefined;
 
   constructor(
     private scanService: ScannerServiceService,
     private dialog: MatDialog,
-    private configInnerHtmlGen: ConfigInnerhtmlGeneratorService
-  ) { }
+    private configInnerHtmlGen: ConfigInnerhtmlGeneratorService,
+    private formBuilder: FormBuilder
+  ) { 
+  }
 
   ngOnInit(): void {
     this.setAvailableApis();
+    this.createFormGroups();
+  }
+
+  createFormGroups(){
+    this.forms = [
+      this.formBuilder.group({
+        currentApiKey: [''],
+        newApiKey: ['']
+      }),
+      this.formBuilder.group({
+        field11: [''],
+        field12: [''],
+      }),
+
+    ];
+
   }
 
   /**
@@ -64,7 +85,6 @@ export class ConfigurationComponent implements OnInit {
           response["data"] != null) {
           this.availableApis = response["data"];
           console.log("Active scanners :", this.availableApis);
-
         }
       },
       "error": (err) => {
@@ -76,6 +96,10 @@ export class ConfigurationComponent implements OnInit {
     });
   }
 
+  /**
+   * This function is called when the user clicks on the "View" button of a particular API
+   * @param {number} idOfApi - The index of the API in the availableApis array.
+   */
   onApiView(idOfApi: number) {
     this.showEditor = false;
     let innerHTML = "";
@@ -106,20 +130,7 @@ export class ConfigurationComponent implements OnInit {
 
     if (idOfApi < this.availableApis.length) {
       this.showEditor = true;
-
       this.currentIdOfApi = idOfApi;
-    }
-  }
-
-  /**
-   * If the user confirms the update, the API key is updated
-   */
-  updateVirusTotalApiKey() {
-    if (confirm("Update API Key (This process is irreversible)?")) {
-      console.log("API Key updated");
-      console.log(this.virusTotalNewAPIKey);
-    } else {
-      console.log("edit cancelled");
     }
   }
 
@@ -164,6 +175,14 @@ export class ConfigurationComponent implements OnInit {
     } else {
       console.log("disable cancelled");
     }
+  }
+
+
+  onApiConfigUpdateClick(index: number){
+    const formValues = this.forms![index].value;
+
+    console.log("Entered value if form " + index+1, " are:");
+    console.log(formValues);
   }
 }
 

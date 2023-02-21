@@ -21,6 +21,10 @@ export class ScannerComponent implements OnInit {
     console.log(this.apiUsed);
   }
 
+  /**
+   * If the scan option is not null, then toggle the value of the scan option
+   * @param {string} scanOptionName - The name of the scan option that was changed.
+   */
   markOptionChange(scanOptionName: string) {
     if (this.apiUsed[scanOptionName] != null) {
       this.apiUsed[scanOptionName] = !this.apiUsed[scanOptionName];
@@ -29,6 +33,12 @@ export class ScannerComponent implements OnInit {
     console.log("changed " + scanOptionName + " " + this.apiUsed[scanOptionName]);
   }
 
+  /**
+   * If the scanOptionName is in the apiUsed object, return the value of that key, otherwise return
+   * false
+   * @param {string} scanOptionName - The name of the scan option.
+   * @returns The value of the apiUsed property of the object that is being passed in.
+   */
   isChecked(scanOptionName: string) {
     if (this.apiUsed[scanOptionName] != null) {
       return this.apiUsed[scanOptionName];
@@ -37,6 +47,7 @@ export class ScannerComponent implements OnInit {
     }
   }
 
+  /* Checking if the IP address is valid or not. */
   isValidIp() {
     const blocks = this.ipAddress.split('.');
     if (blocks.length !== 4) {
@@ -50,6 +61,10 @@ export class ScannerComponent implements OnInit {
     return true;
   }
 
+  /**
+   * The function returns true if the IP address is valid, and false if it is not
+   * @returns A boolean value.
+   */
   isValidIPv4() {
     let regex = /^((25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)\.){3}(25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)$/;
     return regex.test(this.ipAddress);
@@ -62,9 +77,11 @@ export class ScannerComponent implements OnInit {
     } else {
       // show error message
     }
-
   }
 
+  /**
+   * It gets all the active scanners from the server and stores them in the scanOptions array
+   */
   setScanOptions() {
     this.scanService.getAllActiveScanners().subscribe({
       "next": (response) => {
@@ -95,6 +112,10 @@ export class ScannerComponent implements OnInit {
     });
   }
 
+  /**
+   * It returns the scanOptions object.
+   * @returns The scanOptions object.
+   */
   getScanOptions() {
     return this.scanOptions;
   }

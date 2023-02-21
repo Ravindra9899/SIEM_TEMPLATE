@@ -36,26 +36,10 @@
         </div>
     </ng-container>
     <ng-container class="inner-dynamic-content-2" *ngIf="this.showEditor">
-        <div *ngIf="this.currentIdOfApi==0" class="config-content-2">
-            <h3 style="margin: 2vh 0;">Virus Total</h3>
-            <br />
-            <span><b>Current Key</b> {{ getAvailableApis()[0]['config']['api_key'] }} </span>
-            <br>
-            <input type="text" name="api_key" id="" placeholder="Enter New API Key" [(ngModel)]="virusTotalNewAPIKey">
-            <br>
-            <button mat-button (click)="updateVirusTotalApiKey()">Update</button>
-        </div>
-        <div *ngIf="this.currentIdOfApi==1">
-            div for api index 1
-        </div>
-        <div *ngIf="this.currentIdOfApi==2">
-            div for api index 2
-        </div>
-        <div *ngIf="this.currentIdOfApi==3">
-            div for api index 3
-        </div>
-        <div *ngIf="this.currentIdOfApi==4">
-            div for api index 4
+        <div class="config-content-2">
+            <form *ngIf="currentIdOfApi==0" [formGroup]="forms![0]">
+                
+            </form>
         </div>
     </ng-container>
 </app-content>
