@@ -39,3 +39,7 @@ button{
     color: #1a1818c2;
     font-weight: bolder;
 }
+
+form>*{
+    margin-top: 2vh;
+}

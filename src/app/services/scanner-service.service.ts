@@ -92,10 +92,26 @@ export class ScannerServiceService {
     return scanObservable;
   }
 
-  updateConfigurationOfScanner(apiName: string, config: Record<string, any>) {
+  updateConfigurationOfScanner(config: Record<string, any>, apiName: string, status: string): Observable<any> {
+    
     console.log("send request to update data");
     console.log(apiName);
+
     console.log(config);
+
+    let url = `${environment.backendBaseUrl}/update-config`;
+
+    return this.http.post(url, {
+      "apiName": apiName,
+      "config": config,
+      "status": status
+    }).pipe(
+      catchError((err)=>{
+        console.log("could not update the configuration of Virus Total");
+        console.error(err);
+        return of([]);
+      })
+    );
   }
 
   /**
@@ -105,15 +121,15 @@ export class ScannerServiceService {
    * @param {string} newStatus - The new status of the scanner.
    * @returns An observable of the response from the backend.
    */
-  updateStatusOfScanner(objectId: string, newStatus: string): Observable<any> {
+  updateStatusOfScanner(apiName: string, newStatus: string): Observable<any> {
     let url = `${environment.backendBaseUrl}/update-status`;
 
     return this.http.post(url, {
-      "objectId": objectId,
+      "apiName": apiName,
       "newStatus": newStatus
     }).pipe(
       catchError((err) => {
-        console.log("error in updating the status of the api at objectId " + objectId);
+        console.log("error in updating the status of the api at apiName " + apiName);
         console.error(err);
         return of([]);
       })

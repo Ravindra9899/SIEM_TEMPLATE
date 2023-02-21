@@ -26,7 +26,7 @@ export class ConfigurationComponent implements OnInit {
     private dialog: MatDialog,
     private configInnerHtmlGen: ConfigInnerhtmlGeneratorService,
     private formBuilder: FormBuilder
-  ) { 
+  ) {
   }
 
   ngOnInit(): void {
@@ -34,10 +34,9 @@ export class ConfigurationComponent implements OnInit {
     this.createFormGroups();
   }
 
-  createFormGroups(){
+  createFormGroups() {
     this.forms = [
       this.formBuilder.group({
-        currentApiKey: [''],
         newApiKey: ['']
       }),
       this.formBuilder.group({
@@ -144,11 +143,11 @@ export class ConfigurationComponent implements OnInit {
 
     if (confirm(`${textForNewStatus} this scanner?`)) {
 
-      let objectId = this.availableApis[idOfApi]['ObjectId'];
+      let apiName = this.availableApis[idOfApi]['API_Name'];
 
       let newStatus = this.availableApis[idOfApi]['status'] == "Active" ? "Inactive" : "Active";
 
-      this.scanService.updateStatusOfScanner(objectId, newStatus).subscribe({
+      this.scanService.updateStatusOfScanner(apiName, newStatus).subscribe({
         error: (error) => {
           console.error("Error in updating the scanner status");
           console.error(error);
@@ -163,7 +162,7 @@ export class ConfigurationComponent implements OnInit {
 
             this.availableApis[idOfApi]['status'] = newStatus;
 
-            let innerHTML = this.configInnerHtmlGen.scannerStatusUpdatedHTMLGen(this.availableApis[idOfApi]['API_Name'], newStatus);
+            let innerHTML = this.configInnerHtmlGen.scannerStatusUpdatedHTMLGen(apiName, newStatus);
 
             this.openDialog(innerHTML);
           }
@@ -178,11 +177,45 @@ export class ConfigurationComponent implements OnInit {
   }
 
 
-  onApiConfigUpdateClick(index: number){
-    const formValues = this.forms![index].value;
+  onApiConfigUpdateClick(index: number) {
+    if (index < this.availableApis.length) {
+      if (confirm(`Update the configurations for Scanner ${this.availableApis[index]['API_Name']}?`)) {
+        const formValues = this.forms![index].value;
 
-    console.log("Entered value if form " + index+1, " are:");
-    console.log(formValues);
+        console.log("Entered value if form " + index + 1, " are:");
+        console.log(formValues);
+
+        switch (index) {
+          case 0:
+            if(formValues.hasOwnProperty('newApiKey') && formValues['newApiKey'] != null && formValues['newApiKey'] !="" && formValues!=false){
+              let config = {
+                "api_key": formValues['newApiKey']
+              }
+              this.scanService.updateConfigurationOfScanner(config, "Virus Total", this.availableApis[0]['status']).subscribe({
+                error:(err)=>{
+                  console.error("Error in updating config for VT " + err);
+                },
+                next: (response)=>{
+                  console.log("Vt Update ", response.status);
+                  if(response.hasOwnProperty("message") && response['message']=="success"){
+                    console.log("Scan config updated");
+                  }
+                }
+              });
+            }else{
+              this.openDialog(`<h5 style="color: white;">The entered API Key is not valid</h5>`)
+            }
+            break;
+        
+          default:
+            break;
+        }
+      } else {
+        console.log("update cancelled");
+      }
+    } else {
+      this.openDialog('<h5 style:"color: white;">Sorry, but this API does not exist.</h5>');
+    }
   }
 }
 
