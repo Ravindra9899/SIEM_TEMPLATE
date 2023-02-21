@@ -187,26 +187,26 @@ export class ConfigurationComponent implements OnInit {
 
         switch (index) {
           case 0:
-            if(formValues.hasOwnProperty('newApiKey') && formValues['newApiKey'] != null && formValues['newApiKey'] !="" && formValues!=false){
+            if (formValues.hasOwnProperty('newApiKey') && formValues['newApiKey'] != null && formValues['newApiKey'] != "" && formValues != false) {
               let config = {
                 "api_key": formValues['newApiKey']
               }
               this.scanService.updateConfigurationOfScanner(config, "Virus Total", this.availableApis[0]['status']).subscribe({
-                error:(err)=>{
+                error: (err) => {
                   console.error("Error in updating config for VT " + err);
                 },
-                next: (response)=>{
+                next: (response) => {
                   console.log("Vt Update ", response.status);
-                  if(response.hasOwnProperty("message") && response['message']=="success"){
+                  if (response.hasOwnProperty("message") && response['message'] == "success") {
                     console.log("Scan config updated");
                   }
                 }
               });
-            }else{
+            } else {
               this.openDialog(`<h5 style="color: white;">The entered API Key is not valid</h5>`)
             }
             break;
-        
+
           default:
             break;
         }
