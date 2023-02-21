@@ -28,6 +28,14 @@ export class ConfigurationComponent implements OnInit {
     this.setAvailableApis();
   }
 
+  openDialog(innerHTML: string) {
+    const dialogRef = this.dialog.open(DialogComponent, {
+      data: {
+        content: innerHTML
+      }
+    })
+  }
+
   getAvailableApis() {
     return this.availableApis;
   }
@@ -86,22 +94,22 @@ export class ConfigurationComponent implements OnInit {
     }
   }
 
-  onApiDisable(idOfApi: number) {
-    console.log("Disable API at Index ", idOfApi);
-  }
-
-  openDialog(innerHTML: string) {
-    const dialogRef = this.dialog.open(DialogComponent, {
-      data: {
-        content: innerHTML
-      }
-    })
-  }
-
   updateVirusTotalApiKey(){
     if(confirm("Update API Key (This process is irreversible)?")){
       console.log("API Key updated");
       console.log(this.virusTotalNewAPIKey);
+    }else{
+      console.log("edit cancelled");
+    }
+  }
+
+  onApiDisable(idOfApi: number) {
+    console.log("Disable API at Index ", idOfApi);
+
+    if(confirm("Disable this scanner?")){
+      console.log("Disabled scanner ", this.availableApis[idOfApi]);
+    }else{
+      console.log("disable cancelled");
     }
   }
 }
