@@ -1,5 +1,8 @@
+.inner-dynamic-content{
+    margin: 0;
+}
 .config-content{
-    background-color: #14213d;
+    background-color: #222736;
     color: whitesmoke;
     max-height: 60vh;
     height: 50vh;
@@ -7,10 +10,6 @@
     /* position: relative; */
     padding: 2vh 2vw;
     overflow: scroll;
-}
-
-.config-content>div{
-    color: whitesmoke;
 }
 
 td,th{
@@ -23,7 +22,7 @@ i{
 }
 
 .config-content-2{
-    background-color: #14213d;
+    background-color: #222736;
     color: whitesmoke;
     max-height: 50vh;
     height: 40vh;
@@ -36,7 +35,7 @@ i{
 button{
     margin-top: 2vh;
     background-color: rgb(252, 242, 242);
-    color: #1a1818c2;
+    background-color: #181c28;
     font-weight: bolder;
 }
 

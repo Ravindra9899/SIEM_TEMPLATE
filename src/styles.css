@@ -1017,3 +1017,7 @@ ul ul.inner-list li {
 }
 html, body { height: 100%; }
 body { margin: 0; font-family: Roboto, "Helvetica Neue", sans-serif; }
+
+.inner-dynamic-content{
+    background-color: #181c28;
+}

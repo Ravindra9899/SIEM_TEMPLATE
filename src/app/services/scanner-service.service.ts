@@ -137,4 +137,27 @@ export class ScannerServiceService {
 
   }
 
+  readAllScanReportsForApi(apiName: string, offsetVal: string, limitVal: string, orderVal: string): Observable<any>{
+    let url = `${environment.backendBaseUrl}/read-report`;
+
+    let postRequestBody = {
+      "apiName": apiName,
+      "offset": offsetVal,
+      "limit": limitVal,
+      "order": orderVal
+    };
+
+    console.log("Post request body", postRequestBody);
+
+    return this.http.post(url, postRequestBody).pipe(
+      catchError((err)=>{
+
+        console.log(`Error in retrieving scan reports for ${apiName}`);
+        console.log(err);
+
+        return of([]);
+      })
+    );
+  }
+
 }

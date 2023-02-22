@@ -19,6 +19,10 @@ export class ScannerComponent implements OnInit {
   public scanReportStatus: Record<string, string>= {};
   public scanReport: Record<string, any>= {};
 
+  public limit: string = "1";
+  public skip: string = "0";
+  public order: string = "desc";
+
 
   constructor(private scanService: ScannerServiceService) { }
 
@@ -206,6 +210,10 @@ export class ScannerComponent implements OnInit {
   viewReport(apiName: string){
 
     console.log(this.scanReport[apiName]);
+
+    let viewReportURL = `/view-report?ipAddress=${this.ipAddress}&apiName=${apiName}&order=${this.order}&skip=${this.skip}&limit=${this.limit}`;
+
+    window.open(viewReportURL, "_blank");
 
   }
 }

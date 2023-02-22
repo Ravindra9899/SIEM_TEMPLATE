@@ -15,6 +15,7 @@ import { ScannerComponent } from './ui/scanner/scanner.component';
 import { ConfigurationComponent } from './ui/configuration/configuration.component';
 import { DashboardComponent } from './dashboard/dashboard.component';
 import { TemplatePartsModule } from './template-parts/template-parts.module';
+import { ScanReportComponent } from './ui/scan-report/scan-report.component';
 
 
 @NgModule({
@@ -23,6 +24,7 @@ import { TemplatePartsModule } from './template-parts/template-parts.module';
     DashboardComponent,
     ConfigurationComponent,
     ScannerComponent,
+    ScanReportComponent,
   ],
   imports: [
     BrowserModule,
