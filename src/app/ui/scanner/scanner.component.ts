@@ -151,7 +151,8 @@ export class ScannerComponent implements OnInit {
         if (this.selectedScanners.includes("Virus Total")){
           console.log("scan vt");
           // call vt scan method here and with proper scan status
-          this.scanService.getVirusTotalResponse(this.ipAddress, this.selectedScanners.length, scanStatus).subscribe({
+          this.scanService.getVirusTotalResponse(this.ipAddress, this.selectedScanners.length, scanStatus)
+          .subscribe({
             next: (response) => {
               console.log('Response received:', response);
 
@@ -181,8 +182,31 @@ export class ScannerComponent implements OnInit {
           });
         }
   
-        if (this.selectedScanners.includes("API 1")){
-          console.log("scan 1");
+        if (this.selectedScanners.includes("Who Is IP Netblocks")){
+          console.log("scan who is ip netblocks");
+          this.scanService.getWhoIsXmpIpNetResponse(this.ipAddress, this.selectedScanners.length, scanStatus)
+          .subscribe({
+            next: (response) => {
+              console.log('Response received:', response);
+
+              if(response.hasOwnProperty("message") && response['message']!=null && response["message"]=="success" &&
+              response.hasOwnProperty("data") && response['data'] != null 
+              ){
+                this.scanReportStatus["Who Is IP Netblocks"] = "Done";
+                this.scanReport["Who Is IP Netblocks"] = response.data;
+              }else{
+                this.scanReportStatus["Who Is IP Netblocks"] = "Done";
+                this.scanReport["Who Is IP Netblocks"] = "";
+              }
+            },
+            error: (err) => {
+              console.error('Error occurred:', err);
+              this.scanReportStatus["Who Is IP Netblocks"] = "Failed";
+            },
+            complete: () => {
+              console.log('Request completed');
+            },
+          });
         }
   
         if (this.selectedScanners.includes("API 3")){

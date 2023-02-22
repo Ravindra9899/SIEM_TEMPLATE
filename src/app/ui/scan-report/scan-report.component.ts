@@ -35,6 +35,8 @@ export class ScanReportComponent implements OnInit {
       },
       next: (response) => {
         console.log("fetched response successfully");
+        console.log(response.status);
+        console.log(response)
         if (
           response.hasOwnProperty("message") && response["message"] != null && response["message"] != false &&
           response.hasOwnProperty("data") && response["data"] != null && response["data"] != false

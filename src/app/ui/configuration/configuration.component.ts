@@ -105,8 +105,17 @@ export class ConfigurationComponent implements OnInit {
     console.log("View API of Index ", idOfApi);
 
     if (idOfApi < this.availableApis.length) {
-      if (idOfApi == 0) {
+
+      let apiName = this.availableApis[idOfApi]['API_Name']
+      switch (apiName) {
+        case "Virus Total":
         innerHTML = this.configInnerHtmlGen.virusTotalViewHtmlGenerator(this.availableApis[idOfApi]);
+          break;
+        case "Who Is IP Netblocks":
+          innerHTML = this.configInnerHtmlGen.whoIsXmlIpNetBlocksViewHtmlGenerator(this.availableApis[idOfApi]);
+          break;
+        default:
+          break;
       }
     }
 
