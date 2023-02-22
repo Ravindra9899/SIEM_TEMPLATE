@@ -107,14 +107,15 @@ export class ScannerServiceService {
    * be either "asc" or "desc".
    * @returns An observable of an array of scan reports.
    */
-  readAllScanReportsForApi(apiName: string, offsetVal: string, limitVal: string, orderVal: string): Observable<any>{
+  readAllScanReportsForApi(apiName: string, offsetVal: string, limitVal: string, orderVal: string, ipAddress: string): Observable<any>{
     let url = `${environment.backendBaseUrl}/read-report`;
 
     let postRequestBody = {
       "apiName": apiName,
       "offset": offsetVal,
       "limit": limitVal,
-      "order": orderVal
+      "order": orderVal,
+      "ipAddress": ipAddress
     };
 
     console.log("Post request body", postRequestBody);

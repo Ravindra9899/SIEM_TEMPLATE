@@ -29,7 +29,7 @@ export class ScanReportComponent implements OnInit {
     this.skip = this.route.snapshot.queryParamMap.get("skip")!;
 
 
-    this.scanService.readAllScanReportsForApi(this.apiName, this.skip, this.limit, this.order).subscribe({
+    this.scanService.readAllScanReportsForApi(this.apiName, this.skip, this.limit, this.order, this.ipAddress).subscribe({
       error: (err) => {
         console.log("Error is fetching scan report from backend");
       },
