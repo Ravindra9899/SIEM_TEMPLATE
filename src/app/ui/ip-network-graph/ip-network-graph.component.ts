@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { ElasticBackendService } from '../../elastic-backend.service';
+import { DestinationIpsService } from 'src/app/services/destination-ips.service';
 import { ActivatedRoute } from '@angular/router';
 
 @Component({
@@ -9,48 +9,73 @@ import { ActivatedRoute } from '@angular/router';
 })
 export class IpNetworkGraphComponent implements OnInit{
   inputIpAddr: string;
-  ipList: {ip: string, count: string}[] = [];
+  destinaionIps: {ip: string, count: Number}[] = [];
   isDataLoaded: boolean;
+  hasCausedError: boolean;
+  errorMesssage: string
 
-  constructor(private service: ElasticBackendService, private route: ActivatedRoute) {
+  constructor(private destIpService: DestinationIpsService, private route: ActivatedRoute) {
     this.inputIpAddr = '';
-    this.ipList = [];
+    this.destinaionIps = [];
     this.isDataLoaded = false;
+    this.hasCausedError = false;
+    this.errorMesssage = '';
   }
 
   ngOnInit(): void {
     this.route.queryParams.subscribe(params => {
-      const ip = params['ip'];
-      console.log("Got IP from URL param :: ", ip);
-      this.inputIpAddr = ip;
+      if(params.hasOwnProperty('ip')){
+        const ip = params['ip'];
+        console.log("Got IP from URL param :: ", ip);
+        if(this.isValidIp(ip)){
+          this.inputIpAddr = ip;
+        } else {
+          this.hasCausedError = true;
+          this.errorMesssage = 'Ip defined in url is not valid!!';
+        }
+      } else {
+        this.hasCausedError = true;
+        this.errorMesssage = "No 'ip' defined in url, above!!";
+      }
     });
 
-    this.isDataLoaded = false;
+    if(!this.hasCausedError){
+      this.isDataLoaded = false;
 
-    let reqData = {
-      inputIpAddress: this.inputIpAddr
-    };
-
-    this.service.getDestIps(reqData).subscribe({
-      next: (res) => {
-        this.ipList = JSON.parse(JSON.stringify(res));
-        console.log('Recieved Data from backend:: ', this.ipList);
-        this.isDataLoaded = true;
-      },
-      error: (err) => console.error(err),
-      complete: () => console.info('Post Request completed')
-    });
+      this.destIpService.getDestinationIpsForAllIndices(this.inputIpAddr).subscribe({
+        next: (resObj) => {
+          if(resObj.hasOwnProperty('data')){
+            this.destinaionIps = resObj['data'];
+            console.log('Recieved Data from backend:: ', this.destinaionIps);
+            this.isDataLoaded = true;
+          } else {
+            this.hasCausedError = true;
+            this.errorMesssage = resObj['error'];
+          }
+        },
+        error: (err) => {
+          this.inputIpAddr = 'could not complete post req';
+        },
+        complete: () => console.info('Post Request completed')
+      });
+    }
   }
 
-    // this.service.getDestIps(reqData).subscribe(
-    //   (res) => {
-    //     this.ipList = JSON.parse(JSON.stringify(res));
-    //     // console.log('Got Ress::', this.ipList);
-    //     this.isSubmitted = false;
-    //     this.isDataLoaded = true;
-    //   },
-    //   (err) => {
-    //     console.log(err);
-    //   }
-    // );
+  isValidIp(inputIpAddr: string): boolean{
+    let blocks = inputIpAddr.trim().split('.');
+    console.log(blocks);
+    if(blocks.length != 4){
+      console.log("more than 4 blocks in ip");
+        return false;
+    } else {
+        let state = true;
+        for(let block of blocks) {
+            if (isNaN(Number(block)) || Number(block) < 0 || Number(block) > 255){
+                console.log(block, " has a problem");
+                state = false;
+            }
+        }
+        return state;
+    }
+  }
 }

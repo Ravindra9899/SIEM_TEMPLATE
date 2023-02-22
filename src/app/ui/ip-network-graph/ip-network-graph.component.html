@@ -1,11 +1,18 @@
 <app-content>
   <ng-container class="inner-dynamic-content">
-    <!-- <div class="col-12" *ngIf="isSubmitted" style="display: inline-block; vertical-align: baseline;" >
-      <img src="assets/img/ajax-loader-big.gif" id="loading-gif" alt="loading graph">
+    <div class="col-12" *ngIf="hasCausedError; else showData" style="background-color: #222736;">
+      <div class="alert">
+        <span class="closebtn" onclick="this.parentElement.style.display='none';">&times;</span>
+        <h5>{{ errorMesssage }}</h5>
+      </div>
     </div>
-    <div class="col-12" *ngIf="isDataLoaded">
-      <app-ip-graph [ips]="ipList" [inpIp]="inputIpAddr"></app-ip-graph>
-      <app-am-charts-graph [ips]="ipList" [inpIp]="inputIpAddr"></app-am-charts-graph>
-    </div> -->
+    <ng-template #showData>
+      <div class="col-12" *ngIf="!isDataLoaded" style=" position: relative;background-color: #222736; height: 510px; width: 100%;" >
+        <img src="assets/img/ajax-loader-big.gif" id="loading-gif" alt="loading graph">
+      </div>
+      <div class="col-12" *ngIf="isDataLoaded" style="background-color: #222736;">
+        <app-am-charts-graph [destinationIps]="destinaionIps" [sourceIpAddress]="inputIpAddr"></app-am-charts-graph>
+      </div>
+    </ng-template>
   </ng-container>
 </app-content>
