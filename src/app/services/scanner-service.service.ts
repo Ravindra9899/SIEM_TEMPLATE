@@ -179,6 +179,14 @@ export class ScannerServiceService {
     return scanObservable;
   }
 
+  /**
+   * The function takes an IP address, a number of scanners, and a scan status subject as input. It
+   * then returns an observable that emits the response from the backend
+   * @param {string} ipToScan - The IP address to scan
+   * @param {Number} numberOfScanners - This is the number of scanners that will be run.
+   * @param scanStatus - Subject<string>
+   * @returns An observable of the response from the backend.
+   */
   getWhoIsXmpIpNetResponse(ipToScan: string, numberOfScanners: Number, scanStatus: Subject<string>): Observable<any>{
     const N = numberOfScanners;
     this.scanIndex = 2;
@@ -217,6 +225,17 @@ export class ScannerServiceService {
       }
     });
     return scanObservable;
+  }
+
+
+  countScanReportsPerScanner():Observable<any>{
+    let url = `${environment.backendBaseUrl}/count-scan-reports`;
+    return this.http.get(url).pipe(
+      catchError((err)=>{
+        console.log("count scan report service error " + err);
+        return of([]);
+      })
+    );
   }
 
 }
