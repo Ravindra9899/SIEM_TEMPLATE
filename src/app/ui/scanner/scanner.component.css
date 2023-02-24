@@ -34,3 +34,9 @@ table, tr, th, td{
     border-color: rgb(145, 143, 143);
     border-width: 1px;
 }
+
+.checkbox-div{
+    text-align: left;
+    margin-left: 32vw;
+    margin-top: 2vh;
+}
