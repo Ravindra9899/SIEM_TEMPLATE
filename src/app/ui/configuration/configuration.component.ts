@@ -18,8 +18,7 @@ export class ConfigurationComponent implements OnInit {
   showEditor: boolean = false;
   currentIdOfApi: number = 0;
 
-  virusTotalNewAPIKey = '';
-  forms: FormGroup[] | undefined;
+  forms: Record<string, FormGroup> = {};
 
   constructor(
     private scanService: ScannerServiceService,
@@ -35,16 +34,14 @@ export class ConfigurationComponent implements OnInit {
   }
 
   createFormGroups() {
-    this.forms = [
-      this.formBuilder.group({
+    this.forms = {
+      "Virus Total": this.formBuilder.group({
         newApiKey: ['']
       }),
-      this.formBuilder.group({
-        field11: [''],
-        field12: [''],
+      "Who Is IP Netblocks": this.formBuilder.group({
+        newApiKey: [''],
       }),
-
-    ];
+    };
 
   }
 
@@ -109,7 +106,7 @@ export class ConfigurationComponent implements OnInit {
       let apiName = this.availableApis[idOfApi]['API_Name']
       switch (apiName) {
         case "Virus Total":
-        innerHTML = this.configInnerHtmlGen.virusTotalViewHtmlGenerator(this.availableApis[idOfApi]);
+          innerHTML = this.configInnerHtmlGen.virusTotalViewHtmlGenerator(this.availableApis[idOfApi]);
           break;
         case "Who Is IP Netblocks":
           innerHTML = this.configInnerHtmlGen.whoIsXmlIpNetBlocksViewHtmlGenerator(this.availableApis[idOfApi]);
@@ -192,44 +189,79 @@ export class ConfigurationComponent implements OnInit {
    * If the API key is valid, it sends a request to the backend to update the API key
    * @param {number} index - The index of the API in the list of available APIs.
    */
-  onApiConfigUpdateClick(index: number) {
-    if (index < this.availableApis.length) {
-      if (confirm(`Update the configurations for Scanner ${this.availableApis[index]['API_Name']}?`)) {
-        const formValues = this.forms![index].value;
+  onApiConfigUpdateClick(apiName: string) {
+    const formValues = this.forms![apiName]!.value;
 
-        console.log("Entered value if form " + index + 1, " are:");
-        console.log(formValues);
+    if (confirm(`Update configurations for the Scanner ${apiName}?\nThis process is irreversible`)) {
 
-        switch (index) {
-          case 0:
-            if (formValues.hasOwnProperty('newApiKey') && formValues['newApiKey'] != null && formValues['newApiKey'] != "" && formValues != false) {
-              let config = {
-                "api_key": formValues['newApiKey']
-              }
-              this.scanService.updateConfigurationOfScanner(config, "Virus Total", this.availableApis[0]['status']).subscribe({
-                error: (err) => {
-                  console.error("Error in updating config for VT " + err);
-                },
-                next: (response) => {
-                  console.log("Vt Update ", response.status);
-                  if (response.hasOwnProperty("message") && response['message'] == "success") {
-                    console.log("Scan config updated");
-                  }
-                }
-              });
-            } else {
-              this.openDialog(`<h5 style="color: white;">The entered API Key is not valid</h5>`)
+      console.log(`Entered value for form ${apiName}`, formValues);
+
+      switch (apiName) {
+        case "Virus Total":
+          if (
+            formValues.hasOwnProperty("newApiKey") &&
+            formValues["newApiKey"] != null &&
+            formValues["newApiKey"] != false &&
+            formValues["newApiKey"] != ""
+          ) {
+            let config = {
+              "api_key": formValues['newApiKey']
             }
-            break;
 
-          default:
-            break;
-        }
-      } else {
-        console.log("update cancelled");
+            this.scanService.updateConfigurationOfScanner(
+              config,
+              "Virus Total",
+              this.availableApis[0]['status']
+            ).subscribe({
+              error: (err) => {
+                console.error("Error in updating config for VT " + err);
+              },
+              next: (response) => {
+                console.log("Vt Update ", response.status);
+                if (response.hasOwnProperty("message") && response['message'] == "success") {
+                  console.log("Scan config updated");
+                }
+              }
+            });
+
+          } else {
+            this.openDialog(`<h5 style="color: white;">The entered API Key is not valid</h5>`);
+          }
+          break;
+        case "Who Is IP Netblocks":
+          if (
+            formValues.hasOwnProperty("newApiKey") &&
+            formValues["newApiKey"] != null &&
+            formValues["newApiKey"] != false &&
+            formValues["newApiKey"] != ""
+          ) {
+            let config = {
+              "apiKey": formValues['newApiKey']
+            }
+
+            this.scanService.updateConfigurationOfScanner(
+              config,
+              "Who Is IP Netblocks",
+              this.availableApis[0]['status']
+            ).subscribe({
+              error: (err) => {
+                console.error("Error in updating config for VT " + err);
+              },
+              next: (response) => {
+                console.log("Vt Update ", response.status);
+                if (response.hasOwnProperty("message") && response['message'] == "success") {
+                  console.log("Scan config updated");
+                }
+              }
+            });
+          } else {
+            this.openDialog(`<h5 style="color: white;">The entered API Key is not valid</h5>`);
+          }
+          break;
+        default:
+          break;
       }
-    } else {
-      this.openDialog('<h5 style:"color: white;">Sorry, but this API does not exist.</h5>');
+      this.setAvailableApis();
     }
   }
 }

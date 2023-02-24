@@ -228,6 +228,11 @@ export class ScannerServiceService {
   }
 
 
+  /**
+   * It returns an observable of an array of objects, each object containing a scanner name and the
+   * number of scan reports that scanner has created
+   * @returns An observable of an array of objects.
+   */
   countScanReportsPerScanner():Observable<any>{
     let url = `${environment.backendBaseUrl}/count-scan-reports`;
     return this.http.get(url).pipe(

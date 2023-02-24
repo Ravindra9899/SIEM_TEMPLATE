@@ -38,12 +38,36 @@
     <ng-container class="inner-dynamic-content-2" *ngIf="this.showEditor">
         <div class="config-content-2">
             <h3 style="text-align: center;"> {{ this.getAvailableApis()[this.currentIdOfApi]['API_Name'] }} </h3>
-            <form *ngIf="currentIdOfApi==0" [formGroup]="forms![0]">
+            <!-- <form *ngIf="currentIdOfApi==0" [formGroup]="forms![getAvailableApis()[currentIdOfApi]['API_Name']]">
                 Current API Key: <b>{{ this.getAvailableApis()[0]['config']['api_key'] }}</b>
                 <br>
                 <input type="text" formControlName="newApiKey" placeholder="Enter new API Key">
                 <br>
                 <button (click)="onApiConfigUpdateClick(0)">Submit</button>
+                <br>
+            </form> -->
+
+            <form 
+            *ngIf="getAvailableApis()[currentIdOfApi]['API_Name']=='Virus Total'"
+            [formGroup]="forms['Virus Total']"
+            >
+                Current API Key: <b>{{ this.getAvailableApis()[currentIdOfApi]['config']['api_key'] }}</b>
+                <br>
+                <input type="text" formControlName="newApiKey" placeholder="Enter new API Key">
+                <br>
+                <button class="config-update-button" (click)="onApiConfigUpdateClick('Virus Total')">Submit</button>
+                <br>
+            </form>
+
+            <form 
+            *ngIf="getAvailableApis()[currentIdOfApi]['API_Name']=='Who Is IP Netblocks'"
+            [formGroup]="forms['Who Is IP Netblocks']"
+            >
+                Current API Key: <b>{{ this.getAvailableApis()[currentIdOfApi]['config']['apiKey'] }}</b>
+                <br>
+                <input type="text" formControlName="newApiKey" placeholder="Enter new API Key">
+                <br>
+                <button class="config-update-button" (click)="onApiConfigUpdateClick('Who Is IP Netblocks')">Submit</button>
                 <br>
             </form>
         </div>

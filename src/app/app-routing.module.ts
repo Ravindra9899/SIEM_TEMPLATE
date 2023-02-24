@@ -3,6 +3,7 @@ import { RouterModule, Routes } from '@angular/router';
 import { DashboardComponent } from './dashboard/dashboard.component';
 import { ChartsComponent } from './ui/charts/charts.component';
 import { ConfigurationComponent } from './ui/configuration/configuration.component';
+import { PrevScansComponent } from './ui/prev-scans/prev-scans.component';
 import { ScanReportComponent } from './ui/scan-report/scan-report.component';
 import { ScannerComponent } from './ui/scanner/scanner.component';
 
@@ -12,6 +13,7 @@ const routes: Routes = [
   { path: "scan", component: ScannerComponent },
   { path: "view-report", component: ScanReportComponent },
   { path: "charts", component: ChartsComponent },
+  { path: "read", component: PrevScansComponent },
   { path: '', redirectTo: '/dashboard', pathMatch: 'full' },
 
 ];

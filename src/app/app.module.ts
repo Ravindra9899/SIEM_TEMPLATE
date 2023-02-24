@@ -17,6 +17,7 @@ import { DashboardComponent } from './dashboard/dashboard.component';
 import { TemplatePartsModule } from './template-parts/template-parts.module';
 import { ScanReportComponent } from './ui/scan-report/scan-report.component';
 import { ChartsComponent } from './ui/charts/charts.component';
+import { PrevScansComponent } from './ui/prev-scans/prev-scans.component';
 
 
 @NgModule({
@@ -27,6 +28,7 @@ import { ChartsComponent } from './ui/charts/charts.component';
     ScannerComponent,
     ScanReportComponent,
     ChartsComponent,
+    PrevScansComponent,
   ],
   imports: [
     BrowserModule,
