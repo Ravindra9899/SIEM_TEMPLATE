@@ -9,7 +9,7 @@ import { ActivatedRoute } from '@angular/router';
 })
 export class IpNetworkGraphComponent implements OnInit{
   inputIpAddr: string;
-  destinaionIps: {ip: string, count: Number}[] = [];
+  destinaionIps: {ip: string, count: Number, children: {}[]}[] = [];
   isDataLoaded: boolean;
   hasCausedError: boolean;
   errorMesssage: string
@@ -26,7 +26,7 @@ export class IpNetworkGraphComponent implements OnInit{
     this.route.queryParams.subscribe(params => {
       if(params.hasOwnProperty('ip')){
         const ip = params['ip'];
-        console.log("Got IP from URL param :: ", ip);
+        console.log("ip-netwrok-graph::Got IP from URL param : '", ip, "'");
         if(this.isValidIp(ip)){
           this.inputIpAddr = ip;
         } else {
@@ -46,7 +46,7 @@ export class IpNetworkGraphComponent implements OnInit{
         next: (resObj) => {
           if(resObj.hasOwnProperty('data')){
             this.destinaionIps = resObj['data'];
-            console.log('Recieved Data from backend:: ', this.destinaionIps);
+            console.log("ip-netwrok-graph::Recieved Data from backend: '", this.destinaionIps, "'");
             this.isDataLoaded = true;
           } else {
             this.hasCausedError = true;
@@ -54,24 +54,22 @@ export class IpNetworkGraphComponent implements OnInit{
           }
         },
         error: (err) => {
-          this.inputIpAddr = 'could not complete post req';
+          this.hasCausedError = true;
+          this.errorMesssage = err;
         },
-        complete: () => console.info('Post Request completed')
+        complete: () => console.info("ip-netwrok-graph::Post Request 'getDestinationIpsForAllIndices' completed")
       });
     }
   }
 
   isValidIp(inputIpAddr: string): boolean{
     let blocks = inputIpAddr.trim().split('.');
-    console.log(blocks);
     if(blocks.length != 4){
-      console.log("more than 4 blocks in ip");
         return false;
     } else {
         let state = true;
         for(let block of blocks) {
             if (isNaN(Number(block)) || Number(block) < 0 || Number(block) > 255){
-                console.log(block, " has a problem");
                 state = false;
             }
         }
