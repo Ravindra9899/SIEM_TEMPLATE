@@ -8,7 +8,6 @@ import { TemplatePartsModule } from './template-parts/template-parts.module';
 import { IpNetworkGraphComponent } from './ui/ip-network-graph/ip-network-graph.component';
 import { AmChartsGraphComponent } from './ui/ip-network-graph/am-charts-graph/am-charts-graph.component';
 
-import { NgMultiSelectDropDownModule } from 'ng-multiselect-dropdown';
 import { FormsModule } from '@angular/forms';
 import { HttpClientModule } from '@angular/common/http';
 
@@ -25,7 +24,6 @@ import { HttpClientModule } from '@angular/common/http';
     TemplatePartsModule,
     BrowserAnimationsModule,
     FormsModule,
-    NgMultiSelectDropDownModule.forRoot(),
     HttpClientModule
   ],
   providers: [],

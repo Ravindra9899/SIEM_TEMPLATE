@@ -19,17 +19,20 @@ export class AmChartsGraphComponent{
   @Input() graphData: Node;
   noOfchildToShow: Number;
   @Output() getNodeClicked: EventEmitter<{ip: string, level: number}>;
+  levelWiseNodeColorList: string[];
 
   constructor(private destIpService: DestinationIpsService) {
-    this.graphData = new Node("Root", 0, 0, -1);
+    this.graphData = new Node("Root", 0, '', -1);
     this.noOfchildToShow = 50;
     this.getNodeClicked = new EventEmitter<{ip: string, level: number}>();
+    this.levelWiseNodeColorList = ['#FFBE0B', '#FB5607', '#FF006E', '#8338EC', '#3A86FF'];
   }
 
   ngOnChanges() {
     console.log("Got graph data: ", this.graphData);
     if(this.root){
-    this.root.dispose();}
+      this.root.dispose();
+    }
     this.create_graph();
   }
 
@@ -50,12 +53,10 @@ export class AmChartsGraphComponent{
 
     let series = chart.children.push(
       am5hierarchy.ForceDirected.new(this.root, {
-        singleBranchOnly: true,
+        singleBranchOnly: false,
         downDepth: 1,
         topDepth: 1,
-        minRadius: 15,
-        maxRadius: am5.percent(10),
-        nodePadding: 0,
+        // nodePadding: 0,
         valueField: "value",
         categoryField: "name",
         childDataField: "children",
@@ -65,12 +66,19 @@ export class AmChartsGraphComponent{
       })
     );
 
-    series?.get("colors")?.set("step", 3);
+    series.circles.template.adapters.add("fill", (fill, target) => {
+      const node: any = target.dataItem?.dataContext;
+      const color = this.levelWiseNodeColorList[(node['level']+1) % this.levelWiseNodeColorList.length];
+      return am5.color(color);
+    });
 
     series.nodes.template.events.on("click", (event) => {
       const clickedNode : any = event.target.dataItem?.dataContext;
       console.log("am-charts-graph::Got clicked on: ", clickedNode);
-      this.getNodeClicked.emit({ip: clickedNode['name'], level: clickedNode['level']});
+      if(!clickedNode['childrenAlreadyFetched']){
+        console.log("am-charts-graph::fetching children for: ", clickedNode);
+        this.getNodeClicked.emit({ip: clickedNode['name'], level: clickedNode['level']});
+      }
     });
 
     series.nodes.template.set("tooltipText", "{name}: {count}");
@@ -79,44 +87,6 @@ export class AmChartsGraphComponent{
     series.set("selectedDataItem", series.dataItems[0]);
 
     series.appear(1000, 100);
-
-    // this.root = root;
-  }
-
-  ngOnDestroy() {
-    // if (this.root) {
-    //   this.root.dispose();
-    // }
-  }
-
-  getlevelNIps(sourceIpAddress: string){
-    let destinaionIps: {}[] = [];
-    let hasCausedError = false;
-    let errorMesssage = '';
-
-    this.destIpService.getDestinationIpsForAllIndices(sourceIpAddress).subscribe({
-      next: (resObj) => {
-        if(resObj.hasOwnProperty('data')){
-          destinaionIps = resObj['data'];
-          console.log("am-charts-graph::Recieved Data from backend: '", destinaionIps, "' for source IP: '", sourceIpAddress, "'");
-          hasCausedError = false;
-        } else {
-          hasCausedError = true;
-          errorMesssage = resObj['error'];
-        }
-      },
-      error: (err) => {
-        hasCausedError = true;
-        errorMesssage = err;
-      },
-      complete: () => console.info("am-charts-graph::Post Request 'getDestinationIpsForAllIndices' completed")
-    });
-
-    return {
-      'causedError': hasCausedError,
-      'errorMesssage': errorMesssage,
-      'destinaionIps': destinaionIps
-    }
 
   }
 }

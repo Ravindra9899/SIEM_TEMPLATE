@@ -10,7 +10,6 @@ import { Node } from './am-charts-graph/node.model';
 })
 export class IpNetworkGraphComponent implements OnInit{
   inputIpAddr: string;
-  destinationIps: {ip: string, count: number}[] = [];
   isDataLoaded: boolean;
   hasCausedError: boolean;
   errorMesssage: string;
@@ -18,11 +17,10 @@ export class IpNetworkGraphComponent implements OnInit{
 
   constructor(private destIpService: DestinationIpsService, private route: ActivatedRoute) {
     this.inputIpAddr = '';
-    this.destinationIps = [];
     this.isDataLoaded = false;
     this.hasCausedError = false;
     this.errorMesssage = '';
-    this.amChartsGraphData = new Node("Root", 0, 0, -1);
+    this.amChartsGraphData = new Node("Root", 0, '', -1);
   }
 
   ngOnInit(): void {
@@ -52,11 +50,11 @@ export class IpNetworkGraphComponent implements OnInit{
     this.destIpService.getDestinationIpsForAllIndices(sourceIpAddress).subscribe({
       next: (resObj) => {
         if(resObj.hasOwnProperty('data')){
-          this.destinationIps = resObj['data'];
-          console.log("ip-netwrok-graph::Recieved Data from backend: '", this.destinationIps, "'");
+          let ipObjList = resObj['data'];
+          console.log("ip-netwrok-graph::Recieved Data from backend: '", ipObjList, "'");
 
-          let level0Node = new Node(this.inputIpAddr, 400, this.destinationIps.length, 0);
-          level0Node.addIpObjListAsChildren(this.destinationIps);
+          let level0Node = new Node(this.inputIpAddr, 400, 'Source Ip Address', 0);
+          level0Node.addIpObjListAsChildren(ipObjList);
           this.amChartsGraphData.children.push(level0Node);
           console.log("data in parent: ", this.amChartsGraphData);
 
@@ -99,10 +97,11 @@ export class IpNetworkGraphComponent implements OnInit{
 
           let currentRoot = this.amChartsGraphData.children[0];
           let newRoot = Node.addChildrenToGraph(currentRoot, ipObjList, clickedNode);
-          let newAmChartsGraphData = new Node("root", 0, 0, -1);
+          let newAmChartsGraphData = new Node("root", 0, '', -1);
           newAmChartsGraphData.children.push(newRoot);
           this.amChartsGraphData = newAmChartsGraphData;
           console.log("changed data in parent: ", this.amChartsGraphData);
+
           this.isDataLoaded = true;
         } else {
           this.hasCausedError = true;
