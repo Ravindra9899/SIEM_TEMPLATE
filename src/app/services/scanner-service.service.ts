@@ -19,7 +19,7 @@ export class ScannerServiceService {
    * @returns An observable of an array of scanners.
    */
   getAllScanners(): Observable<any> {
-    let url = `${environment.backendBaseUrl}/all`;
+    let url = `${environment.backendBaseUrl}/ipscan/all`;
 
     return this.http.get(url).pipe(
       catchError((err) => {

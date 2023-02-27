@@ -13,20 +13,26 @@
                         <th>Actions</th>
                     </tr>
                     <tr *ngFor="let api of getAvailableApis()">
-                        <td>{{ api["id"] + 1 }}</td>
+                        <td>{{ getAvailableApis().indexOf(api) + 1 }}</td>
                         <td>{{ api["API_Name"] }}</td>
                         <td
                             [ngStyle]="{'color': api['status'] === 'Active' ? 'green' : api['status'] === 'Disabled' ? 'red' : 'yellow'}">
                             {{ api["status"] }}</td>
                         <td>
-                            <i class="fa fa-eye" aria-hidden="true" matTooltip="View" (click)="onApiView(api['id'])">
+                            <i class="fa fa-eye" aria-hidden="true" matTooltip="View"
+                                (click)="onApiView(getAvailableApis().indexOf(api))"
+                                *ngIf="showScannerView(api)"
+                                >
                             </i>
-                            <i class="fa fa-edit" matTooltip="Edit" aria-hidden="true" (click)="onApiEdit(api['id'])">
+                            <i class="fa fa-edit" matTooltip="Edit" aria-hidden="true"
+                                (click)="onApiEdit(getAvailableApis().indexOf(api))"
+                                *ngIf="showScannerView(api)"
+                                >
                             </i>
                             <i class="fa"
                                 [ngClass]="{'fa-ban': api['status']=='Active', 'fa-check': api['status']=='Inactive'}"
                                 [matTooltip]="api['status']=='Active'? 'Disable':'Activate'" aria-hidden="true"
-                                (click)="onApiDisable(api['id'])">
+                                (click)="onApiDisable(getAvailableApis().indexOf(api))">
                             </i>
                             <!-- <i class="fa fa-trash" aria-hidden="true"></i> -->
                         </td>
@@ -47,10 +53,8 @@
                 <br>
             </form> -->
 
-            <form 
-            *ngIf="getAvailableApis()[currentIdOfApi]['API_Name']=='Virus Total'"
-            [formGroup]="forms['Virus Total']"
-            >
+            <form *ngIf="getAvailableApis()[currentIdOfApi]['API_Name']=='Virus Total'"
+                [formGroup]="forms['Virus Total']">
                 Current API Key: <b>{{ this.getAvailableApis()[currentIdOfApi]['config']['api_key'] }}</b>
                 <br>
                 <input type="text" formControlName="newApiKey" placeholder="Enter new API Key">
@@ -59,15 +63,14 @@
                 <br>
             </form>
 
-            <form 
-            *ngIf="getAvailableApis()[currentIdOfApi]['API_Name']=='Who Is IP Netblocks'"
-            [formGroup]="forms['Who Is IP Netblocks']"
-            >
+            <form *ngIf="getAvailableApis()[currentIdOfApi]['API_Name']=='Who Is IP Netblocks'"
+                [formGroup]="forms['Who Is IP Netblocks']">
                 Current API Key: <b>{{ this.getAvailableApis()[currentIdOfApi]['config']['apiKey'] }}</b>
                 <br>
                 <input type="text" formControlName="newApiKey" placeholder="Enter new API Key">
                 <br>
-                <button class="config-update-button" (click)="onApiConfigUpdateClick('Who Is IP Netblocks')">Submit</button>
+                <button class="config-update-button"
+                    (click)="onApiConfigUpdateClick('Who Is IP Netblocks')">Submit</button>
                 <br>
             </form>
         </div>

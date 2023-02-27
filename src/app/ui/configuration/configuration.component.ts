@@ -182,7 +182,6 @@ export class ConfigurationComponent implements OnInit {
     }
   }
 
-
   /**
    * This function is called when the user clicks on the update button for a particular scanner. It
    * checks if the scanner exists, and if it does, it checks if the user has entered a valid API key.
@@ -263,6 +262,11 @@ export class ConfigurationComponent implements OnInit {
       }
       this.setAvailableApis();
     }
+  }
+
+  showScannerView(api: Record<string, any>):boolean{
+    if(Object.keys(api["config"]).length>0) return true;
+    return false;
   }
 }
 
