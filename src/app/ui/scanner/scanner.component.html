@@ -18,11 +18,14 @@
                     [disabled]="!(getScanOptions().length>0)">Submit</button>
             </div>
             <br>
-
-            <div *ngIf="isScanStarted()" class="status-div">
+            <div *ngIf="loading" class="spinner-container">
+                <!-- <mat-spinner></mat-spinner> -->
+                <img src="assets/img/ajax-loader-big.gif" alt="loading">
+            </div>
+            <div *ngIf="!loading" class="status-div">
                 {{ this.scanProgress }}
             </div>
-            <div *ngIf="isScanStarted()">
+            <div *ngIf="!loading && !(scanProgress=='')">
                 <table>
                     <tr>
                         <th>S. No.</th>
@@ -35,8 +38,11 @@
                         <td>{{ this.selectedScanners.indexOf(element) + 1 }}</td>
                         <td>{{ element }}</td>
                         <td>{{ this.scanReportStatus[element] | titlecase }}</td>
-                        <td>{{ (this.scanReport[element] != null && this.scanReport[element] != "")?"Generated":"Not Generated" }}</td>
-                        <td><i class="fa fa-eye" *ngIf='(this.scanReport[element] != null && this.scanReport[element] != "")' (click)="viewReport(element)"></i></td>
+                        <td>{{ (this.scanReport[element] != null && this.scanReport[element] != "")?"Generated":"Not
+                            Generated" }}</td>
+                        <td><i class="fa fa-eye"
+                                *ngIf='(this.scanReport[element] != null && this.scanReport[element] != "")'
+                                (click)="viewReport(element)"></i></td>
                     </tr>
                 </table>
             </div>

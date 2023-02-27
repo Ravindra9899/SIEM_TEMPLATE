@@ -9,6 +9,7 @@ import { MatButtonModule } from "@angular/material/button";
 import { MatCheckboxModule } from "@angular/material/checkbox";
 import { HttpClientModule } from '@angular/common/http';
 import { MatDialogModule } from '@angular/material/dialog';
+import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 
 import { ScannerComponent } from './ui/scanner/scanner.component';
@@ -42,7 +43,8 @@ import { PrevScansComponent } from './ui/prev-scans/prev-scans.component';
     HttpClientModule,
     MatDialogModule,
     FormsModule,
-    ReactiveFormsModule
+    ReactiveFormsModule,
+    MatProgressSpinnerModule,
   ],
   providers: [],
   bootstrap: [AppComponent]

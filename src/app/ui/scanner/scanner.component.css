@@ -25,18 +25,28 @@
     border-color: whitesmoke;
 }
 
-.status-div{
+.status-div {
     text-align: center;
 }
 
-table, tr, th, td{
+table,
+tr,
+th,
+td {
     text-align: center;
     border-color: rgb(145, 143, 143);
     border-width: 1px;
 }
 
-.checkbox-div{
+.checkbox-div {
     text-align: left;
     margin-left: 32vw;
     margin-top: 2vh;
+}
+
+.spinner-container {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100%;
 }

@@ -1,6 +1,9 @@
 import { Component, OnInit } from '@angular/core';
 import { Subject } from 'rxjs';
 import { ScannerServiceService } from '../../services/scanner-service.service';
+import { MatDialog } from '@angular/material/dialog';
+
+import { DialogComponent } from '../configuration/configuration.component';
 
 @Component({
   selector: 'app-scanner',
@@ -13,11 +16,13 @@ export class ScannerComponent implements OnInit {
   private scanOptions: string[] = [];
   private apiMap: Record<string, boolean> = {};
 
-  private scanStarted: boolean = false;
+  // private scanStarted: boolean = false;
   public scanProgress: string = "";
   public selectedScanners: string[] = [];
   public scanReportStatus: Record<string, string>= {};
   public scanReport: Record<string, any>= {};
+
+  public loading: boolean = false;
 
   public limit: string = "1";
   public skip: string = "0";
@@ -25,7 +30,8 @@ export class ScannerComponent implements OnInit {
 
 
   constructor(
-    private scanService: ScannerServiceService
+    private scanService: ScannerServiceService,
+    private dialog: MatDialog,
     ) { }
 
   ngOnInit(): void {
@@ -59,14 +65,6 @@ export class ScannerComponent implements OnInit {
     } else {
       return false;
     }
-  }
-
-  /**
-   * This function returns a boolean value that indicates whether the scan has started or not
-   * @returns The value of the scanStarted property.
-   */
-  isScanStarted(){
-    return this.scanStarted;
   }
 
   /* Checking if the IP address is valid or not. */
@@ -148,7 +146,7 @@ export class ScannerComponent implements OnInit {
       );
 
       if(this.selectedScanners.length>0){
-        this.scanStarted = true;
+        // this.scanStarted = true;
         
         for(let apiName of this.selectedScanners){
           let scanStatus = new Subject<string>();
@@ -158,6 +156,7 @@ export class ScannerComponent implements OnInit {
 
           console.log("started scan ", `${scanIndex}/${N}`);          
           console.log(apiName);
+          this.loading = true;
 
           this.scanService
           .getIpScanResponse(
@@ -206,6 +205,7 @@ export class ScannerComponent implements OnInit {
                   },
                   complete: () => {
                     console.log("Completed ", `${scanIndex}/${N}`)
+                    this.loading = false;
                   }
             }
           );
@@ -224,7 +224,21 @@ export class ScannerComponent implements OnInit {
     } else {
       // show error message
       console.error("Scanner error");
+
+      this.openDialog("<h5 style='color: whitesmoke;'>Please enter a valid IPv4 Address</h5>")
     }
+  }
+
+  /**
+   * The function opens a dialog box with the content of the innerHTML variable
+   * @param {string} innerHTML - string - this is the HTML that will be displayed in the dialog.
+   */
+  openDialog(innerHTML: string) {
+    const dialogRef = this.dialog.open(DialogComponent, {
+      data: {
+        content: innerHTML
+      }
+    })
   }
 
   viewReport(apiName: string){
