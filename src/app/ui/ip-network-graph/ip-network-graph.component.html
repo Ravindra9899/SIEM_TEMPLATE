@@ -11,7 +11,8 @@
         <img src="assets/img/ajax-loader-big.gif" id="loading-gif" alt="loading graph">
       </div>
       <div class="col-12" *ngIf="isDataLoaded" style="background-color: #222736;">
-        <app-am-charts-graph [destinationIps]="destinaionIps" [sourceIpAddress]="inputIpAddr"></app-am-charts-graph>
+        <!-- <app-am-charts-graph [destinationIps]="destinaionIps" [sourceIpAddress]="inputIpAddr" (getNodeClicked)="getNodeClickedHandler($event)"></app-am-charts-graph> -->
+        <app-am-charts-graph [graphData]="amChartsGraphData" (getNodeClicked)="getNodeClickedHandler($event)"></app-am-charts-graph>
       </div>
     </ng-template>
   </ng-container>

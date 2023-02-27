@@ -1,4 +1,4 @@
-import { Component, Input } from '@angular/core';
+import { Component, Input, Output, EventEmitter } from '@angular/core';
 
 import * as am5 from '@amcharts/amcharts5';
 import * as am5hierarchy from '@amcharts/amcharts5/hierarchy';
@@ -16,95 +16,45 @@ export class AmChartsGraphComponent{
 
   private root!: am5.Root;
 
-  @Input() destinationIps: {ip: string, count: Number, children: {ip: string, count: Number, children: []}[]}[];
-  @Input() sourceIpAddress: string;
-  grapData: Node;
-  // graphData: Record<any, any>[];
-  destIpsCount: string;
+  @Input() graphData: Node;
   noOfchildToShow: Number;
+  @Output() getNodeClicked: EventEmitter<{ip: string, level: number}>;
 
   constructor(private destIpService: DestinationIpsService) {
-    this.destinationIps = [];
-    this.sourceIpAddress = '';
-    this.grapData = new Node("Root", 0, 0);
-    // this.graphData = [];
-    this.destIpsCount = '';
-    this.noOfchildToShow = 10;
+    this.graphData = new Node("Root", 0, 0, -1);
+    this.noOfchildToShow = 50;
+    this.getNodeClicked = new EventEmitter<{ip: string, level: number}>();
   }
 
   ngOnChanges() {
-    let level1NodesList: Node[] = [];
-
-    if(this.destinationIps.length == 0){
-      this.destIpsCount = ' Zero destination Ips';
-    } else {
-      this.destIpsCount = String(this.destinationIps.length);
-      this.destinationIps = this.destinationIps.slice(0, Number(this.noOfchildToShow));
-      for (let destIp of this.destinationIps) {
-        let ipStr = destIp['ip'];
-        let ipCount = destIp['count'];
-        let ipChildren = destIp['children'];
-        let level2NodesList: Node[] = [];
-        for (let ipChild of ipChildren){
-          let ipChildStr = ipChild['ip'];
-          let ipChildCount = ipChild['count'];
-          let level2Node = new Node(ipChildStr, 25, ipChildCount);
-          level2NodesList.push(level2Node);
-        }
-        let level1Node = new Node(ipStr, 100, ipCount);
-        for(let level2Node of level2NodesList) {
-          level1Node.addNodeAsChild(level2Node);
-        }
-        level1NodesList.push(level1Node);
-        // this.graphData.push({ name: ipStr, children: [], value: 100, count: ipCount});
-      }
-      console.log("Got graph data: ", this.grapData);
-    }
-
-    let level0Node = new Node(this.sourceIpAddress, 400, this.destIpsCount);
-
-    for (let level1Node of level1NodesList){
-      level0Node.addNodeAsChild(level1Node);
-    }
-
-    this.grapData.addNodeAsChild(level0Node);
+    console.log("Got graph data: ", this.graphData);
+    if(this.root){
+    this.root.dispose();}
+    this.create_graph();
   }
 
-  ngAfterViewInit() {
-    let root = am5.Root.new("chartdiv");
+  create_graph() {
+    this.root = am5.Root.new("chartdiv");
 
-    root.setThemes([am5themes_Animated.new(root)]);
+    this.root.setThemes([am5themes_Animated.new(this.root)]);
 
-    root?._logo?.dispose();
+    this.root?._logo?.dispose();
 
-    let chart = root.container.children.push(
-      am5.Container.new(root, {
+    let chart = this.root.container.children.push(
+      am5.Container.new(this.root, {
         width: am5.percent(100),
         height: am5.percent(100),
-        layout: root.verticalLayout,
+        layout: this.root.verticalLayout,
       })
     );
 
-    // Define data
-    // let data = {
-    //   name: "Root",
-    //   value: 0,
-    //   children: [
-    //     {
-    //       name: this.sourceIpAddress,
-    //       children: this.graphData,
-    //       count: this.destIpsCount
-    //     }
-    // ]
-    // };
-
     let series = chart.children.push(
-      am5hierarchy.ForceDirected.new(root, {
-        singleBranchOnly: false,
+      am5hierarchy.ForceDirected.new(this.root, {
+        singleBranchOnly: true,
         downDepth: 1,
         topDepth: 1,
-        minRadius: 10,
-        maxRadius: am5.percent(5),
+        minRadius: 15,
+        maxRadius: am5.percent(10),
         nodePadding: 0,
         valueField: "value",
         categoryField: "name",
@@ -112,33 +62,31 @@ export class AmChartsGraphComponent{
         idField: "name",
         linkWithStrength: 1,
         linkWithField: "linkWith",
-        manyBodyStrength: -10,
-        centerStrength: 0.5
       })
     );
 
     series?.get("colors")?.set("step", 3);
 
     series.nodes.template.events.on("click", (event) => {
-      const node : any = event.target.dataItem?.dataContext;
-      console.log("am-charts-graph::Got clicked on: ", node);
-      console.log(this.getlevelNIps(node['name']));
+      const clickedNode : any = event.target.dataItem?.dataContext;
+      console.log("am-charts-graph::Got clicked on: ", clickedNode);
+      this.getNodeClicked.emit({ip: clickedNode['name'], level: clickedNode['level']});
     });
 
     series.nodes.template.set("tooltipText", "{name}: {count}");
 
-    series.data.setAll([this.grapData]);
+    series.data.setAll([this.graphData]);
     series.set("selectedDataItem", series.dataItems[0]);
 
     series.appear(1000, 100);
 
-    this.root = root;
+    // this.root = root;
   }
 
   ngOnDestroy() {
-    if (this.root) {
-      this.root.dispose();
-    }
+    // if (this.root) {
+    //   this.root.dispose();
+    // }
   }
 
   getlevelNIps(sourceIpAddress: string){
@@ -164,11 +112,11 @@ export class AmChartsGraphComponent{
       complete: () => console.info("am-charts-graph::Post Request 'getDestinationIpsForAllIndices' completed")
     });
 
-     return {
-        'causedError': hasCausedError,
-        'errorMesssage': errorMesssage,
-        'destinaionIps': destinaionIps
-      }
+    return {
+      'causedError': hasCausedError,
+      'errorMesssage': errorMesssage,
+      'destinaionIps': destinaionIps
+    }
 
   }
 }
