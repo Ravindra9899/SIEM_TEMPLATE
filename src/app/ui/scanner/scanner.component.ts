@@ -24,7 +24,9 @@ export class ScannerComponent implements OnInit {
   public order: string = "desc";
 
 
-  constructor(private scanService: ScannerServiceService) { }
+  constructor(
+    private scanService: ScannerServiceService
+    ) { }
 
   ngOnInit(): void {
     this.setScanOptions();
@@ -146,81 +148,75 @@ export class ScannerComponent implements OnInit {
       );
 
       if(this.selectedScanners.length>0){
-        const scanStatus = new Subject<string>();
         this.scanStarted = true;
-        if (this.selectedScanners.includes("Virus Total")){
-          console.log("scan vt");
-          // call vt scan method here and with proper scan status
-          this.scanService.getVirusTotalResponse(this.ipAddress, this.selectedScanners.length, scanStatus)
-          .subscribe({
-            next: (response) => {
-              console.log('Response received:', response);
+        
+        for(let apiName of this.selectedScanners){
+          let scanStatus = new Subject<string>();
 
-              if(response.hasOwnProperty("message") && response['message']!=null && response["message"]=="success" &&
-              response.hasOwnProperty("data") && response['data'] != null 
-              ){
-                this.scanReportStatus["Virus Total"] = "Done";
-                this.scanReport["Virus Total"] = response.data;
-              }else{
-                this.scanReportStatus["Virus Total"] = "Done";
-                this.scanReport["Virus Total"] = "";
-              }
-            },
-            error: (err) => {
-              console.error('Error occurred:', err);
-              this.scanReportStatus["Virus Total"] = "Failed";
-            },
-            complete: () => {
-              console.log('Request completed');
-            },
-          });
+          let scanIndex = this.selectedScanners.indexOf(apiName) + 1;
+          let N = this.selectedScanners.length;
 
-          scanStatus.subscribe((status)=>{
-            console.log("scanStatus");
-            console.log(status);
-            this.scanProgress = status;
-          });
-        }
-  
-        if (this.selectedScanners.includes("Who Is IP Netblocks")){
-          console.log("scan who is ip netblocks");
-          this.scanService.getWhoIsXmpIpNetResponse(this.ipAddress, this.selectedScanners.length, scanStatus)
-          .subscribe({
-            next: (response) => {
-              console.log('Response received:', response);
+          console.log("started scan ", `${scanIndex}/${N}`);          
+          console.log(apiName);
 
-              if(response.hasOwnProperty("message") && response['message']!=null && response["message"]=="success" &&
-              response.hasOwnProperty("data") && response['data'] != null 
-              ){
-                this.scanReportStatus["Who Is IP Netblocks"] = "Done";
-                this.scanReport["Who Is IP Netblocks"] = response.data;
-              }else{
-                this.scanReportStatus["Who Is IP Netblocks"] = "Done";
-                this.scanReport["Who Is IP Netblocks"] = "";
-              }
-            },
-            error: (err) => {
-              console.error('Error occurred:', err);
-              this.scanReportStatus["Who Is IP Netblocks"] = "Failed";
-            },
-            complete: () => {
-              console.log('Request completed');
-            },
-          });
+          this.scanService
+          .getIpScanResponse(
+            this.ipAddress, apiName, 
+            this.selectedScanners.length,
+            scanIndex,
+            scanStatus,
+            )
+          .subscribe(
+            {
+              next: (response) => {
+                    console.log("scan status subscribe " + response);
+                    // scanStatus.next(`Processing response ${scanIndex}/${N}`);
+                    console.log(response);
+
+                    if(
+                      response.hasOwnProperty("message") &&
+                      response.hasOwnProperty("infoText") &&
+                      response.hasOwnProperty("data") &&
+                      response["message"] != null &&
+                      response["message"] != false && 
+                      response["message"] != "" &&
+                      response["infoText"] != null &&
+                      response["infoText"] != false && 
+                      response["infoText"] != "" &&
+                      response["data"] != null &&
+                      response["data"] != false && 
+                      response["data"] != "" &&
+                      response["message"].toString().toLowerCase() == "success" &&
+                      response["infoText"].toString().toLowerCase() == "success" &&
+                      response["data"].toString().toLowerCase() == "success" 
+                    ){
+                      this.scanReportStatus[apiName] = response['data'].toString();
+                      this.scanReport[apiName] = response['data'].toString();
+                    }else{
+                      console.log("Problem processing the reply for scan for scanner ", apiName);
+                      this.scanReportStatus[apiName] = "";
+                      this.scanReport[apiName] = "";
+                    }
+                    
+                  },
+                  error: (error) => {
+                    console.error('An error occurred during scan for scanner ', apiName, " ", error);
+                    this.scanReportStatus[apiName] = "";
+                      this.scanReport[apiName] = "";
+                  },
+                  complete: () => {
+                    console.log("Completed ", `${scanIndex}/${N}`)
+                  }
+            }
+          );
+          scanStatus.subscribe(
+            (status)=>{
+              console.log("scanStatus");
+              console.log(status);
+              this.scanProgress = status;
+            }
+          );
         }
-  
-        if (this.selectedScanners.includes("API 3")){
-          console.log("scan 2");
-        }
-  
-        if (this.selectedScanners.includes("API 3")){
-          console.log("scan 3");
-        }
-  
-        if (this.selectedScanners.includes("API 4")){
-          console.log("scan 4");
-        }
-  
       }else{
         console.error("Please select at least one scanner");
       }

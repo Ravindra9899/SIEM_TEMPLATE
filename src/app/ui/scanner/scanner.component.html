@@ -34,7 +34,7 @@
                     <tr *ngFor="let element of this.selectedScanners">
                         <td>{{ this.selectedScanners.indexOf(element) + 1 }}</td>
                         <td>{{ element }}</td>
-                        <td>{{ this.scanReportStatus[element]}}</td>
+                        <td>{{ this.scanReportStatus[element] | titlecase }}</td>
                         <td>{{ (this.scanReport[element] != null && this.scanReport[element] != "")?"Generated":"Not Generated" }}</td>
                         <td><i class="fa fa-eye" *ngIf='(this.scanReport[element] != null && this.scanReport[element] != "")' (click)="viewReport(element)"></i></td>
                     </tr>

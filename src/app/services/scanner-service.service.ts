@@ -10,7 +10,6 @@ import { environment } from 'src/environments/environment';
 })
 export class ScannerServiceService {
 
-  private scanIndex = 0;
 
   constructor(private http: HttpClient, private scanStatusService: ScanStatusService) { }
 
@@ -34,7 +33,7 @@ export class ScannerServiceService {
    * @returns An observable of an array of scanners.
    */
   getAllActiveScanners(): Observable<any> {
-    let url = `${environment.backendBaseUrl}/scanners`;
+    let url = `${environment.backendBaseUrl}/ipscan/active`;
 
     return this.http.get(url).pipe(
       catchError((err) => {
@@ -59,7 +58,7 @@ export class ScannerServiceService {
 
     console.log(config);
 
-    let url = `${environment.backendBaseUrl}/update-config`;
+    let url = `${environment.backendBaseUrl}/ipscan/update-config`;
 
     return this.http.post(url, {
       "apiName": apiName,
@@ -82,7 +81,7 @@ export class ScannerServiceService {
    * @returns An observable of the response from the backend.
    */
   updateStatusOfScanner(apiName: string, newStatus: string): Observable<any> {
-    let url = `${environment.backendBaseUrl}/update-status`;
+    let url = `${environment.backendBaseUrl}/ipscan/update-status`;
 
     return this.http.post(url, {
       "apiName": apiName,
@@ -108,7 +107,7 @@ export class ScannerServiceService {
    * @returns An observable of an array of scan reports.
    */
   readAllScanReportsForApi(apiName: string, offsetVal: string, limitVal: string, orderVal: string, ipAddress: string): Observable<any>{
-    let url = `${environment.backendBaseUrl}/read-report`;
+    let url = `${environment.backendBaseUrl}/ipscan/read-report`;
 
     let postRequestBody = {
       "apiName": apiName,
@@ -139,26 +138,24 @@ export class ScannerServiceService {
    * @param scanStatus - Subject<string>
    * @returns An observable of the response from the backend.
    */
-  getVirusTotalResponse(ipToScan: string, numberOfScanners: Number, scanStatus: Subject<string>): Observable<any> {
+  getIpScanResponse(ipToScan: string, apiName: string, numberOfScanners: Number, scanIndex: Number, scanStatus : Subject<any>): Observable<any>{
+
     const N = numberOfScanners;
-    this.scanIndex = 1;
-    this.scanStatusService.emitScanStatus(`Please wait; scan ongoing; ${this.scanIndex}/${N}`);
 
-    const httpOptionsWithApiKey = {
-      headers: new HttpHeaders({
-        'Content-Type': 'application/json',
-      }),
-      params: {
-        'ip_to_scan': ipToScan
-      }
-    };
+    const httpOptions = {
+      params : {
+      'ip_to_scan': ipToScan,
+      'apiName': apiName
+    }};
 
-    const url = `${environment.backendBaseUrl}/vtScan`;
-    this.scanStatusService.emitScanStatus(`Scan Completed`)
+    const url = `${environment.backendBaseUrl}/ipscan/scan`;
+    this.scanStatusService.emitScanStatus(
+      `Please wait; scan ongoing; ${scanIndex}/${N}`
+      );
 
-    const scanObservable = this.http.get(url, httpOptionsWithApiKey).pipe(
+    const scanObservable = this.http.get(url, httpOptions).pipe(
       catchError((err) => {
-        console.error('An error occurred during vtscan:', err);
+        console.error('An error occurred during scanning with ', apiName, " ", err);
         return of([]);
       })
     );
@@ -166,67 +163,22 @@ export class ScannerServiceService {
     scanObservable.subscribe({
       next: (response) => {
         console.log("scan status subscribe " + response);
-        scanStatus.next(`Completed ${this.scanIndex}/${N}`);
-      },
-      error: (error) => {
-        console.error('An error occurred during vtscan:', error);
-      },
-      complete: () => {
-        scanStatus.next(`Completed ${this.scanIndex}/${N}`);
-        scanStatus.complete();
-      }
-    });
-    return scanObservable;
-  }
-
-  /**
-   * The function takes an IP address, a number of scanners, and a scan status subject as input. It
-   * then returns an observable that emits the response from the backend
-   * @param {string} ipToScan - The IP address to scan
-   * @param {Number} numberOfScanners - This is the number of scanners that will be run.
-   * @param scanStatus - Subject<string>
-   * @returns An observable of the response from the backend.
-   */
-  getWhoIsXmpIpNetResponse(ipToScan: string, numberOfScanners: Number, scanStatus: Subject<string>): Observable<any>{
-    const N = numberOfScanners;
-    this.scanIndex = 2;
-    this.scanStatusService.emitScanStatus(`Please wait; scan ongoing; ${this.scanIndex}/${N}`);
-
-    const httpOptionsWithApiKey = {
-      headers: new HttpHeaders({
-        'Content-Type': 'application/json',
-      }),
-      params: {
-        'ip_to_scan': ipToScan
-      }
-    };
-
-    const url = `${environment.backendBaseUrl}/whois-ip-netblocks`;
-    this.scanStatusService.emitScanStatus(`Scan Completed`)
-
-    const scanObservable = this.http.get(url, httpOptionsWithApiKey).pipe(
-      catchError((err) => {
-        console.error('An error occurred during whois-ip-netblocks:', err);
-        return of([]);
-      })
-    );
-
-    scanObservable.subscribe({
-      next: (response) => {
-        console.log("scan status subscribe " + response);
-        scanStatus.next(`Completed ${this.scanIndex}/${N}`);
+        scanStatus.next(`Completed ${scanIndex}/${N}`);
       },
       error: (error) => {
         console.error('An error occurred during whois-ip-netblocks:', error);
       },
       complete: () => {
-        scanStatus.next(`Completed ${this.scanIndex}/${N}`);
+        scanStatus.next(`Completed ${scanIndex}/${N}`);
         scanStatus.complete();
       }
     });
+    this.scanStatusService.emitScanStatus(`Scan Completed`)
     return scanObservable;
-  }
 
+    return scanObservable;
+
+  }
 
   /**
    * It returns an observable of an array of objects, each object containing a scanner name and the
@@ -234,7 +186,7 @@ export class ScannerServiceService {
    * @returns An observable of an array of objects.
    */
   countScanReportsPerScanner():Observable<any>{
-    let url = `${environment.backendBaseUrl}/count-scan-reports`;
+    let url = `${environment.backendBaseUrl}/ipscan/count-scan-reports`;
     return this.http.get(url).pipe(
       catchError((err)=>{
         console.log("count scan report service error " + err);
