@@ -111,6 +111,10 @@ export class ConfigurationComponent implements OnInit {
         case "Who Is IP Netblocks":
           innerHTML = this.configInnerHtmlGen.whoIsXmlIpNetBlocksViewHtmlGenerator(this.availableApis[idOfApi]);
           break;
+        
+          case "Abuse IPDB":
+          innerHTML = this.configInnerHtmlGen.abuseIpDbViewHtmlGenerator(this.availableApis[idOfApi]);
+          break;
         default:
           break;
       }
