@@ -107,19 +107,19 @@ export class ScannerServiceService {
    * @returns An observable of an array of scan reports.
    */
   readAllScanReportsForApi(apiName: string, offsetVal: string, limitVal: string, orderVal: string, ipAddress: string): Observable<any>{
-    let url = `${environment.backendBaseUrl}/ipscan/read-report`;
+    let url = `${environment.backendBaseUrl}/ipscan/read-report-ip-api`;
 
-    let postRequestBody = {
+    console.log("Get request query ", {
       "apiName": apiName,
       "offset": offsetVal,
       "limit": limitVal,
       "order": orderVal,
       "ipAddress": ipAddress
-    };
+    });
 
-    console.log("Post request body", postRequestBody);
-
-    return this.http.post(url, postRequestBody).pipe(
+    return this.http.get(
+      `${url}?ipAddress=${ipAddress}&apiName=${apiName}&sort=${orderVal}&offset=${offsetVal}&limit=${limitVal}`
+    ).pipe(
       catchError((err)=>{
 
         console.log(`Error in retrieving scan reports for ${apiName}`);

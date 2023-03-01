@@ -50,3 +50,7 @@ td {
     align-items: center;
     height: 100%;
 }
+
+.report-table{
+    overflow: scroll;
+}

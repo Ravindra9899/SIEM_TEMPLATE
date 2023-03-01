@@ -7,13 +7,18 @@
                 <input type="text" name="ipAddress" id="ipInputField" placeholder="Enter the IP Address"
                     [(ngModel)]="ipAddress">
                 <br />
-                <!-- <div *ngFor="let row of getScanOptions().slice(0, 10)" class="row"> -->
-                <div *ngFor="let scanOption of getScanOptions()" class="checkbox-div">
+                <!-- <div *ngFor="let scanOption of getScanOptions()" class="checkbox-div">
                     <mat-checkbox [checked]="isChecked(scanOption)" color="accent"
                         (change)="markOptionChange(scanOption)">
                         {{ scanOption }}
                     </mat-checkbox>
-                </div>
+                </div> -->
+                <mat-label>Select scan options</mat-label>
+                <mat-select [(ngModel)]="selectedScanners" multiple>
+                    <mat-option *ngFor="let scanOption of getScanOptions()" [value]="scanOption">
+                        {{ scanOption }}
+                    </mat-option>
+                </mat-select>
                 <button type="submit" mat-button value="Start Scan" (click)="startScan()"
                     [disabled]="!(getScanOptions().length>0)">Submit</button>
             </div>
@@ -25,7 +30,7 @@
             <div *ngIf="!loading" class="status-div">
                 {{ this.scanProgress }}
             </div>
-            <div *ngIf="!loading && !(scanProgress=='')">
+            <div *ngIf="!loading && !(scanProgress=='')" class="report-table">
                 <table>
                     <tr>
                         <th>S. No.</th>
