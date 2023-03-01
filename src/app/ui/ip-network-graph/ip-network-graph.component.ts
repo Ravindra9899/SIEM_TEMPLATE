@@ -1,7 +1,9 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, DoCheck, SimpleChanges } from '@angular/core';
 import { DestinationIpsService } from 'src/app/services/destination-ips.service';
+import { ValidatorService } from 'src/app/services/validator.service';
 import { ActivatedRoute } from '@angular/router';
 import { Node } from './am-charts-graph/node.model';
+import { FormsModule } from '@angular/forms';
 
 @Component({
   selector: 'app-ip-network-graph',
@@ -14,13 +16,19 @@ export class IpNetworkGraphComponent implements OnInit{
   hasCausedError: boolean;
   errorMesssage: string;
   amChartsGraphData : Node;
+  amChartsGraphNoOfChildren: string;
 
-  constructor(private destIpService: DestinationIpsService, private route: ActivatedRoute) {
+  constructor(
+    private destIpService: DestinationIpsService,
+    private route: ActivatedRoute,
+    private validator: ValidatorService
+    ) {
     this.inputIpAddr = '';
     this.isDataLoaded = false;
     this.hasCausedError = false;
     this.errorMesssage = '';
     this.amChartsGraphData = new Node("Root", 0, '', -1);
+    this.amChartsGraphNoOfChildren = '15';
   }
 
   ngOnInit(): void {
@@ -28,7 +36,7 @@ export class IpNetworkGraphComponent implements OnInit{
       if(params.hasOwnProperty('ip')){
         const ip = params['ip'];
         console.log("ip-netwrok-graph::Got IP from URL param : '", ip, "'");
-        if(this.isValidIp(ip)){
+        if(this.validator.isValidIpAddress(ip)){
           this.inputIpAddr = ip;
         } else {
           this.hasCausedError = true;
@@ -42,54 +50,57 @@ export class IpNetworkGraphComponent implements OnInit{
 
     if(!this.hasCausedError){
       this.isDataLoaded = false;
-      this.getResponseFromBackend(this.inputIpAddr);
+      this.destIpService.getDestinationIpsForAllIndices(this.inputIpAddr, this.amChartsGraphNoOfChildren).subscribe({
+        next: (resObj) => {
+          if(resObj.hasOwnProperty('data')){
+            let ipObjList = resObj['data'];
+            console.log("ip-netwrok-graph::Recieved Data from backend: '", ipObjList, "'");
+
+            let level0Node = new Node(this.inputIpAddr, 400, 'Source Ip Address', 0);
+            level0Node.addIpObjListAsChildren(ipObjList);
+            this.amChartsGraphData.children = [];
+            this.amChartsGraphData.children.push(level0Node);
+            console.log("data in parent: ", this.amChartsGraphData);
+
+            this.isDataLoaded = true;
+          } else {
+            this.hasCausedError = true;
+            this.errorMesssage = resObj['error'];
+          }
+        },
+        error: (err) => {
+          this.hasCausedError = true;
+          this.errorMesssage = err;
+        },
+        complete: () => console.info("ip-netwrok-graph::Post Request 'getDestinationIpsForAllIndices' completed")
+      });
     }
   }
 
-  getResponseFromBackend(sourceIpAddress: string): void{
-    this.destIpService.getDestinationIpsForAllIndices(sourceIpAddress).subscribe({
-      next: (resObj) => {
-        if(resObj.hasOwnProperty('data')){
-          let ipObjList = resObj['data'];
-          console.log("ip-netwrok-graph::Recieved Data from backend: '", ipObjList, "'");
-
-          let level0Node = new Node(this.inputIpAddr, 400, 'Source Ip Address', 0);
-          level0Node.addIpObjListAsChildren(ipObjList);
-          this.amChartsGraphData.children.push(level0Node);
-          console.log("data in parent: ", this.amChartsGraphData);
-
-          this.isDataLoaded = true;
+  onNoOfChildrenEnter(event: any) {
+    let enteredValue = event.target.value.trim();
+    if(enteredValue.length == 0){
+      this.hasCausedError = true;
+      this.errorMesssage = 'Please Enter a value.';
+    } else {
+      if(!isNaN(enteredValue)){
+        this.amChartsGraphNoOfChildren = enteredValue;
+      } else {
+        if(enteredValue.toUpperCase() == 'ALL'){
+          this.amChartsGraphNoOfChildren = 'ALL';
         } else {
           this.hasCausedError = true;
-          this.errorMesssage = resObj['error'];
+          this.errorMesssage = 'Please Enter "all" or any other numeric value.';
         }
-      },
-      error: (err) => {
-        this.hasCausedError = true;
-        this.errorMesssage = err;
-      },
-      complete: () => console.info("ip-netwrok-graph::Post Request 'getDestinationIpsForAllIndices' completed")
-    });
-  }
-
-  isValidIp(inputIpAddr: string): boolean{
-    let blocks = inputIpAddr.trim().split('.');
-    if(blocks.length != 4){
-        return false;
-    } else {
-        let state = true;
-        for(let block of blocks) {
-            if (isNaN(Number(block)) || Number(block) < 0 || Number(block) > 255){
-                state = false;
-            }
-        }
-        return state;
+      }
     }
+
+    this.ngOnInit();
   }
 
   getNodeClickedHandler(clickedNode: {ip: string, level: number}){
     this.isDataLoaded = false;
-    this.destIpService.getDestinationIpsForAllIndices(clickedNode.ip).subscribe({
+    this.destIpService.getDestinationIpsForAllIndices(clickedNode.ip, this.amChartsGraphNoOfChildren).subscribe({
       next: (resObj) => {
         if(resObj.hasOwnProperty('data')){
           let ipObjList = resObj['data'];

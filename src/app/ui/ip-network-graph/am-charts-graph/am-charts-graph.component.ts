@@ -16,16 +16,16 @@ export class AmChartsGraphComponent{
 
   private root!: am5.Root;
 
-  @Input() graphData: Node;
+  @Input() graphData!: Node;
   noOfchildToShow: Number;
   @Output() getNodeClicked: EventEmitter<{ip: string, level: number}>;
   levelWiseNodeColorList: string[];
 
   constructor(private destIpService: DestinationIpsService) {
-    this.graphData = new Node("Root", 0, '', -1);
+    // this.graphData = new Node("Root", 0, '', -1);
     this.noOfchildToShow = 50;
     this.getNodeClicked = new EventEmitter<{ip: string, level: number}>();
-    this.levelWiseNodeColorList = ['#FFBE0B', '#FB5607', '#FF006E', '#8338EC', '#3A86FF'];
+    this.levelWiseNodeColorList = ['rgb(144, 177, 216)', 'rgb(43, 144, 143)', 'rgb(169, 255, 151)', 'rgb(255, 116, 116)', 'rgb(119,152,191)'];
   }
 
   ngOnChanges() {
@@ -47,30 +47,41 @@ export class AmChartsGraphComponent{
       am5.Container.new(this.root, {
         width: am5.percent(100),
         height: am5.percent(100),
-        layout: this.root.verticalLayout,
+        layout: this.root.verticalLayout
       })
     );
 
     let series = chart.children.push(
       am5hierarchy.ForceDirected.new(this.root, {
         singleBranchOnly: false,
-        downDepth: 1,
         topDepth: 1,
-        // nodePadding: 0,
         valueField: "value",
         categoryField: "name",
         childDataField: "children",
-        idField: "name",
-        linkWithStrength: 1,
-        linkWithField: "linkWith",
+        idField: "name"
       })
     );
+
+    series.labels.template.setAll({
+      fill: am5.color("rgb(10,10,20)"),
+      fontWeight: "bold"
+    })
 
     series.circles.template.adapters.add("fill", (fill, target) => {
       const node: any = target.dataItem?.dataContext;
       const color = this.levelWiseNodeColorList[(node['level']+1) % this.levelWiseNodeColorList.length];
       return am5.color(color);
     });
+
+    series.circles.template.setAll({
+      fillOpacity: 0.8
+    });
+
+    series.circles.template.states.create("hover", {
+      fillOpacity: 1
+    });
+
+    series.links.template.set("distance", 1.5);
 
     series.nodes.template.events.on("click", (event) => {
       const clickedNode : any = event.target.dataItem?.dataContext;

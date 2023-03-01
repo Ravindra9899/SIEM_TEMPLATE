@@ -4,6 +4,7 @@
 
 export const environment = {
   backendBaseUrl: 'http://localhost:3000',
+  TIMEOUT_DURATION: 100000,
   production: false,
   profileImgSrc: '/assets/img/avatar.png',
   noPrevieImg: '/assets/img/no-preview.jpeg',

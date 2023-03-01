@@ -7,16 +7,18 @@ import { DashboardComponent } from './dashboard/dashboard.component';
 import { TemplatePartsModule } from './template-parts/template-parts.module';
 import { IpNetworkGraphComponent } from './ui/ip-network-graph/ip-network-graph.component';
 import { AmChartsGraphComponent } from './ui/ip-network-graph/am-charts-graph/am-charts-graph.component';
-
 import { FormsModule } from '@angular/forms';
 import { HttpClientModule } from '@angular/common/http';
+import { ConfigurationComponent } from './ui/configuration/configuration.component';
+import { MatDialogModule } from '@angular/material/dialog'
 
 @NgModule({
   declarations: [
     AppComponent,
     DashboardComponent,
     IpNetworkGraphComponent,
-    AmChartsGraphComponent
+    AmChartsGraphComponent,
+    ConfigurationComponent
   ],
   imports: [
     BrowserModule,
@@ -24,7 +26,8 @@ import { HttpClientModule } from '@angular/common/http';
     TemplatePartsModule,
     BrowserAnimationsModule,
     FormsModule,
-    HttpClientModule
+    HttpClientModule,
+    MatDialogModule
   ],
   providers: [],
   bootstrap: [AppComponent]

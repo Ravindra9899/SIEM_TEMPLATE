@@ -1,18 +1,11 @@
 <app-content>
   <ng-container class="inner-dynamic-content">
-    <div class="col-12" *ngIf="hasCausedError; else showData" style="background-color: #222736;">
-      <div class="alert">
-        <span class="closebtn" onclick="this.parentElement.style.display='none';">&times;</span>
-        <h5>{{ errorMesssage }}</h5>
-      </div>
-    </div>
-    <ng-template #showData>
+      <input class="col-sm-12 form-control" style="color: white;" (keyup.enter)="onNoOfChildrenEnter($event)" placeholder="Enter the max no. of child to render. e.g. 10, 20, 100, ... Or 'all' to fetch all children">
       <div class="col-12" *ngIf="!isDataLoaded" style=" position: relative;background-color: #222736; height: 510px; width: 100%;" >
         <img src="assets/img/ajax-loader-big.gif" id="loading-gif" alt="loading graph">
       </div>
-      <div class="col-12" *ngIf="isDataLoaded" style="background-color: #222736;">
+      <div class="col-12" *ngIf="isDataLoaded && !hasCausedError" style="background-color: #222736;">
         <app-am-charts-graph [graphData]="amChartsGraphData" (getNodeClicked)="getNodeClickedHandler($event)"></app-am-charts-graph>
       </div>
-    </ng-template>
   </ng-container>
 </app-content>
