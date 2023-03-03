@@ -2,6 +2,7 @@
   <ng-container class="inner-dynamic-content">
       <input class="col-sm-12 form-control" style="color: white;" (keyup.enter)="onNoOfChildrenEnter($event)" placeholder="Enter the max no. of child to render. e.g. 10, 20, 100, ... Or 'all' to fetch all children">
       <div class="col-12" *ngIf="!isDataLoaded" style=" position: relative;background-color: #222736; height: 510px; width: 100%;" >
+        <!-- Showing the spinner until the data loaded -->
         <img src="assets/img/ajax-loader-big.gif" id="loading-gif" alt="loading graph">
       </div>
       <div class="col-12" *ngIf="isDataLoaded && !hasCausedError" style="background-color: #222736;">
