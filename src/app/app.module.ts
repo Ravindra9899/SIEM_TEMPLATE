@@ -12,6 +12,7 @@ import { MatDialogModule } from '@angular/material/dialog';
 import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { MatSelectModule } from '@angular/material/select';
+import { MatChipsModule } from "@angular/material/chips";
 
 import { ScannerComponent } from './ui/scanner/scanner.component';
 import { ConfigurationComponent } from './ui/configuration/configuration.component';
@@ -47,6 +48,7 @@ import { PrevScansComponent } from './ui/prev-scans/prev-scans.component';
     ReactiveFormsModule,
     MatProgressSpinnerModule,
     MatSelectModule,
+    MatChipsModule,
   ],
   providers: [],
   bootstrap: [AppComponent]

@@ -40,24 +40,19 @@ export class ChartsComponent implements AfterViewInit {
 
         console.log(response);
         if (
-          response.hasOwnProperty("message") && response["message"] != null && response["message"] == "success" &&
-          response.hasOwnProperty("data") && response["data"] != null && response["data"] != false
+          response.hasOwnProperty("message") &&
+          response["message"] != null &&
+          response["message"] == "success" &&
+          response.hasOwnProperty("data") &&
+          response["data"] != null &&
+          response["data"] != false &&
+          typeof response["data"] == "object" &&
+          Array.isArray(response["data"])
         ) {
           console.log("in if");
           if (Object.keys(response["data"]).length > 0) {
-            for (let i = 0; i < Object.keys(response["data"]).length; i++) {
-              console.log();
-              let scannerName  =Object.keys(response["data"])[i];
-              let scannerCount = response["data"][scannerName];
 
-              console.log(`console ${scannerName} ${scannerCount}`);
-              this.countScanReportPerScanner.push(
-                {
-                  "API_Name": scannerName,
-                  "count": scannerCount
-                }
-              );
-            }
+            this.countScanReportPerScanner = response["data"];
 
             console.log("scanReports on complete", this.countScanReportPerScanner);
             if (this.countScanReportPerScanner.length > 0) {
@@ -83,36 +78,61 @@ export class ChartsComponent implements AfterViewInit {
 
     this.browserOnly(() => {
       let root = am5.Root.new('pie-chart-scanreport');
-      let chart = root.container.children.push(
-        am5percent.PieChart.new(root, {
-          layout: root.verticalLayout,
-          height: new am5.Percent(100),
-        })
-      );
-      let series = chart.series.push(
-        am5percent.PieSeries.new(root, {
-          name: "Series",
-          categoryField: "API_Name",
-          valueField: "count"
-        })
-      );
-
-      series.labels.template.setAll({
-        maxWidth: 150,
-        oversizedBehavior: "wrap" // to truncate labels, use "truncate"
+      let chart = root.container.children.push(am5xy.XYChart.new(root, {
+        panX: true,
+        panY: true,
+        wheelX: "panX",
+        wheelY: "zoomX",
+        pinchZoomX: true
+      }));
+      let cursor = chart.set("cursor", am5xy.XYCursor.new(root, {}));
+      cursor.lineY.set("visible", false);
+      let xRenderer = am5xy.AxisRendererX.new(root, { minGridDistance: 30 });
+      xRenderer.labels.template.setAll({
+        rotation: -90,
+        centerY: am5.p50,
+        centerX: am5.p100,
+        paddingRight: 15
       });
+
+      xRenderer.grid.template.setAll({
+        location: 1
+      });
+
+      let xAxis = chart.xAxes.push(am5xy.CategoryAxis.new(root, {
+        maxDeviation: 0.3,
+        categoryField: "API_Name",
+        renderer: xRenderer,
+        tooltip: am5.Tooltip.new(root, {})
+      }));
+
+      let yAxis = chart.yAxes.push(am5xy.ValueAxis.new(root, {
+        maxDeviation: 0.3,
+        renderer: am5xy.AxisRendererY.new(root, {
+          strokeOpacity: 0.1
+        })
+      }));
+
+      let series = chart.series.push(am5xy.ColumnSeries.new(root, {
+        name: "Series 1",
+        xAxis: xAxis,
+        yAxis: yAxis,
+        valueYField: "count",
+        sequencedInterpolation: true,
+        categoryXField: "API_Name",
+        tooltip: am5.Tooltip.new(root, {
+          labelText: "{valueY}"
+        })
+      }));
+
+      series.columns.template.setAll({ cornerRadiusTL: 5, cornerRadiusTR: 5, strokeOpacity: 0 });
+
+      xAxis.data.setAll(this.countScanReportPerScanner);
 
       series.data.setAll(this.countScanReportPerScanner);
 
-      let legend = chart.children.push(am5.Legend.new(root, {
-        centerX: am5.percent(50),
-        x: am5.percent(50),
-        layout: root.horizontalLayout
-      }));
-      
-      legend.data.setAll(series.dataItems);
-      console.log(series);
-
+      series.appear(1000);
+      chart.appear(1000, 100);
     });
   }
 

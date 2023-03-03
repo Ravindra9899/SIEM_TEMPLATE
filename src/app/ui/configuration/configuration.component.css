@@ -4,12 +4,25 @@
 .config-content{
     background-color: #222736;
     color: whitesmoke;
+    max-height: 70vh;
+    height: 60vh;
+    align-items: center;
+    padding: 2vh 22%;
+}
+
+.config-content-child{
+    overflow: scroll;
     max-height: 60vh;
     height: 50vh;
-    /* width: 87vw; */
-    /* position: relative; */
-    padding: 2vh 2vw;
-    overflow: scroll;
+    width: 50vw;
+    justify-content: center;
+}
+
+.config-content-child>table>tr>th,
+.config-content-child>table>tr>td {
+    padding-left: 2vw;
+    /* width: 2vw; */
+    overflow-x: scroll;
 }
 
 td,th{

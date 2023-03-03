@@ -20,57 +20,230 @@ export class ConfigInnerhtmlGeneratorService {
     return `<span style="color: whitesmoke;"><b>${scannerName} has been set to ${status}</b></span>`
   }
 
-  /**
-   * It takes in an object, and returns a string of HTML
-   * @param api_data - This is the data that you want to display in the view.
-   * @returns A string of HTML code.
-   */
-  virusTotalViewHtmlGenerator(api_data: Record<string, any>) {
-    return `
-    <h1 style="color: whitesmoke;">${api_data['API_Name']}</h1>
-    <table>
-    <tr>
-    <th>API Key: </th><td>${api_data['config']['api_key']}</td>
-    </tr>
-    <tr>
-    <th>Created :</th><td>${new Date(api_data['createdAt'])}</td>
-    </tr>
-    <tr>
-    <th>Updated :</th><td>${new Date(api_data['updatedAt'])}</td>
-    </tr>
-    </table>
-    `;
-  }
+  // "Abuse IPDB",
+  //   "AlienVault",
+  //   "BOTVIJ.EU IP List",
+  //   "Binary Defence Systems Banlist",
+  //   "BruteForce Blocker",
+  //   "CI Army List",
+  //   "CIRCL BGP Ranking",
+  //   "DigitalSide-API",
+  //   "HoneyDB",
+  //   "Maltiverse",
+  //   "Virus Total",
+  //   "Who Is IP Netblocks"
 
-  whoIsXmlIpNetBlocksViewHtmlGenerator(api_data: Record<string, any>){
-    return `
-    <h1 style="color: whitesmoke;">${api_data['API_Name']}</h1>
-    <table>
-    <tr>
-    <th>API Key: </th><td>${api_data['config']['apiKey']}</td>
-    </tr>
-    <tr>
-    <th>Created :</th><td>${new Date(api_data['createdAt'])}</td>
-    </tr>
-    <tr>
-    <th>Updated :</th><td>${new Date(api_data['updatedAt'])}</td>
-    </tr>
-    </table>`;
-  }
+  scannerConfigViewHtmlGenerator(apiName: string, api_data: Record<string, any>): string {
+    switch (apiName) {
+      case "Abuse IPDB":
+        return `
+          <h1 style="color: whitesmoke;">${api_data['API_Name']}</h1>
+          <table>
+            <tr>
+              <th>API Key: </th>
+              <td>${api_data['config']['Key']}</td>
+            </tr>
+            <tr>
+              <th>Created :</th>
+              <td>${new Date(api_data['createdAt'])}</td>
+            </tr>
+            <tr>
+              <th>Updated :</th>
+              <td>${new Date(api_data['updatedAt'])}</td>
+            </tr>
+          </table>
+          `;
 
-  abuseIpDbViewHtmlGenerator(api_data: Record<string, any>){
-    return `
-    <h1 style="color: whitesmoke;">${api_data['API_Name']}</h1>
-    <table>
-    <tr>
-    <th>API Key: </th><td>${api_data['config']['Key']}</td>
-    </tr>
-    <tr>
-    <th>Created :</th><td>${new Date(api_data['createdAt'])}</td>
-    </tr>
-    <tr>
-    <th>Updated :</th><td>${new Date(api_data['updatedAt'])}</td>
-    </tr>
-    </table>`;
+      case "AlienVault":
+        return `
+          <h1 style="color: whitesmoke;">${api_data['API_Name']}</h1>
+          <table>
+            <tr>
+              <th>API Key: </th>
+              <td>${api_data['config']['api_otx_key']}</td>
+            </tr>
+            <tr>
+              <th>Created :</th>
+              <td>${new Date(api_data['createdAt'])}</td>
+            </tr>
+            <tr>
+              <th>Updated :</th>
+              <td>${new Date(api_data['updatedAt'])}</td>
+            </tr>
+          </table>
+          `;
+
+      case "BOTVIJ.EU IP List":
+        return `
+          <h1 style="color: whitesmoke;">${api_data['API_Name']}</h1>
+          <table>
+            <tr>
+              <th>Created :</th>
+              <td>${new Date(api_data['createdAt'])}</td>
+            </tr>
+            <tr>
+              <th>Updated :</th>
+              <td>${new Date(api_data['updatedAt'])}</td>
+            </tr>
+          </table>
+          `;
+
+      case "Binary Defence Systems Banlist":
+        return `
+          <h1 style="color: whitesmoke;">${api_data['API_Name']}</h1>
+          <table>
+            <tr>
+              <th>Created :</th>
+              <td>${new Date(api_data['createdAt'])}</td>
+            </tr>
+            <tr>
+              <th>Updated :</th>
+              <td>${new Date(api_data['updatedAt'])}</td>
+            </tr>
+          </table>
+          `;
+
+      case "BruteForce Blocker":
+        return `
+          <h1 style="color: whitesmoke;">${api_data['API_Name']}</h1>
+            <table>
+            <tr>
+              <th>Created :</th>
+              <td>${new Date(api_data['createdAt'])}</td>
+            </tr>
+            <tr>
+              <th>Updated :</th>
+              <td>${new Date(api_data['updatedAt'])}</td>
+            </tr>
+          </table>
+          `;
+
+      case "CI Army List":
+        return `
+          <h1 style="color: whitesmoke;">${api_data['API_Name']}</h1>
+          <table>
+            <tr>
+              <th>Created :</th>
+              <td>${new Date(api_data['createdAt'])}</td>
+            </tr>
+            <tr>
+              <th>Updated :</th>
+              <td>${new Date(api_data['updatedAt'])}</td>
+            </tr>
+          </table>
+          `;
+
+      case "CIRCL BGP Ranking":
+        return `
+          <h1 style="color: whitesmoke;">${api_data['API_Name']}</h1>
+          <table>
+            <tr>
+              <th>Created :</th>
+              <td>${new Date(api_data['createdAt'])}</td>
+            </tr>
+            <tr>
+              <th>Updated :</th>
+              <td>${new Date(api_data['updatedAt'])}</td>
+            </tr>
+          </table>
+          `;
+
+      case "DigitalSide-API":
+        return `
+          <h1 style="color: whitesmoke;">${api_data['API_Name']}</h1>
+          <table>
+            <tr>
+              <th>Created :</th>
+              <td>${new Date(api_data['createdAt'])}</td>
+            </tr>
+            <tr>
+              <th>Updated :</th>
+              <td>${new Date(api_data['updatedAt'])}</td>
+            </tr>
+          </table>
+          `;
+
+      case "HoneyDB":
+        return `
+          <h1 style="color: whitesmoke;">${api_data['API_Name']}</h1>
+          <table>
+            <tr>
+              <th>API ID: </th>
+              <td>${api_data['config']['api_id']}</td>
+            </tr>
+            <tr>
+              <th>API Key: </th>
+              <td>${api_data['config']['api_key']}</td>
+            </tr>
+            <tr>
+              <th>Created :</th>
+              <td>${new Date(api_data['createdAt'])}</td>
+              </tr>
+              <tr>
+              <th>Updated :</th>
+              <td>${new Date(api_data['updatedAt'])}</td>
+            </tr>
+          </table>
+          `;
+
+      case "Maltiverse":
+        return `
+          <h1 style="color: whitesmoke;">${api_data['API_Name']}</h1>
+          <table>
+            <tr>
+              <th>Auth Token: </th>
+              <td>${api_data['config']['bearer_token']}</td>
+            </tr>
+            <tr>
+              <th>Created :</th>
+              <td>${new Date(api_data['createdAt'])}</td>
+              </tr>
+              <tr>
+              <th>Updated :</th>
+              <td>${new Date(api_data['updatedAt'])}</td>
+            </tr>
+          </table>
+          `;
+
+      case "Virus Total":
+        return `
+          <h1 style="color: whitesmoke;">${api_data['API_Name']}</h1>
+          <table>
+            <tr>
+              <th>API Key: </th>
+              <td>${api_data['config']['api_key']}</td>
+              </tr>
+              <tr>
+              <th>Created :</th>
+              <td>${new Date(api_data['createdAt'])}</td>
+              </tr>
+              <tr>
+              <th>Updated :</th>
+              <td>${new Date(api_data['updatedAt'])}</td>
+            </tr>
+          </table>
+          `;
+
+      case "Who Is IP Netblocks":
+        return `
+          <h1 style="color: whitesmoke;">${api_data['API_Name']}</h1>
+          <table>
+            <tr>
+              <th>API Key: </th>
+              <td>${api_data['config']['apiKey']}</td>
+              </tr>
+              <tr>
+              <th>Created :</th>
+              <td>${new Date(api_data['createdAt'])}</td>
+              </tr>
+              <tr>
+              <th>Updated :</th>
+              <td>${new Date(api_data['updatedAt'])}</td>
+            </tr>
+          </table>
+          `;
+
+      default: return ``;
+    }
   }
 }

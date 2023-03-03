@@ -104,30 +104,13 @@ export class ConfigurationComponent implements OnInit {
     if (idOfApi < this.availableApis.length) {
 
       let apiName = this.availableApis[idOfApi]['API_Name']
-      switch (apiName) {
-        case "Virus Total":
-          innerHTML = this.configInnerHtmlGen.virusTotalViewHtmlGenerator(this.availableApis[idOfApi]);
-          break;
-        case "Who Is IP Netblocks":
-          innerHTML = this.configInnerHtmlGen.whoIsXmlIpNetBlocksViewHtmlGenerator(this.availableApis[idOfApi]);
-          break;
-        
-          case "Abuse IPDB":
-          innerHTML = this.configInnerHtmlGen.abuseIpDbViewHtmlGenerator(this.availableApis[idOfApi]);
-          break;
-        default:
-          break;
-      }
+      innerHTML = this.configInnerHtmlGen.scannerConfigViewHtmlGenerator(apiName, this.availableApis[idOfApi]);
     }
 
     if (innerHTML) {
       this.openDialog(innerHTML);
     }
   }
-
-  // onApiDelete(idOfApi: number) {
-  //   console.log("Delete API at Index ", idOfApi);
-  // }
 
   /**
    * If the idOfApi is less than the length of the availableApis array, then set the showEditor
@@ -269,6 +252,10 @@ export class ConfigurationComponent implements OnInit {
   }
 
   showScannerView(api: Record<string, any>):boolean{
+    if(api["config"]!= null) return true;
+    return false;
+  }
+  showScannerEdit(api: Record<string, any>):boolean{
     if(Object.keys(api["config"]).length>0) return true;
     return false;
   }

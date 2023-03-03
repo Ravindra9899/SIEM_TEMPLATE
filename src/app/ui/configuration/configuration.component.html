@@ -4,7 +4,7 @@
             <div style="text-align: center;font-weight: bold; font-size: large; margin: 2vh 0 2vh 0;">
                 Configuration Page
             </div>
-            <div style="text-align: center;">
+            <div class="config-content-child">
                 <table>
                     <tr>
                         <th>S. No.</th>
@@ -13,20 +13,29 @@
                         <th>Actions</th>
                     </tr>
                     <tr *ngFor="let api of getAvailableApis()">
-                        <td>{{ getAvailableApis().indexOf(api) + 1 }}</td>
-                        <td>{{ api["API_Name"] }}</td>
+                        <td>
+                            {{ getAvailableApis().indexOf(api) + 1 }}
+                        </td>
+                        <td>
+                            {{ api["API_Name"] }}
+                        </td>
                         <td
                             [ngStyle]="{'color': api['status'] === 'Active' ? 'green' : api['status'] === 'Disabled' ? 'red' : 'yellow'}">
                             {{ api["status"] }}</td>
                         <td>
-                            <i class="fa fa-eye" aria-hidden="true" matTooltip="View"
+                            <i class="fa fa-eye" matTooltip="View" aria-hidden="true"
                                 (click)="onApiView(getAvailableApis().indexOf(api))"
                                 *ngIf="showScannerView(api)"
                                 >
                             </i>
                             <i class="fa fa-edit" matTooltip="Edit" aria-hidden="true"
                                 (click)="onApiEdit(getAvailableApis().indexOf(api))"
-                                *ngIf="showScannerView(api)"
+                                *ngIf="showScannerEdit(api)"
+                                >
+                            </i>
+                            <i class="fa fa-circle" matTooltip="Edit" aria-hidden="true"
+                            style="color: #222736;"
+                                *ngIf="!showScannerEdit(api)"
                                 >
                             </i>
                             <i class="fa"
@@ -34,7 +43,6 @@
                                 [matTooltip]="api['status']=='Active'? 'Disable':'Activate'" aria-hidden="true"
                                 (click)="onApiDisable(getAvailableApis().indexOf(api))">
                             </i>
-                            <!-- <i class="fa fa-trash" aria-hidden="true"></i> -->
                         </td>
                     </tr>
                 </table>

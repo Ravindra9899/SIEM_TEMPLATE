@@ -13,14 +13,30 @@
                         {{ scanOption }}
                     </mat-checkbox>
                 </div> -->
-                <mat-label>Select scan options</mat-label>
-                <mat-select [(ngModel)]="selectedScanners" multiple>
-                    <mat-option *ngFor="let scanOption of getScanOptions()" [value]="scanOption">
-                        {{ scanOption }}
-                    </mat-option>
-                </mat-select>
-                <button type="submit" mat-button value="Start Scan" (click)="startScan()"
-                    [disabled]="!(getScanOptions().length>0)">Submit</button>
+                <div class="content-child-child">
+                    <mat-label>Select Scanner(s)</mat-label>
+                    <mat-select [(ngModel)]="selectedScanners" multiple placeholder="Options">
+
+                        <mat-option *ngFor="let scanOption of getScanOptions()" [value]="scanOption">
+                            {{ scanOption }}
+                        </mat-option>
+                    </mat-select>
+                </div>
+                <div>
+                    <mat-chip-list>
+                        <mat-chip *ngFor="let selectedOption of selectedScanners" removable="true"
+                            (removed)="removeOption(selectedOption)">
+                            {{ selectedOption }}
+                            <mat-icon matChipRemove>cancel</mat-icon>
+                        </mat-chip>
+                    </mat-chip-list>
+                </div>
+                <div class="submit-button-div">
+                    <button type="submit" mat-button value="Start Scan" (click)="startScan()"
+                        [disabled]="!(getScanOptions().length>0)">
+                        Submit
+                    </button>
+                </div>
             </div>
             <br>
             <div *ngIf="loading" class="spinner-container">

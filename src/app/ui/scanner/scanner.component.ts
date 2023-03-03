@@ -60,6 +60,12 @@ export class ScannerComponent implements OnInit {
     }
   }
 
+  removeOption(selectedOptions: string): void{
+    if (this.isChecked(selectedOptions)) {
+      this.selectedScanners = this.selectedScanners.filter((option) => option !== selectedOptions);
+    }
+  }
+
   /* Checking if the IP address is valid or not. */
   isValidIp() {
     const blocks = this.ipAddress.split('.');
