@@ -52,7 +52,7 @@ export class ScannerServiceService {
    * @returns An observable of the response from the backend.
    */
   updateConfigurationOfScanner(config: Record<string, any>, apiName: string, status: string): Observable<any> {
-    
+
     console.log("send request to update data");
     console.log(apiName);
 
@@ -65,7 +65,7 @@ export class ScannerServiceService {
       "config": config,
       "status": status
     }).pipe(
-      catchError((err)=>{
+      catchError((err) => {
         console.log("could not update the configuration of Virus Total");
         console.error(err);
         return of([]);
@@ -106,7 +106,7 @@ export class ScannerServiceService {
    * be either "asc" or "desc".
    * @returns An observable of an array of scan reports.
    */
-  readAllScanReportsForApi(apiName: string, offsetVal: string, limitVal: string, orderVal: string, ipAddress: string): Observable<any>{
+  readAllScanReportsForApi(apiName: string, offsetVal: string, limitVal: string, orderVal: string, ipAddress: string): Observable<any> {
     let url = `${environment.backendBaseUrl}/ipscan/read-report-ip-api`;
 
     console.log("Get request query ", {
@@ -120,7 +120,7 @@ export class ScannerServiceService {
     return this.http.get(
       `${url}?ipAddress=${ipAddress}&apiName=${apiName}&sort=${orderVal}&offset=${offsetVal}&limit=${limitVal}`
     ).pipe(
-      catchError((err)=>{
+      catchError((err) => {
 
         console.log(`Error in retrieving scan reports for ${apiName}`);
         console.log(err);
@@ -138,20 +138,21 @@ export class ScannerServiceService {
    * @param scanStatus - Subject<string>
    * @returns An observable of the response from the backend.
    */
-  getIpScanResponse(ipToScan: string, apiName: string, numberOfScanners: Number, scanIndex: Number, scanStatus : Subject<any>): Observable<any>{
+  getIpScanResponse(ipToScan: string, apiName: string, numberOfScanners: Number, scanIndex: Number, scanStatus: Subject<any>): Observable<any> {
 
     const N = numberOfScanners;
 
     const httpOptions = {
-      params : {
-      'ip_to_scan': ipToScan,
-      'apiName': apiName
-    }};
+      params: {
+        'ip_to_scan': ipToScan,
+        'apiName': apiName
+      }
+    };
 
     const url = `${environment.backendBaseUrl}/ipscan/scan`;
     this.scanStatusService.emitScanStatus(
       `Please wait; scan ongoing; ${scanIndex}/${N}`
-      );
+    );
 
     const scanObservable = this.http.get(url, httpOptions).pipe(
       catchError((err) => {
@@ -185,26 +186,18 @@ export class ScannerServiceService {
    * number of scan reports that scanner has created
    * @returns An observable of an array of objects.
    */
-  countScanReportsPerScanner():Observable<any>{
+  countScanReportsPerScanner(): Observable<any> {
     let url = `${environment.backendBaseUrl}/ipscan/count-scan-reports`;
     return this.http.get(url).pipe(
-      catchError((err)=>{
+      catchError((err) => {
         console.log("count scan report service error " + err);
         return of([]);
       })
     );
   }
 
-  readScanReportsForIpAndApiDateRange(
-    ipAddress: string,
-    apiName: string,
-    startDateUtc: string,
-    endDateUtc: string,
-    order: string,
-    limit: string, 
-    skip: string
-  ): Observable<any>{
-    let url = `${environment.backendBaseUrl}/ipscan/read-reports-ip-api-date`
+  readScanReportsForIpAndApiDateRange(ipAddress: string, apiName: string, startDateUtc: string, endDateUtc: string, order: string, limit: string, skip: string): Observable<any> {
+    let url = `${environment.backendBaseUrl}/ipscan/read-report-ip-api-date`
     url = url + "?";
     url = url + `ipAddress=${ipAddress}&`;
     url = url + `apiName=${apiName}&`;
@@ -215,7 +208,7 @@ export class ScannerServiceService {
     url = url + `skip=${skip}`;
 
     return this.http.get(url).pipe(
-      catchError((err)=>{
+      catchError((err) => {
         console.error("Error in read scan reports for ip and api date range service");
         console.error(err);
         return of([]);

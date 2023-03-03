@@ -1,0 +1,30 @@
+<!-- <pre>{{ scanReport | json }}</pre> -->
+<div class="scan-report">
+    <h2>Scan Report</h2>
+    <div class="scan-details">
+        <div><strong>IP Address:</strong> {{scanReport["ipAddress"]}}</div>
+        <div><strong>IP Version:</strong> {{scanReport["ipVersion"]}}</div>
+        <div><strong>Domain:</strong> {{scanReport["domain"]}}</div>
+        <div><strong>Hostnames:</strong>
+            <ul>
+                <li *ngFor="let hostname of scanReport['hostnames']">{{hostname}}</li>
+            </ul>
+        </div>
+        <div><strong>ISP:</strong> {{ scanReport["isp"] }}</div>
+        <div><strong>Country:</strong> {{scanReport["countryName"]}} ({{scanReport["countryCode"]}})</div>
+        <div><strong>Usage Type:</strong> {{scanReport["usageType"]}}</div>
+        <div><strong>Public:</strong> {{scanReport["isPublic"]}}</div>
+        <div><strong>Whitelisted:</strong> {{scanReport["isWhitelisted"]}}</div>
+        <div><strong>Last Reported At:</strong> {{scanReport["lastReportedAt"]}}</div>
+    </div>
+    <div class="reports">
+        <h3>Reports ({{scanReport["totalReports"]}})</h3>
+        <ul>
+            <li *ngFor="let report of scanReport['reports']">
+                <div><strong>Reported At:</strong> {{report["reportedAt"]}}</div>
+                <div><strong>Number of Distinct Users:</strong> {{report["numDistinctUsers"]}}</div>
+                <div><strong>Abuse Confidence Score:</strong> {{report["abuseConfidenceScore"]}}</div>
+            </li>
+        </ul>
+    </div>
+</div>

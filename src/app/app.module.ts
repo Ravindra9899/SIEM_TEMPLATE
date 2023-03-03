@@ -21,6 +21,8 @@ import { TemplatePartsModule } from './template-parts/template-parts.module';
 import { ScanReportComponent } from './ui/scan-report/scan-report.component';
 import { ChartsComponent } from './ui/charts/charts.component';
 import { PrevScansComponent } from './ui/prev-scans/prev-scans.component';
+import { AbuseIPDBRecordTableComponent } from './ui/prev-scans/abuse-ipdbrecord-table/abuse-ipdbrecord-table.component';
+import { AlienvaultRecordTableComponent } from './ui/prev-scans/alienvault-record-table/alienvault-record-table.component';
 
 
 @NgModule({
@@ -32,6 +34,8 @@ import { PrevScansComponent } from './ui/prev-scans/prev-scans.component';
     ScanReportComponent,
     ChartsComponent,
     PrevScansComponent,
+    AbuseIPDBRecordTableComponent,
+    AlienvaultRecordTableComponent,
   ],
   imports: [
     BrowserModule,
