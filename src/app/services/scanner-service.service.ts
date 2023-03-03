@@ -195,4 +195,32 @@ export class ScannerServiceService {
     );
   }
 
+  readScanReportsForIpAndApiDateRange(
+    ipAddress: string,
+    apiName: string,
+    startDateUtc: string,
+    endDateUtc: string,
+    order: string,
+    limit: string, 
+    skip: string
+  ): Observable<any>{
+    let url = `${environment.backendBaseUrl}/ipscan/read-reports-ip-api-date`
+    url = url + "?";
+    url = url + `ipAddress=${ipAddress}&`;
+    url = url + `apiName=${apiName}&`;
+    url = url + `startDate=${startDateUtc}&`;
+    url = url + `endDate=${endDateUtc}&`;
+    url = url + `order=${order}&`;
+    url = url + `limit=${limit}&`;
+    url = url + `skip=${skip}`;
+
+    return this.http.get(url).pipe(
+      catchError((err)=>{
+        console.error("Error in read scan reports for ip and api date range service");
+        console.error(err);
+        return of([]);
+      })
+    );
+  }
+
 }
