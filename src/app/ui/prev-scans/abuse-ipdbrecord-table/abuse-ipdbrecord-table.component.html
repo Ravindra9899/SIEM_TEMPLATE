@@ -2,29 +2,77 @@
 <div class="scan-report">
     <h2>Scan Report</h2>
     <div class="scan-details">
-        <div><strong>IP Address:</strong> {{scanReport["ipAddress"]}}</div>
-        <div><strong>IP Version:</strong> {{scanReport["ipVersion"]}}</div>
-        <div><strong>Domain:</strong> {{scanReport["domain"]}}</div>
-        <div><strong>Hostnames:</strong>
-            <ul>
-                <li *ngFor="let hostname of scanReport['hostnames']">{{hostname}}</li>
-            </ul>
-        </div>
-        <div><strong>ISP:</strong> {{ scanReport["isp"] }}</div>
-        <div><strong>Country:</strong> {{scanReport["countryName"]}} ({{scanReport["countryCode"]}})</div>
-        <div><strong>Usage Type:</strong> {{scanReport["usageType"]}}</div>
-        <div><strong>Public:</strong> {{scanReport["isPublic"]}}</div>
-        <div><strong>Whitelisted:</strong> {{scanReport["isWhitelisted"]}}</div>
-        <div><strong>Last Reported At:</strong> {{scanReport["lastReportedAt"]}}</div>
+        <table>
+            <tr>
+                <td><strong>IP Address:</strong></td>
+                <td>{{scanReport["ipAddress"]}}</td>
+            </tr>
+            <tr>
+                <td><strong>IP Version:</strong></td>
+                <td>{{scanReport["ipVersion"]}}</td>
+            </tr>
+            <tr>
+                <td><strong>Domain:</strong></td>
+                <td>{{scanReport["domain"]}}</td>
+            </tr>
+            <tr>
+                <td><strong>ISP:</strong></td>
+                <td>{{ scanReport["isp"] }}</td>
+            </tr>
+            <tr>
+                <td><strong>Country:</strong></td>
+                <td>{{scanReport["countryName"]}} ({{scanReport["countryCode"]}})</td>
+            </tr>
+            <tr>
+                <td><strong>Usage Type:</strong></td>
+                <td>{{scanReport["usageType"]}}</td>
+            </tr>
+            <tr>
+                <td><strong>Public:</strong></td>
+                <td>{{scanReport["isPublic"]}}</td>
+            </tr>
+            <tr>
+                <td><strong>Whitelisted:</strong></td>
+                <td>{{scanReport["isWhitelisted"]}}</td>
+            </tr>
+            <tr>
+                <td><strong>Last Reported At:</strong></td>
+                <td>{{scanReport["lastReportedAt"]}}</td>
+            </tr>
+        </table>
+
+        <table>
+            <tr>
+                <td><strong>Hostnames:</strong></td>
+                <td>
+                    <ul>
+                        <li *ngFor="let hostname of scanReport['hostnames']">{{hostname}}</li>
+                    </ul>
+                </td>
+            </tr>
+        </table>
     </div>
     <div class="reports">
         <h3>Reports ({{scanReport["totalReports"]}})</h3>
-        <ul>
-            <li *ngFor="let report of scanReport['reports']">
-                <div><strong>Reported At:</strong> {{report["reportedAt"]}}</div>
-                <div><strong>Number of Distinct Users:</strong> {{report["numDistinctUsers"]}}</div>
-                <div><strong>Abuse Confidence Score:</strong> {{report["abuseConfidenceScore"]}}</div>
-            </li>
-        </ul>
+        <table class="table-report">
+            <thead>
+                <tr>
+                    <th class="table-head-report">Reported At</th>
+                    <th class="table-head-report">Reporter Country Code</th>
+                    <th class="table-head-report">Reporter Country Name</th>
+                    <th class="table-head-report">Report Categories</th>
+                    <th class="table-head-report">Comment</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr *ngFor="let report of scanReport['reports']">
+                    <td class="table-cell-report">{{report["reportedAt"]}}</td>
+                    <td class="table-cell-report">{{report["reporterCountryCode"]}}</td>
+                    <td class="table-cell-report">{{report["reporterCountryName"]}}</td>
+                    <td class="table-cell-report">{{report["categories"] | json}}</td>
+                    <td class="table-cell-report">{{report["comment"]}}</td>
+                </tr>
+            </tbody>
+        </table>
     </div>
 </div>

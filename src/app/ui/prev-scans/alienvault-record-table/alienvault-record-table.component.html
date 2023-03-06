@@ -4,6 +4,7 @@
             <td>asn:</td>
             <td>{{ scanReport['asn'] }}</td>
         </tr>
+
         <ng-container
             *ngIf="scanReport.hasOwnProperty('base_indicator') && scanReport['base_indicator'].hasOwnProperty('id')">
             <tr>
@@ -11,6 +12,7 @@
                 <td>{{ scanReport['base_indicator']['id'] }}</td>
             </tr>
         </ng-container>
+
         <ng-container
             *ngIf="scanReport.hasOwnProperty('base_indicator') && scanReport['base_indicator'].hasOwnProperty('id')">
             <tr>
@@ -26,6 +28,7 @@
                 <td>{{ scanReport['base_indicator']['type'] }}</td>
             </tr>
         </ng-container>
+
         <ng-container>
             <tr>
                 <td>latitude:</td>
@@ -72,64 +75,60 @@
     </ng-container>
 
     <ng-container *ngIf="scanReport.hasOwnProperty('validation') && scanReport['validation'] != null">
-        <p>validation:</p>
         <br>
+        <strong>Validation:</strong>
         <table *ngIf="scanReport['validation']?.length > 0" class="inner-table">
             <tbody>
-                <tr *ngFor="let item of scanReport['validation']">
-                    <td>{{ item['name'] }}</td>
-                    <ng-container [ngSwitch]="typeOfValidation(item['message'])">
-                        <td *ngSwitchCase="'string'">{{ item['message'] }}</td>
-                        <td *ngSwitchCase="'object'">
+                <ng-container *ngFor="let item of scanReport['validation']">
+                    <tr>
+                        <td>{{ item['name'] }}</td>
+                        <ng-container [ngSwitch]="typeOfValidation(item['message'])">
                             <table>
                                 <tr>
-                                    <td>Message:</td>
-                                    <td>{{ item['message']['message'] }}</td>
+                                    <th>Message:</th>
+                                    <td>{{ item['message'] | titlecase }}</td>
                                 </tr>
                                 <tr>
-                                    <td>Name:</td>
-                                    <td>{{ item['message']['name'] }}</td>
+                                    <th>Name:</th>
+                                    <td>{{ item['name'] | titlecase }}</td>
                                 </tr>
                                 <tr>
-                                    <td>Source:</td>
-                                    <td>{{ item['message']['source'] }}</td>
+                                    <th>Source:</th>
+                                    <td>{{ item['source'] | titlecase }}</td>
                                 </tr>
                             </table>
-                        </td>
-                    </ng-container>
-                </tr>
-
+                        </ng-container>
+                    </tr>
+                </ng-container>
             </tbody>
         </table>
+
         <span *ngIf="!scanReport['validation'] || scanReport['validation']?.length == 0">None</span>
     </ng-container>
 
     <ng-container
         *ngIf="scanReport.hasOwnProperty('malware') && scanReport['malware'].hasOwnProperty('data') && scanReport['malware']['data'] != null">
-        <p>Malware data:</p>
         <br>
-        <table>
-            <div style=" height: 20vh;width: 60vw;">
+        <strong>Malware data:</strong>
+        <div class=""malware-data-child>
+            <table>
                 <tr>
                     <th>
                         <div class="malware-data-child-date">
-                            date
+                            Date
                         </div>
                     </th>
                     <th>
                         <div class="malware-data-child-hash">
-                            hash
+                            Hash
                         </div>
                     </th>
                     <th>
                         <div class="malware-data-child-detections">
-                            detections
+                            Detections
                         </div>
                     </th>
-
                 </tr>
-            </div>
-            <div class="malware-data-child">
                 <tr *ngFor="let item of scanReport['malware']['data']">
                     <td>
                         <div class="malware-data-child-date">
@@ -156,7 +155,7 @@
                         </div>
                     </td>
                 </tr>
-            </div>
-        </table>
+            </table>
+        </div>
     </ng-container>
 </div>
