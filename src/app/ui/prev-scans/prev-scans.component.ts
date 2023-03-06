@@ -18,6 +18,8 @@ export class PrevScansComponent implements OnInit {
 
   private scanReport: Record<string, any> = {};
 
+  private mostRecent: boolean = true;
+
   constructor(
     private scanService: ScannerServiceService,
   ) { }
@@ -73,7 +75,7 @@ export class PrevScansComponent implements OnInit {
   }
 
   setStartDate(duration: number): void {
-    const startDateTimeStamp = this.startDateUtc.getTime() - (24 * 60 * 60 * 1000);
+    const startDateTimeStamp = this.startDateUtc.getTime() - duration;
     this.startDateUtc = new Date(startDateTimeStamp)
   }
 
@@ -85,7 +87,8 @@ export class PrevScansComponent implements OnInit {
       this.endDateUtc.toISOString(),
       "desc",
       "1",
-      "0"
+      "0",
+      this.mostRecent
     ).subscribe({
       error: (err) => {
         console.error("could not read scan report subscribe ", err);

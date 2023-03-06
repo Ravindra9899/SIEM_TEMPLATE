@@ -193,11 +193,12 @@ export class ScannerServiceService {
     );
   }
 
-  readScanReportsForIpAndApiDateRange(ipAddress: string, apiName: string, startDateUtc: string, endDateUtc: string, order: string, limit: string, skip: string): Observable<any> {
+  readScanReportsForIpAndApiDateRange(ipAddress: string, apiName: string, startDateUtc: string, endDateUtc: string, order: string, limit: string, skip: string, mostRecent: boolean): Observable<any> {
     let url = `/api/ipscan/read-report-ip-api-date`
     url = url + "?";
     url = url + `ipAddress=${ipAddress}&`;
     url = url + `apiName=${apiName}&`;
+    url = url + `mostRecent=${mostRecent}`;
     url = url + `startDate=${startDateUtc}&`;
     url = url + `endDate=${endDateUtc}&`;
     url = url + `order=${order}&`;
