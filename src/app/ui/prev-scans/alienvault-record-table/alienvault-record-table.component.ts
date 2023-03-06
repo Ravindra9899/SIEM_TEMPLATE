@@ -6,7 +6,7 @@ import { Component, Input, OnInit } from '@angular/core';
   styleUrls: ['./alienvault-record-table.component.css']
 })
 export class AlienvaultRecordTableComponent implements OnInit {
-[x: string]: any;
+
   @Input()
   scanReport: Record<string, any> = {};
 

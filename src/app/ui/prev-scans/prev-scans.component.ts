@@ -29,6 +29,15 @@ export class PrevScansComponent implements OnInit {
     return false;
   }
 
+  /**
+   * The function returns true if the IP address is valid, and false if it is not
+   * @returns A boolean value.
+   */
+  isValidIPv4() {
+    let regex = /^((25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)\.){3}(25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)$/;
+    return regex.test(this.selectedIp);
+  }
+
   // define getter
   getAllScannersList(): string[] {
     return this.allScannersList;
@@ -80,46 +89,50 @@ export class PrevScansComponent implements OnInit {
   }
 
   setScanReport(): void {
-    this.scanService.readScanReportsForIpAndApiDateRange(
-      this.selectedIp,
-      this.selectedScanner,
-      this.startDateUtc.toISOString(),
-      this.endDateUtc.toISOString(),
-      "desc",
-      "1",
-      "0",
-      this.mostRecent
-    ).subscribe({
-      error: (err) => {
-        console.error("could not read scan report subscribe ", err);
-
-      },
-      complete: () => {
-        console.info("Subscribe scan report completed")
-      },
-      next: (response) => {
-        console.warn(response &&
-          Array.isArray(response["data"]));
-
-          console.log(response["data"]);
-        if (
-          response &&
-          response.hasOwnProperty("message") &&
-          response['message'] != null &&
-          response['message'] != false &&
-          response['message'] == "success" &&
-          response.hasOwnProperty("data") &&
-          response['data'] != null &&
-          response['data'] != false &&
-          Array.isArray(response["data"]) &&
-          response["data"].length > 0
-        ) {
-          this.scanReport = response["data"][0];
-        } else {
-          console.warn("subscribe scan report did not succeed");
+    if(this.isValidIPv4()){
+      this.scanService.readScanReportsForIpAndApiDateRange(
+        this.selectedIp,
+        this.selectedScanner,
+        this.startDateUtc.toISOString(),
+        this.endDateUtc.toISOString(),
+        "desc",
+        "1",
+        "0",
+        this.mostRecent
+      ).subscribe({
+        error: (err) => {
+          console.error("could not read scan report subscribe ", err);
+  
+        },
+        complete: () => {
+          console.info("Subscribe scan report completed")
+        },
+        next: (response) => {
+          console.warn(response &&
+            Array.isArray(response["data"]));
+  
+            console.log(response["data"]);
+          if (
+            response &&
+            response.hasOwnProperty("message") &&
+            response['message'] != null &&
+            response['message'] != false &&
+            response['message'] == "success" &&
+            response.hasOwnProperty("data") &&
+            response['data'] != null &&
+            response['data'] != false &&
+            Array.isArray(response["data"]) &&
+            response["data"].length > 0
+          ) {
+            this.scanReport = response["data"][0];
+          } else {
+            console.warn("subscribe scan report did not succeed");
+          }
         }
-      }
-    });
+      });
+    }else{
+      window.alert("Please enter a valid IPv4 address");
+    }
   }
 
   // define remover
