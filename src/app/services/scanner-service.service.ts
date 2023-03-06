@@ -18,7 +18,7 @@ export class ScannerServiceService {
    * @returns An observable of an array of scanners.
    */
   getAllScanners(): Observable<any> {
-    let url = `${environment.backendBaseUrl}/ipscan/all`;
+    let url = `/api/ipscan/all`;
 
     return this.http.get(url).pipe(
       catchError((err) => {
@@ -33,7 +33,7 @@ export class ScannerServiceService {
    * @returns An observable of an array of scanners.
    */
   getAllActiveScanners(): Observable<any> {
-    let url = `${environment.backendBaseUrl}/ipscan/active`;
+    let url = `/api/ipscan/active`;
 
     return this.http.get(url).pipe(
       catchError((err) => {
@@ -58,7 +58,7 @@ export class ScannerServiceService {
 
     console.log(config);
 
-    let url = `${environment.backendBaseUrl}/ipscan/update-config`;
+    let url = `/api/ipscan/update-config`;
 
     return this.http.post(url, {
       "apiName": apiName,
@@ -81,7 +81,7 @@ export class ScannerServiceService {
    * @returns An observable of the response from the backend.
    */
   updateStatusOfScanner(apiName: string, newStatus: string): Observable<any> {
-    let url = `${environment.backendBaseUrl}/ipscan/update-status`;
+    let url = `/api/ipscan/update-status`;
 
     return this.http.post(url, {
       "apiName": apiName,
@@ -107,7 +107,7 @@ export class ScannerServiceService {
    * @returns An observable of an array of scan reports.
    */
   readAllScanReportsForApi(apiName: string, offsetVal: string, limitVal: string, orderVal: string, ipAddress: string): Observable<any> {
-    let url = `${environment.backendBaseUrl}/ipscan/read-report-ip-api`;
+    let url = `/api/ipscan/read-report-ip-api`;
 
     console.log("Get request query ", {
       "apiName": apiName,
@@ -149,7 +149,7 @@ export class ScannerServiceService {
       }
     };
 
-    const url = `${environment.backendBaseUrl}/ipscan/scan`;
+    const url = `/api/ipscan/scan`;
     this.scanStatusService.emitScanStatus(
       `Please wait; scan ongoing; ${scanIndex}/${N}`
     );
@@ -176,9 +176,6 @@ export class ScannerServiceService {
     });
     this.scanStatusService.emitScanStatus(`Scan Completed`)
     return scanObservable;
-
-    return scanObservable;
-
   }
 
   /**
@@ -187,7 +184,7 @@ export class ScannerServiceService {
    * @returns An observable of an array of objects.
    */
   countScanReportsPerScanner(): Observable<any> {
-    let url = `${environment.backendBaseUrl}/ipscan/count-scan-reports`;
+    let url = `/api/ipscan/count-scan-reports`;
     return this.http.get(url).pipe(
       catchError((err) => {
         console.log("count scan report service error " + err);
@@ -197,7 +194,7 @@ export class ScannerServiceService {
   }
 
   readScanReportsForIpAndApiDateRange(ipAddress: string, apiName: string, startDateUtc: string, endDateUtc: string, order: string, limit: string, skip: string): Observable<any> {
-    let url = `${environment.backendBaseUrl}/ipscan/read-report-ip-api-date`
+    let url = `/api/ipscan/read-report-ip-api-date`
     url = url + "?";
     url = url + `ipAddress=${ipAddress}&`;
     url = url + `apiName=${apiName}&`;
@@ -215,5 +212,4 @@ export class ScannerServiceService {
       })
     );
   }
-
 }
