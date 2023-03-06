@@ -1,1 +1,15 @@
-<pre>{{ scanReport | json }}</pre>
+<div class="inner-table">
+    <table>
+        <thead>
+            <tr>
+                
+            </tr>
+        </thead>
+        <tbody>
+            <tr>
+                <th>Is IP Banned</th>
+                <td>{{ scanReport["usIpBanned"] == true ? "Yes" : "No" }}</td>
+            </tr>
+        </tbody>
+    </table>
+</div>

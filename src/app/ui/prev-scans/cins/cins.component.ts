@@ -12,6 +12,7 @@ export class CinsComponent implements OnInit {
   constructor() { }
 
   ngOnInit(): void {
+    console.log(this.scanReport);
   }
 
 }

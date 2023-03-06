@@ -1,1 +1,72 @@
-<p>{{ scanReport | json }}</p>
+<div>
+    <span><strong>ASN From IP</strong></span>
+    <table>
+        <thead>
+            <tr>
+                <th>Meta IP</th>
+                <th>Response</th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr>
+                <td>{{ scanReport["ASN From IP"]["meta"] != null && scanReport["ASN From IP"]["meta"]["ip"] != null ? scanReport["ASN From IP"]["meta"]["ip"]: "" }}</td>
+                <td>
+                    <table *ngIf="showAsnFromIPResponse()">
+                        <thead>
+                            <tr>
+                                <th>ASN</th>
+                                <th>Prefix</th>
+                                <th>Source</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr *ngFor="let responseKey of getAsnFromIpResponseKeys()">
+                                <td>{{ scanReport["ASN From IP"]["response"][responseKey]["asn"] != null ? scanReport["ASN From IP"]["response"][responseKey]["asn"]: "" }}</td>
+                                <td>{{ scanReport["ASN From IP"]["response"][responseKey]["prefix"] != null ? scanReport["ASN From IP"]["response"][responseKey]["prefix"]: "" }}</td>
+                                <td>{{ scanReport["ASN From IP"]["response"][responseKey]["source"] != null ? scanReport["ASN From IP"]["response"][responseKey]["source"]: "" }}</td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+
+    <br>
+    <span><strong>ASN Ranking</strong></span>
+    <table>
+        <thead>
+            <tr>
+                <th>Meta ASN</th>
+                <th>Meta Date</th>
+                <th *ngIf='showAsnRanking()'>Response</th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr>
+                <td>{{ scanReport["ASN Ranking"]["meta"]["asn"] != null ? scanReport["ASN Ranking"]["meta"]["asn"] : "" }}</td>
+                <td>{{ scanReport["ASN Ranking"]["meta"]["date"] != null ? scanReport["ASN Ranking"]["meta"]["date"] : "" }}</td>
+                <td>
+                    <table *ngIf='showAsnRanking()'>
+                        <thead>
+                            <tr>
+                                <th>Description</th>
+                                <th>Position</th>
+                                <th>Rank</th>
+                                <th>Total Known ASNs</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <td>{{ scanReport["ASN Ranking"]["response"]["asn_description"] != null ? scanReport["ASN Ranking"]["response"]["asn_description"] : "" }}</td>
+                                <td>{{ scanReport["ASN Ranking"]["response"]["ranking"]["rank"] != null ? scanReport["ASN Ranking"]["response"]["ranking"]["rank"] : "" }}</td>
+                                <td>{{ scanReport["ASN Ranking"]["response"]["ranking"]["rank"] != null ? scanReport["ASN Ranking"]["response"]["ranking"]["rank"] : "" }}</td>
+                                <td>{{ scanReport["ASN Ranking"]["response"]["ranking"]["rank"] != null ? scanReport["ASN Ranking"]["response"]["ranking"]["rank"] : "" }}</td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+</div>

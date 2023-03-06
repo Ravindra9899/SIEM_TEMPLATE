@@ -13,39 +13,51 @@
             <div class="submit-button-div">
                 <button type="submit" (click)="onSubmit()">Submit</button>
             </div>
-
+        </div>
+        <div class="child">
             <!-- // Abuse IP DB -->
-            <app-abuse-ipdbrecord-table [scanReport]="getScanReport()['record']!= null ? getScanReport()['record']: {}" *ngIf="showTable() && getScanReport()['API_Name']=='Abuse IPDB'"></app-abuse-ipdbrecord-table>
-            
+            <app-abuse-ipdbrecord-table [scanReport]="getScanReport()['record']!= null ? getScanReport()['record']: {}"
+                *ngIf="showTable() && getScanReport()['API_Name']=='Abuse IPDB'"></app-abuse-ipdbrecord-table>
+
             <!-- // AlienVault -->
-            <app-alienvault-record-table [scanReport]="getScanReport()['record']!= null ? getScanReport()['record']: {}" *ngIf="showTable() && getScanReport()['API_Name']=='AlienVault'"></app-alienvault-record-table>
+            <app-alienvault-record-table [scanReport]="getScanReport()['record']!= null ? getScanReport()['record']: {}"
+                *ngIf="showTable() && getScanReport()['API_Name']=='AlienVault'"></app-alienvault-record-table>
 
             <!-- // Binary Defence -->
-            <app-binary-defence [scanReport]="getScanReport()['record']!= null ? getScanReport()['record']: {}" *ngIf="showTable() && getScanReport()['API_Name']=='Binary Defence Systems Banlist'"></app-binary-defence>
+            <app-binary-defence [scanReport]="getScanReport()['record']!= null ? getScanReport()['record']: {}"
+                *ngIf="showTable() && getScanReport()['API_Name']=='Binary Defence Systems Banlist'"></app-binary-defence>
 
             <!-- // BotVij -->
-            <app-botvij [scanReport]="getScanReport()['record']!= null ? getScanReport()['record']: {}" *ngIf="showTable() && getScanReport()['API_Name']=='BOTVIJ.EU IP List'"></app-botvij>
-            
+            <app-botvij [scanReport]="getScanReport()['record']!= null ? getScanReport()['record']: {}"
+                *ngIf="showTable() && getScanReport()['API_Name']=='BOTVIJ.EU IP List'"></app-botvij>
+
             <!-- // Brute Force Blocker -->
-            <app-bruteforce-blocker [scanReport]="getScanReport()['record']!= null ? getScanReport()['record']: {}" *ngIf="showTable() && getScanReport()['API_Name']=='BruteForce Blocker'"></app-bruteforce-blocker>
-            
+            <app-bruteforce-blocker [scanReport]="getScanReport()['record']!= null ? getScanReport()['record']: {}"
+                *ngIf="showTable() && getScanReport()['API_Name']=='BruteForce Blocker'"></app-bruteforce-blocker>
+
             <!-- // CINS -->
-            <app-cins [scanReport]="getScanReport()['record']!= null ? getScanReport()['record']: {}" *ngIf="showTable() && getScanReport()['API_Name']=='CI Army List'"></app-cins>
-            
+            <app-cins [scanReport]="getScanReport()['record']!= null ? getScanReport()['record']: {}"
+                *ngIf="showTable() && getScanReport()['API_Name']=='CI Army List'"></app-cins>
+
             <!-- // CIRCL -->
-            <app-circl [scanReport]="getScanReport()['record']!= null ? getScanReport()['record']: {}" *ngIf="showTable() && getScanReport()['API_Name']=='CIRCL BGP Ranking'"></app-circl>
-            
+            <app-circl [scanReport]="getScanReport()['record']!= null ? getScanReport()['record']: {}"
+                *ngIf="showTable() && getScanReport()['API_Name']=='CIRCL BGP Ranking'"></app-circl>
+
             <!-- // Honey DB -->
-            <app-honeydb [scanReport]="getScanReport()['record']!= null ? getScanReport()['record']: {}" *ngIf="showTable() && getScanReport()['API_Name']=='HoneyDB'"></app-honeydb>
+            <app-honeydb [scanReport]="getScanReport()['record']!= null ? getScanReport()['record']: {}"
+                *ngIf="showTable() && getScanReport()['API_Name']=='HoneyDB'"></app-honeydb>
 
             <!-- // Maltiverse -->
-            <app-maltiverse [scanReport]="getScanReport()['record']!= null ? getScanReport()['record']: {}" *ngIf="showTable() && getScanReport()['API_Name']=='Maltiverse'"></app-maltiverse>
-            
+            <app-maltiverse [scanReport]="getScanReport()['record']!= null ? getScanReport()['record']: {}"
+                *ngIf="showTable() && getScanReport()['API_Name']=='Maltiverse'"></app-maltiverse>
+
             <!-- // Virus Total -->
-            <app-virustotal [scanReport]="getScanReport()['record']!= null ? getScanReport()['record']: {}" *ngIf="showTable() && getScanReport()['API_Name']=='Virus Total'"></app-virustotal>
-            
+            <app-virustotal [scanReport]="getScanReport()['record']!= null ? getScanReport()['record']: {}"
+                *ngIf="showTable() && getScanReport()['API_Name']=='Virus Total'"></app-virustotal>
+
             <!-- // WhoIS -->
-            <app-whois [scanReport]="getScanReport()['record']!= null ? getScanReport()['record']: {}" *ngIf="showTable() && getScanReport()['API_Name']=='Who Is IP Netblocks'"></app-whois>
+            <app-whois [scanReport]="getScanReport()['record']!= null ? getScanReport()['record']: {}"
+                *ngIf="showTable() && getScanReport()['API_Name']=='Who Is IP Netblocks'"></app-whois>
         </div>
     </ng-container>
 </app-content>

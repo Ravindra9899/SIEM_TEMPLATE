@@ -9,8 +9,9 @@ import { ScannerServiceService } from 'src/app/services/scanner-service.service'
 export class PrevScansComponent implements OnInit {
 
   private allScannersList: string[] = [];
-  public selectedScanner: string = "";
+  public selectedScanner: string = "HoneyDB";
 
+  //bruteforce blocker report 195.133.40.71
   public selectedIp: string = "8.8.8.8";
 
   public startDateUtc = new Date();
@@ -111,7 +112,7 @@ export class PrevScansComponent implements OnInit {
           console.warn(response &&
             Array.isArray(response["data"]));
   
-            console.log(response["data"]);
+            console.log(typeof response["data"]);
           if (
             response &&
             response.hasOwnProperty("message") &&

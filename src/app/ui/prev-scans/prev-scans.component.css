@@ -1,4 +1,4 @@
-.parent{
+.parent {
     color: whitesmoke;
     background-color: #222736;
     margin: 2vh 1vw 2vh 0;
@@ -7,40 +7,37 @@
     height: auto;
 }
 
+.child{
+    margin-top: 5vh;
+    background-color: #222736;
+    padding: 5vh;
+}
+
 .content-child {
-    margin: 5vh 0 5vh 20vw;
-    padding: 5vh 0 5vh 0vw;
+    margin: 5vh auto;
+    padding: 5vh 0;
     text-align: center;
-    justify-content: center;
     width: 30vw;
     background-color: #181c28;
 }
 
-::ng-deep .mat-select-placeholder {
-    color: #a1a1a1;
+.content-child .mat-label {
+    display: inline-block;
+    margin-right: 1rem;
 }
 
-::ng-deep .mat-select-value-text {
-    color: whitesmoke
-}
-
-::ng-deep .mat-option-text {
-    color: whitesmoke;
-}
-
-::ng-deep .mat-select-arrow {
-    color: aquamarine;
-    transform: scale(1.5);
+.content-child input,
+.content-child mat-select {
+    display: inline-block;
+    vertical-align: middle;
+    margin-right: 1rem;
 }
 
 .submit-button-div {
-    width: 8vw;
-    padding-top: 2vh;
-    padding-bottom: 2vh;
-    margin: 0 auto 0 30vw;
+    margin-top: 5vh;
     text-align: center;
-    justify-content: center;
 }
+
 .submit-button-div>button {
     box-shadow: 0.6vw 0.8vh 8px rgba(99, 96, 96, 0.2);
     background-color: #181c28;
@@ -52,8 +49,19 @@
     box-shadow: 0 4px 8px rgba(0, 0, 0, 0.6);
 }
 
-.mat-select {
-    margin-top: 5vh;
-    /* background-color: aliceblue; */
-    padding: 0 2vw 0 2vw;
+::ng-deep .mat-select-placeholder {
+    color: #a1a1a1;
+}
+
+::ng-deep .mat-select-value-text {
+    color: whitesmoke;
+}
+
+::ng-deep .mat-option-text {
+    color: whitesmoke;
+}
+
+::ng-deep .mat-select-arrow {
+    color: aquamarine;
+    transform: scale(1.5);
 }

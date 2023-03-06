@@ -1,1 +1,18 @@
-<p>{{ scanReport | json }}</p>
+<div>
+    <table>
+        <thead>
+            <tr>
+                <th>Date</th>
+                <th>Event Count</th>
+                <th>Service</th>
+            </tr>
+        </thead>
+        <tbody class="tbody">
+            <tr *ngFor="let entry of this.sortedScanReport">
+                <td>{{ entry['date'] != null ? entry['date'] : "" }}</td>
+                <td>{{ entry['event_count'] != null ? entry['event_count'] : "" }}</td>
+                <td>{{ entry['service'] != null ? entry['service'] : "" }}</td>
+            </tr>
+        </tbody>
+    </table>
+</div>
