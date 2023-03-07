@@ -35,14 +35,26 @@ export class ConfigurationComponent implements OnInit {
 
   createFormGroups() {
     this.forms = {
+      "Abuse IPDB": this.formBuilder.group({
+        newApiKey: [''],
+      }),
+      "AlienVault": this.formBuilder.group({
+        newApiKey: [''],
+      }),
+      "HoneyDB": this.formBuilder.group({
+        newApiId: [''],
+        newApiKey: [''],
+      }),
+      "Maltiverse": this.formBuilder.group({
+        newBearerToken: [''],
+      }),
       "Virus Total": this.formBuilder.group({
-        newApiKey: ['']
+        newApiKey: [''],
       }),
       "Who Is IP Netblocks": this.formBuilder.group({
         newApiKey: [''],
       }),
     };
-
   }
 
   /**
@@ -80,7 +92,7 @@ export class ConfigurationComponent implements OnInit {
           response["message"].toString() == "success" &&
           response["data"] != null) {
           this.availableApis = response["data"];
-          console.log("Active scanners :", this.availableApis);
+          console.log("Active scanners :", typeof this.availableApis);
         }
       },
       "error": (err) => {
@@ -123,6 +135,60 @@ export class ConfigurationComponent implements OnInit {
     if (idOfApi < this.availableApis.length) {
       this.showEditor = true;
       this.currentIdOfApi = idOfApi;
+
+      switch (this.availableApis[this.currentIdOfApi]['API_Name']) {
+
+        case "Abuse IPDB":
+          this.forms['Abuse IPDB'].setValue(
+            {
+              newApiKey: this.availableApis[this.currentIdOfApi]['config']['Key']
+            }
+          );
+          break;
+
+        case "AlienVault":
+          this.forms['AlienVault'].setValue(
+            {
+              newApiKey: this.availableApis[this.currentIdOfApi]['config']['api_otx_key']
+            }
+          );
+          break;
+
+        case "HoneyDB":
+          this.forms['HoneyDB'].setValue(
+            {
+              newApiId: this.availableApis[this.currentIdOfApi]['config']['api_id'],
+              newApiKey: this.availableApis[this.currentIdOfApi]['config']['api_key']
+            }
+          );
+          break;
+
+        case "Maltiverse":
+          this.forms['Maltiverse'].setValue(
+            {
+              newBearerToken: this.availableApis[this.currentIdOfApi]['config']['bearerToken'],
+            }
+          );
+          break;
+
+        case "Virus Total":
+          this.forms['Virus Total'].setValue(
+            {
+              newApiKey: this.availableApis[this.currentIdOfApi]['config']['api_key'],
+            }
+          )
+          break;
+
+        case "Who Is IP Netblocks":
+          this.forms['Who Is IP Netblocks'].setValue(
+            {
+              newApiKey: this.availableApis[this.currentIdOfApi]['config']['apiKey'],
+            }
+          )
+          break;
+
+        default: break;
+      }
     }
   }
 
@@ -183,6 +249,135 @@ export class ConfigurationComponent implements OnInit {
       console.log(`Entered value for form ${apiName}`, formValues);
 
       switch (apiName) {
+        case "Abuse IPDB":
+          if (
+            formValues.hasOwnProperty("newApiKey") &&
+            formValues["newApiKey"] != null &&
+            formValues["newApiKey"] != false &&
+            formValues["newApiKey"] != ""
+          ) {
+            let config = {
+              "Key": formValues['newApiKey']
+            }
+
+            this.scanService.updateConfigurationOfScanner(
+              config,
+              "Abuse IPDB",
+              this.availableApis[this.currentIdOfApi]['status']
+            ).subscribe({
+              error: (err) => {
+                console.error("Error in updating config for Abuse IPDB " + err);
+              },
+              next: (response) => {
+                console.log("Abuse IPDB Update ", response.status);
+                if (response.hasOwnProperty("message") && response['message'] == "success") {
+                  console.log("Scan config updated");
+                }
+              }
+            });
+          } else {
+            this.openDialog(`<h5 style="color: white;">The entered API Key is not valid</h5>`);
+          }
+          break;
+
+        case "AlienVault":
+          if (
+            formValues.hasOwnProperty("newApiKey") &&
+            formValues["newApiKey"] != null &&
+            formValues["newApiKey"] != false &&
+            formValues["newApiKey"] != ""
+          ) {
+            let config = {
+              "api_otx_key": formValues['newApiKey']
+            }
+
+            this.scanService.updateConfigurationOfScanner(
+              config,
+              "AlienVault",
+              this.availableApis[this.currentIdOfApi]['status']
+            ).subscribe({
+              error: (err) => {
+                console.error("Error in updating config for AlienVault " + err);
+              },
+              next: (response) => {
+                console.log("AlienVault Update ", response.status);
+                if (response.hasOwnProperty("message") && response['message'] == "success") {
+                  console.log("Scan config updated");
+                }
+              }
+            });
+          } else {
+            this.openDialog(`<h5 style="color: white;">The entered API Key is not valid</h5>`);
+          }
+          break;
+
+        case "HoneyDB":
+          if (
+            formValues.hasOwnProperty("newApiKey") &&
+            formValues["newApiKey"] != null &&
+            formValues["newApiKey"] != false &&
+            formValues["newApiKey"] != "" &&
+            formValues.hasOwnProperty("newApiId") &&
+            formValues["newApiId"] != null &&
+            formValues["newApiId"] != false &&
+            formValues["newApiId"] != ""
+          ) {
+            let config = {
+              "api_key": formValues['newApiKey'],
+              "api_id": formValues['newApiId']
+            }
+
+            this.scanService.updateConfigurationOfScanner(
+              config,
+              "HoneyDB",
+              this.availableApis[this.currentIdOfApi]['status']
+            ).subscribe({
+              error: (err) => {
+                console.error("Error in updating config for HoneyDB " + err);
+              },
+              next: (response) => {
+                console.log("HoneyDB Update ", response.status);
+                if (response.hasOwnProperty("message") && response['message'] == "success") {
+                  console.log("Scan config updated");
+                }
+              }
+            });
+          } else {
+            this.openDialog(`<h5 style="color: white;">The entered API Id/Key is not valid</h5>`);
+          }
+          break;
+
+        case "Maltiverse":
+          if (
+            formValues.hasOwnProperty('newBearerToken') &&
+            formValues["newBearerToken"] != null &&
+            formValues["newBearerToken"] != false &&
+            formValues["newBearerToken"] != ""
+          ) {
+            let config = {
+              "bearerToken": formValues['newBearerToken'].toString()
+            };
+
+            this.scanService.updateConfigurationOfScanner(
+              config,
+              "Maltiverse",
+              this.availableApis[this.currentIdOfApi]['status']
+            ).subscribe({
+              error: (err) => {
+                console.error("Error in updating config for Maltiverse " + err);
+              },
+              next: (response) => {
+                console.info("Maltiverse Update ", response.status);
+                if (response.hasOwnProperty("message") && response['message'] == "success") {
+                  console.log("Scan config updated");
+                }
+              }
+            });
+          } else {
+            this.openDialog(`<h5 style="color: white;">The entered API Key is not valid</h5>`);
+          }
+          break;
+
         case "Virus Total":
           if (
             formValues.hasOwnProperty("newApiKey") &&
@@ -197,7 +392,7 @@ export class ConfigurationComponent implements OnInit {
             this.scanService.updateConfigurationOfScanner(
               config,
               "Virus Total",
-              this.availableApis[0]['status']
+              this.availableApis[this.currentIdOfApi]['status']
             ).subscribe({
               error: (err) => {
                 console.error("Error in updating config for VT " + err);
@@ -209,11 +404,11 @@ export class ConfigurationComponent implements OnInit {
                 }
               }
             });
-
           } else {
             this.openDialog(`<h5 style="color: white;">The entered API Key is not valid</h5>`);
           }
           break;
+
         case "Who Is IP Netblocks":
           if (
             formValues.hasOwnProperty("newApiKey") &&
@@ -228,7 +423,7 @@ export class ConfigurationComponent implements OnInit {
             this.scanService.updateConfigurationOfScanner(
               config,
               "Who Is IP Netblocks",
-              this.availableApis[0]['status']
+              this.availableApis[this.currentIdOfApi]['status']
             ).subscribe({
               error: (err) => {
                 console.error("Error in updating config for VT " + err);
@@ -244,6 +439,7 @@ export class ConfigurationComponent implements OnInit {
             this.openDialog(`<h5 style="color: white;">The entered API Key is not valid</h5>`);
           }
           break;
+
         default:
           break;
       }
@@ -251,12 +447,12 @@ export class ConfigurationComponent implements OnInit {
     }
   }
 
-  showScannerView(api: Record<string, any>):boolean{
-    if(api["config"]!= null) return true;
+  showScannerView(api: Record<string, any>): boolean {
+    if (api["config"] != null) return true;
     return false;
   }
-  showScannerEdit(api: Record<string, any>):boolean{
-    if(Object.keys(api["config"]).length>0) return true;
+  showScannerEdit(api: Record<string, any>): boolean {
+    if (Object.keys(api["config"]).length > 0) return true;
     return false;
   }
 }

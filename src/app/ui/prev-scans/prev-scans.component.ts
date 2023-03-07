@@ -60,7 +60,7 @@ export class PrevScansComponent implements OnInit {
         console.info("Subscribe scan report completed")
       },
       next: (response) => {
-        console.log("set all scanners subscribe",response["data"]);
+        console.log("set all scanners subscribe", typeof response["data"]);
 
         if(
           response &&
@@ -73,7 +73,7 @@ export class PrevScansComponent implements OnInit {
           response['data'] != false &&
           Array.isArray(response["data"])
         ){
-          console.info("All Scanners are ", response["data"]);
+          console.info("All Scanners are ", typeof response["data"]);
           this.allScannersList = response["data"].map(scanner => scanner["API_Name"]);
         }
       }

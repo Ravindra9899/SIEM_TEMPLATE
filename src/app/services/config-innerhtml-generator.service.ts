@@ -192,7 +192,7 @@ export class ConfigInnerhtmlGeneratorService {
           <table>
             <tr>
               <th>Auth Token: </th>
-              <td>${api_data['config']['bearer_token']}</td>
+              <td>${api_data['config']['bearerToken']}</td>
             </tr>
             <tr>
               <th>Created :</th>

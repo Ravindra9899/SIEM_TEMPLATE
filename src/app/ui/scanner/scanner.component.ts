@@ -102,7 +102,7 @@ export class ScannerComponent implements OnInit {
           response["message"].toString() == "success" &&
           response["data"] != null) {
           this.scanOptions = response["data"];
-          console.log("Active scanners :", this.scanOptions);
+          console.log("Active scanners :", typeof this.scanOptions);
           
         }
       },
