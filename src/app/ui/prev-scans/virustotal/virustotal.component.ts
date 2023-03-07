@@ -14,7 +14,7 @@ export class VirustotalComponent implements OnInit {
   ngOnInit(): void {
     console.log(typeof this.scanReport['crowdsourced_context']);
     console.log(typeof this.scanReport['last_analysis_results']);
-    console.log(this.scanReport['last_analysis_stats']);
+    console.log(typeof this.scanReport['last_analysis_stats']);
     console.log(this.scanReport['last_https_certificate']);
     console.log(typeof this.scanReport['total_votes']);
   }
