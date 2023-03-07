@@ -1,1 +1,178 @@
-<p>{{ scanReport | json }}</p>
+<div>
+    <ng-container>
+        <div class="child-div">
+            <span><strong>Last Analysis Statistics</strong></span>
+            <ng-container *ngIf="showField('last_analysis_stats')">
+                <table>
+                    <thead>
+                        <tr>
+                            <th>Harmless</th>
+                            <th>Malicious</th>
+                            <th>Suspicious</th>
+                            <th>Undetected</th>
+                            <th>Timeout</th>
+                        </tr>
+                    </thead>
+                </table>
+            </ng-container>
+        </div>
+        <div class="child-div">
+            <table>
+                <tr>
+                    <th>AS Owner</th>
+                    <td>{{ scanReport['as_owner'] }}</td>
+                </tr>
+                <tr>
+                    <th>ASN</th>
+                    <td>{{ scanReport['asn'] }}</td>
+                </tr>
+                <tr>
+                    <th>Continent</th>
+                    <td>{{ scanReport['continent'] }}</td>
+                </tr>
+                <tr>
+                    <th>Country</th>
+                    <td>{{ scanReport['country'] }}</td>
+                </tr>
+                <tr>
+                    <th>Jarm</th>
+                    <td>{{ scanReport['jarm'] }}</td>
+                </tr>
+                <tr>
+                    <th>Last Analysed at</th>
+                    <td>
+                        {{ scanReport['last_analysis_date'] && scanReport['last_analysis_date'] != null ?
+                        dateConverter(scanReport['last_analysis_date']) : ""}}
+                    </td>
+                </tr>
+                <tr>
+                    <th>last_https_certificate_date</th>
+                    <td>{{ scanReport['last_https_certificate_date'] && scanReport['last_https_certificate_date']!=null
+                        ? dateConverter(scanReport['last_https_certificate_date']): "" }}</td>
+                </tr>
+                <tr>
+                    <th>last_modification_date</th>
+                    <td>{{ scanReport['last_modification_date'] && scanReport['last_modification_date']!= null ?
+                        dateConverter(scanReport['last_modification_date']) : "" }}</td>
+                </tr>
+                <tr>
+                    <th>Network</th>
+                    <td>{{ scanReport['network'] }}</td>
+                </tr>
+                <tr>
+                    <th>regional_internet_registry</th>
+                    <td>{{ scanReport['regional_internet_registry'] }}</td>
+                </tr>
+                <tr>
+                    <th>Reputation</th>
+                    <td>{{ scanReport['reputation'] }}</td>
+                </tr>
+                <tr>
+                    <th>whois</th>
+                    <td>{{ scanReport['whois'] }}</td>
+                </tr>
+                <tr>
+                    <th>Whois Date</th>
+                    <td>{{ scanReport['whois_date'] && scanReport['whois_date']!=null ?
+                        dateConverter(scanReport['whois_date']) :"" }}</td>
+                </tr>
+                <tr>
+                    <th>Tags</th>
+                    <td *ngIf="showField('tags') && !isDictionary(scanReport['tags']) && scanReport['tags'].length">
+                        <mat-chip-list>
+                            <mat-chip [removable]="false" *ngFor="let tag of scanReport['tags']">
+                                {{ tag }}
+                            </mat-chip>
+                        </mat-chip-list>
+                    </td>
+                </tr>
+                <tr>
+                    <th>Total Votes</th>
+                    <td>
+                        <table *ngIf="showField('total_votes')">
+                            <tr *ngFor="let key of getObjectKeys(scanReport['total_votes'])">
+                                <th>
+                                    {{ key | titlecase }}
+                                </th>
+                                <td>
+                                    {{ scanReport['total_votes'][key] }}
+                                </td>
+                            </tr>
+                        </table>
+                    </td>
+                </tr>
+            </table>
+        </div>
+        <div class="child-div">
+            <span><strong>Crowd Sourced Context</strong></span>
+            <br>
+            <div *ngIf="showField('crowdsourced_context')" class="child-div">
+                <table>
+                    <tr *ngFor="let context of scanReport['crowdsourced_context']">
+                        <th>Title</th>
+                        <td>{{ context['title'] }}</td>
+                    </tr>
+                    <tr *ngFor="let context of scanReport['crowdsourced_context']">
+                        <th>Detail</th>
+                        <td>{{ context['detail'] }}</td>
+                    </tr>
+                    <tr *ngFor="let context of scanReport['crowdsourced_context']">
+                        <th>Severity</th>
+                        <td>{{ context['severity'] }}</td>
+                    </tr>
+                    <tr *ngFor="let context of scanReport['crowdsourced_context']">
+                        <th>Source</th>
+                        <td>{{ context['source'] }}</td>
+                    </tr>
+                    <tr *ngFor="let context of scanReport['crowdsourced_context']">
+                        <th>Timestamp</th>
+                        <td>{{ context['timestamp'] && context['timestamp']!= null? dateConverter(context['timestamp'])
+                            : "" }}</td>
+                    </tr>
+                </table>
+            </div>
+        </div>
+        <div class="child-div">
+            <span><strong>Last Analysis Results</strong></span>
+            <ng-container *ngIf="showField('last_analysis_results')">
+                <ul>
+                    <li *ngFor="let resultKey of getObjectKeys(scanReport['last_analysis_results'])">
+                        {{ resultKey }}
+                        <br>
+                        <table style="background-color: #181c28;">
+                            <thead>
+                                <tr>
+                                    <th>Category</th>
+                                    <th>Engine Name</th>
+                                    <th>Method</th>
+                                    <th>Result</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr>
+                                    <td
+                                        [ngStyle]="{color: scanReport['last_analysis_results'][resultKey]['category']=='harmless' || scanReport['last_analysis_results'][resultKey]['category']=='undetected'?'green': scanReport['last_analysis_results'][resultKey]['category']=='malicious'?'red':'orange'}">
+                                        {{ scanReport['last_analysis_results'][resultKey]['category'] | titlecase }}
+                                    </td>
+                                    <td
+                                        [ngStyle]="{color: scanReport['last_analysis_results'][resultKey]['category']=='harmless' || scanReport['last_analysis_results'][resultKey]['category']=='undetected'?'green': scanReport['last_analysis_results'][resultKey]['category']=='malicious'?'red':'orange'}">
+                                        {{ scanReport['last_analysis_results'][resultKey]['engine_name'] | titlecase }}
+                                    </td>
+                                    <td
+                                        [ngStyle]="{color: scanReport['last_analysis_results'][resultKey]['category']=='harmless' || scanReport['last_analysis_results'][resultKey]['category']=='undetected'?'green': scanReport['last_analysis_results'][resultKey]['category']=='malicious'?'red':'orange'}">
+                                        {{ scanReport['last_analysis_results'][resultKey]['method'] | titlecase }}
+                                    </td>
+                                    <td
+                                        [ngStyle]="{color: scanReport['last_analysis_results'][resultKey]['result']=='clean'?'green': scanReport['last_analysis_results'][resultKey]['result']=='unrated'?'yellow':'red'}">
+                                        {{ scanReport['last_analysis_results'][resultKey]['result'] | titlecase }}
+                                    </td>
+                                </tr>
+                            </tbody>
+                        </table>
+                        <br>
+                    </li>
+                </ul>
+            </ng-container>
+        </div>
+    </ng-container>
+</div>

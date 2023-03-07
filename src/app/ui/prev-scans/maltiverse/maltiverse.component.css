@@ -1,0 +1,14 @@
+div{
+    color: whitesmoke;
+}
+
+table{
+    border-collapse: collapse;
+}
+
+th, td{
+    border: 1px solid white;
+    padding-left: 10px;
+    padding-top: 4px;
+    padding-bottom: 4px;
+}

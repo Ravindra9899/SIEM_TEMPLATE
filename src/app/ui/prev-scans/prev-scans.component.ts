@@ -9,7 +9,7 @@ import { ScannerServiceService } from 'src/app/services/scanner-service.service'
 export class PrevScansComponent implements OnInit {
 
   private allScannersList: string[] = [];
-  public selectedScanner: string = "HoneyDB";
+  public selectedScanner: string = "Virus Total";
 
   //bruteforce blocker report 195.133.40.71
   public selectedIp: string = "8.8.8.8";
