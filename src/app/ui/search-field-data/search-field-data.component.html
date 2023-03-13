@@ -1,0 +1,12 @@
+<app-content>
+  <ng-container class="inner-dynamic-content">
+    <div class="container">
+      <!--Using items input-->
+      <ng-select [items]="cars"
+                bindLabel="name"
+                bindValue="id"
+                [(ngModel)]="selectedCar">
+      </ng-select>
+    </div>
+  </ng-container>
+</app-content>

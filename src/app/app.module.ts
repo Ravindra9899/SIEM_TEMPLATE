@@ -7,10 +7,17 @@ import { DashboardComponent } from './dashboard/dashboard.component';
 import { TemplatePartsModule } from './template-parts/template-parts.module';
 import { IpNetworkGraphComponent } from './ui/ip-network-graph/ip-network-graph.component';
 import { AmChartsGraphComponent } from './ui/ip-network-graph/am-charts-graph/am-charts-graph.component';
-import { FormsModule } from '@angular/forms';
+import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { HttpClientModule } from '@angular/common/http';
 import { ConfigurationComponent } from './ui/configuration/configuration.component';
-import { MatDialogModule } from '@angular/material/dialog'
+import { SearchFieldDataComponent } from './ui/search-field-data/search-field-data.component';
+
+import { MatDialogModule } from '@angular/material/dialog';
+import { MatSelectModule } from '@angular/material/select';
+import { NgxMatSelectSearchModule } from 'ngx-mat-select-search';
+import { MatAutocompleteModule }  from '@angular/material/autocomplete';
+
+import { NgSelectModule } from '@ng-select/ng-select';
 
 @NgModule({
   declarations: [
@@ -18,7 +25,8 @@ import { MatDialogModule } from '@angular/material/dialog'
     DashboardComponent,
     IpNetworkGraphComponent,
     AmChartsGraphComponent,
-    ConfigurationComponent
+    ConfigurationComponent,
+    SearchFieldDataComponent
   ],
   imports: [
     BrowserModule,
@@ -27,7 +35,12 @@ import { MatDialogModule } from '@angular/material/dialog'
     BrowserAnimationsModule,
     FormsModule,
     HttpClientModule,
-    MatDialogModule
+    MatDialogModule,
+    MatSelectModule,
+    MatAutocompleteModule,
+    NgxMatSelectSearchModule,
+    ReactiveFormsModule,
+    NgSelectModule,
   ],
   providers: [],
   bootstrap: [AppComponent]

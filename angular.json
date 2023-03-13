@@ -36,7 +36,8 @@
               "src/assets/theme/dist/css/custom-utilities.css",
               "src/assets/theme/dist/css/skins/_all-skins.min.css",
               "src/assets/theme/bower_components/font-awesome/css/font-awesome.min.css",
-              "./node_modules/bootstrap/dist/css/bootstrap.min.css"
+              "./node_modules/bootstrap/dist/css/bootstrap.min.css",
+              "./node_modules/@ng-select/ng-select/themes/default.theme.css"
             ],
             "stylePreprocessorOptions": {
               "includePaths": [
@@ -50,7 +51,7 @@
               "src/assets/theme/dist/js/Adminlte.min.js",
               "src/assets/theme/dist/js/demo.js",
               "src/assets/theme/dist/js/Adminlte.min.js"
-              
+
             ]
           },
           "configurations": {
