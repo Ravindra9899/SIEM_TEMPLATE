@@ -1,7 +1,7 @@
 import { HttpClient, HttpErrorResponse } from '@angular/common/http';
 import { Injectable } from '@angular/core';
-import { catchError, Observable, of, throwError } from 'rxjs';
-import { environment } from 'src/environments/environment';
+import { Observable, of, throwError } from 'rxjs';
+import { catchError } from 'rxjs/operators';
 
 @Injectable({
   providedIn: 'root'
@@ -19,7 +19,7 @@ export class IpListService {
 
     return this.httpClient.get(uri)
       .pipe(
-        catchError((err) => {
+        catchError((err: Error) => {
           console.error("Error in read scan reports for ip and api date range service");
           if (err instanceof HttpErrorResponse) {
             if (err.status === 401 || err.status === 403) {

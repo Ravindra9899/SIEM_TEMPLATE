@@ -34,6 +34,7 @@ import { VirustotalComponent } from './ui/prev-scans/virustotal/virustotal.compo
 import { WhoisComponent } from './ui/prev-scans/whois/whois.component';
 import { ScannedIpListComponent } from './views/scanned-ip-list/scanned-ip-list.component';
 import { ScannedUrlsListComponent } from './views/scanned-urls-list/scanned-urls-list.component';
+import { DataTablesModule } from 'angular-datatables';
 
 
 @NgModule({
@@ -75,6 +76,7 @@ import { ScannedUrlsListComponent } from './views/scanned-urls-list/scanned-urls
     MatProgressSpinnerModule,
     MatSelectModule,
     MatChipsModule,
+    DataTablesModule,
   ],
   providers: [],
   bootstrap: [AppComponent]

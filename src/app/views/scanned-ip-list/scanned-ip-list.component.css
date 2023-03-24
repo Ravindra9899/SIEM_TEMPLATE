@@ -1,0 +1,14 @@
+div {
+    color: whitesmoke;
+    text-align: center;
+    font-size: 14px;
+}
+
+i {
+    color: whitesmoke;
+}
+
+.action-div {
+    display: inline-block;
+    margin: 0 0.5vw;
+}

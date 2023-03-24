@@ -3,7 +3,6 @@ import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Observable, of, Subject } from 'rxjs';
 import { catchError } from "rxjs/operators";
 import { ScanStatusService } from './scan-status.service';
-import { environment } from 'src/environments/environment';
 
 @Injectable({
   providedIn: 'root'

@@ -1,5 +1,44 @@
 <div>
     <p>
-        Recently Scanned.
+        Recently Scanned Count Total : {{ getRecords().length }}
     </p>
+    <div>
+        <table datatable [dtOptions]="dtOptions" [dtTrigger]="dtTrigger" class="table">
+            <thead>
+                <tr>
+                    <td>S.No.</td>
+                    <td>Record Id</td>
+                    <td>Target IP Address</td>
+                    <td>Scanned On</td>
+                    <td>Updated On</td>
+                    <td>Actions</td>
+                </tr>
+            </thead>
+            <tbody>
+                <tr *ngFor="let record of getRecords()">
+                    <td>{{ getRecords().indexOf(record) + 1 }}</td>
+                    <td>{{ record['scanReportId'] }}</td>
+                    <td style="color: rgb(233, 194, 87)">{{ record['ipAddress'] }}</td>
+                    <td>{{ record['createdAt'] | date:'MMM dd, yyyy' }}</td>
+                    <td>{{ record['updatedAt'] | date:'MMM dd, yyyy'}}</td>
+                    <td>
+                        <div style="display: inline;">
+                            <div class="action-div">
+                                <i class="fa fa-eye" (click)="viewRecordReport(record)">
+                                </i>
+                            </div>
+                            <div class="action-div" (click)="downloadRecordReport(record)">
+                                <i class="fa fa-file-pdf-o">
+                                </i>
+                            </div>
+                            <!-- <div class="action-div">
+                                <i class="fa fa-trash" style="color: red;">
+                                </i>
+                            </div> -->
+                        </div>
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+    </div>
 </div>
