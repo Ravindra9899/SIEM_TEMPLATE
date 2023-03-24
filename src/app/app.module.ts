@@ -32,6 +32,8 @@ import { HoneydbComponent } from './ui/prev-scans/honeydb/honeydb.component';
 import { MaltiverseComponent } from './ui/prev-scans/maltiverse/maltiverse.component';
 import { VirustotalComponent } from './ui/prev-scans/virustotal/virustotal.component';
 import { WhoisComponent } from './ui/prev-scans/whois/whois.component';
+import { ScannedIpListComponent } from './views/scanned-ip-list/scanned-ip-list.component';
+import { ScannedUrlsListComponent } from './views/scanned-urls-list/scanned-urls-list.component';
 
 
 @NgModule({
@@ -54,6 +56,8 @@ import { WhoisComponent } from './ui/prev-scans/whois/whois.component';
     MaltiverseComponent,
     VirustotalComponent,
     WhoisComponent,
+    ScannedIpListComponent,
+    ScannedUrlsListComponent,
   ],
   imports: [
     BrowserModule,
