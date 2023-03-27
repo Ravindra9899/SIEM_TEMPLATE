@@ -35,22 +35,24 @@ export class ScannedIpListComponent implements AfterViewInit, OnInit, OnDestroy 
       pagingType: 'full_numbers',
       pageLength: 10,
       processing: true,
+      searching: true,
+      lengthChange: true,
+      jQueryUI: true,
       language: {
-        emptyTable: 'No data available in table',
-        info: 'Showing _START_ to _END_ of _TOTAL_ entries',
-        infoEmpty: 'Showing 0 to 0 of 0 entries',
-        infoFiltered: '(filtered from _MAX_ total entries)',
-        lengthMenu: 'Show _MENU_ entries',
-        search: 'Search:',
-        zeroRecords: 'No matching records found'
+        // emptyTable: 'No data available in table',
+        // info: 'Showing _START_ to _END_ of _TOTAL_ entries',
+        // infoEmpty: 'Showing 0 to 0 of 0 entries',
+        // infoFiltered: '(filtered from _MAX_ total entries)',
+        lengthMenu: 'Show _MENU_ records',
+        search: '_INPUT_',
+        searchPlaceholder: 'Search...',
+        // zeroRecords: 'No matching records found'
       },
-      columns: [
-        { title: 'IP Address', data: 'ipAddress' },
-        { title: 'Scan Report ID', data: 'scanReportId' },
-        { title: 'Created At', data: 'createdAt' },
-        { title: 'Updated At', data: 'updatedAt' }
-      ],
-      order: [[2, 'asc']]
+      order: [[2, 'asc']],
+      dom: 'Bfrtip',
+      // buttons: [
+      //   'copy', 'csv', 'excel', 'pdf', 'print'
+      // ]
     };
   }
 
@@ -95,14 +97,17 @@ export class ScannedIpListComponent implements AfterViewInit, OnInit, OnDestroy 
   }
 
   viewRecordReport(record: Record<string, any>): void {
+    console.log("the record view ", this.records.indexOf(record));
 
   }
 
   downloadRecordReport(record: Record<string, any>): void {
+    console.log("the record download ", this.records.indexOf(record));
+
 
   }
 
   deleteRecordReport(record: Record<string, any>): void {
-
+    console.log("the record delete ", this.records.indexOf(record));
   }
 }
