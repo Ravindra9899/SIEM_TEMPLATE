@@ -1,6 +1,6 @@
 div {
     color: whitesmoke;
-    text-align: center;
+    text-align: left;
     font-size: 14px;
 }
 
@@ -11,4 +11,8 @@ i {
 .action-div {
     display: inline-block;
     margin: 0 0.5vw;
+}
+
+.mat-form-field-appearance-fill .mat-form-field-flex input {
+    color: whitesmoke;
 }

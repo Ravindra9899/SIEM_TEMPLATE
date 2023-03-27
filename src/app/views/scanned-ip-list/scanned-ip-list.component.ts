@@ -1,6 +1,6 @@
 import { Component, AfterViewInit, OnDestroy, OnInit, ViewChild } from '@angular/core';
 import { Subject } from 'rxjs';
-import { DataTableDirective } from 'angular-datatables';
+// import { DataTableDirective } from 'angular-datatables';
 
 
 import { IpListService } from 'src/app/services/views/ip-list.service';
@@ -12,10 +12,10 @@ import { IpListService } from 'src/app/services/views/ip-list.service';
 })
 export class ScannedIpListComponent implements AfterViewInit, OnInit, OnDestroy {
 
-  @ViewChild(DataTableDirective, { static: true })
-  datatableElement!: DataTableDirective;
-  dtOptions: DataTables.Settings = {};
-  dtTrigger: Subject<any> = new Subject();
+  // @ViewChild(DataTableDirective, { static: true })
+  // datatableElement!: DataTableDirective;
+  dtOptions: any = {};
+  // dtTrigger: Subject<any> = new Subject();
 
 
   private records: any[] = [];
@@ -27,7 +27,7 @@ export class ScannedIpListComponent implements AfterViewInit, OnInit, OnDestroy 
   }
 
   ngOnDestroy(): void {
-    this.dtTrigger.unsubscribe();
+    // this.dtTrigger.unsubscribe();
   }
 
   ngOnInit(): void {
@@ -40,20 +40,26 @@ export class ScannedIpListComponent implements AfterViewInit, OnInit, OnDestroy 
       jQueryUI: true,
       language: {
         // emptyTable: 'No data available in table',
-        // info: 'Showing _START_ to _END_ of _TOTAL_ entries',
-        // infoEmpty: 'Showing 0 to 0 of 0 entries',
-        // infoFiltered: '(filtered from _MAX_ total entries)',
+        info: 'Showing _START_ to _END_ of _TOTAL_ entries',
+        infoEmpty: 'Showing 0 to 0 of 0 entries',
+        infoFiltered: '(filtered from _MAX_ total entries)',
         lengthMenu: 'Show _MENU_ records',
         search: '_INPUT_',
         searchPlaceholder: 'Search...',
-        // zeroRecords: 'No matching records found'
+        zeroRecords: 'No matching records found'
       },
       order: [[2, 'asc']],
       dom: 'Bfrtip',
-      // buttons: [
-      //   'copy', 'csv', 'excel', 'pdf', 'print'
-      // ]
+      buttons: [
+        'copy', 'csv', 'excel', 'pdf', 'print'
+      ]
     };
+
+    $(document).ready(function () {
+      let variable = $('#example').DataTable({
+        responsive: true
+      })
+    });
   }
 
   ngAfterViewInit(): void {
@@ -71,8 +77,6 @@ export class ScannedIpListComponent implements AfterViewInit, OnInit, OnDestroy 
               Array.isArray(response.data)
             ) {
               this.records = response['data'];
-              // this.dtTrigger.next();
-              this.rerenderDatatable();
             }
           },
           error: (err) => {
@@ -83,17 +87,6 @@ export class ScannedIpListComponent implements AfterViewInit, OnInit, OnDestroy 
           },
         }
       );
-  }
-
-  rerenderDatatable(): void {
-    if (this.datatableElement && this.datatableElement.dtInstance) {
-      this.datatableElement.dtInstance.then((dtInstance: DataTables.Api) => {
-        // Destroy the table first
-        dtInstance.destroy();
-        // Call the dtTrigger to rerender again
-        this.dtTrigger.next();
-      });
-    }
   }
 
   viewRecordReport(record: Record<string, any>): void {
