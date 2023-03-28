@@ -35,6 +35,7 @@ import { WhoisComponent } from './ui/prev-scans/whois/whois.component';
 import { ScannedIpListComponent } from './views/scanned-ip-list/scanned-ip-list.component';
 import { ScannedUrlsListComponent } from './views/scanned-urls-list/scanned-urls-list.component';
 import { DataTablesModule } from 'angular-datatables';
+import { SingleViewComponent } from './views/scanned-ip-list/single-view/single-view.component';
 
 
 @NgModule({
@@ -59,6 +60,7 @@ import { DataTablesModule } from 'angular-datatables';
     WhoisComponent,
     ScannedIpListComponent,
     ScannedUrlsListComponent,
+    SingleViewComponent,
   ],
   imports: [
     BrowserModule,

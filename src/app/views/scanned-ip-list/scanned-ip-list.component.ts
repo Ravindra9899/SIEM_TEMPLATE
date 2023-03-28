@@ -1,7 +1,4 @@
-import { Component, AfterViewInit, OnDestroy, OnInit, ViewChild } from '@angular/core';
-import { Subject } from 'rxjs';
-// import { DataTableDirective } from 'angular-datatables';
-
+import { Component, AfterViewInit, OnDestroy, OnInit } from '@angular/core';
 
 import { IpListService } from 'src/app/services/views/ip-list.service';
 
@@ -17,6 +14,7 @@ export class ScannedIpListComponent implements AfterViewInit, OnInit, OnDestroy 
   dtOptions: any = {};
   // dtTrigger: Subject<any> = new Subject();
 
+  private singleViewUrl = '/single-view?ipAddress=';
 
   private records: any[] = [];
 
@@ -39,20 +37,20 @@ export class ScannedIpListComponent implements AfterViewInit, OnInit, OnDestroy 
       lengthChange: true,
       jQueryUI: true,
       language: {
-        // emptyTable: 'No data available in table',
+        emptyTable: '',
         info: 'Showing _START_ to _END_ of _TOTAL_ entries',
-        infoEmpty: 'Showing 0 to 0 of 0 entries',
-        infoFiltered: '(filtered from _MAX_ total entries)',
-        lengthMenu: 'Show _MENU_ records',
+        // infoEmpty: 'Showing 0 to 0 of 0 entries',
+        // lengthMenu: 'Show _MENU_ records',
+        lengthMenu: '',
         search: '_INPUT_',
         searchPlaceholder: 'Search...',
-        zeroRecords: 'No matching records found'
+        zeroRecords: ''
       },
       order: [[2, 'asc']],
-      dom: 'Bfrtip',
-      buttons: [
-        'copy', 'csv', 'excel', 'pdf', 'print'
-      ]
+      // dom: 'Bfrtip',
+      // buttons: [
+      //   'copy', 'csv', 'excel', 'pdf', 'print'
+      // ]
     };
 
     $(document).ready(function () {
@@ -92,6 +90,9 @@ export class ScannedIpListComponent implements AfterViewInit, OnInit, OnDestroy 
   viewRecordReport(record: Record<string, any>): void {
     console.log("the record view ", this.records.indexOf(record));
 
+    this.singleViewUrl = this.singleViewUrl + record['ipAddress'];
+
+    window.open(this.singleViewUrl, '_blank');
   }
 
   downloadRecordReport(record: Record<string, any>): void {

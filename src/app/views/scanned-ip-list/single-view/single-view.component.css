@@ -1,0 +1,11 @@
+div {
+    color: whitesmoke;
+    /* text-align: left; */
+    background-color: #222736;
+    margin: 2vh 2vw;
+    padding: 2vh 2vw;
+}
+
+.asn-div {
+    text-align: center;
+}
