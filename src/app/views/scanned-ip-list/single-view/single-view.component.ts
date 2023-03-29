@@ -1,5 +1,9 @@
-import { Component, ElementRef, OnInit } from '@angular/core';
+import { Component, ElementRef, OnInit, ViewChild } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
+
+import * as pdfMake from 'pdfmake/build/pdfmake';
+import * as pdfFonts from 'pdfmake/build/vfs_fonts';
+
 import { ReaderService } from 'src/app/services/reader.service';
 
 @Component({
@@ -9,12 +13,17 @@ import { ReaderService } from 'src/app/services/reader.service';
 })
 export class SingleViewComponent implements OnInit {
 
+  @ViewChild('content')
+  content!: ElementRef;
+
   ipAddress: string = "";
 
   countryCodes: any;
   asnIds: any;
   asnNames: any;
   regionalInternetRegistry: any;
+  threatScore = "0";
+  threatScores: Record<string, number> = {};
 
   constructor(
     private route: ActivatedRoute,
@@ -35,10 +44,10 @@ export class SingleViewComponent implements OnInit {
           let asn_id = data['asn_id'];
           let countryCode = data['countryCode'];
           let regional_internet_registry = data['regional_internet_registry'];
-          console.log("bjvjhgjjhjh")
-          console.log(this.isAsnIdSame(asn_id)); // Output: true
-          console.log(this.isCountryCodeSame(countryCode)); // Output: false
-          console.log(this.isRegistrySame(regional_internet_registry)); // Output: true
+          // console.log("bjvjhgjjhjh")
+          // console.log(this.isAsnIdSame(asn_id)); // Output: true
+          // console.log(this.isCountryCodeSame(countryCode)); // Output: false
+          // console.log(this.isRegistrySame(regional_internet_registry)); // Output: true
 
           this.countryCodes = countryCode;
           this.asnIds = asn_id;
@@ -53,13 +62,46 @@ export class SingleViewComponent implements OnInit {
         console.info('Single view ASN request completed');
       }
     });
+
+    this.readerService.apiCallToGetThreatScore(this.ipAddress).subscribe({
+      complete: () => {
+        console.info("Request to get threat score completed");
+      },
+      error: (err) => {
+        console.error("Error in threate score get request");
+        console.error(err);
+      },
+      next: (response) => {
+        if (
+          response['message'] &&
+          response['message'].trim() == 'success' &&
+          response['data'] &&
+          response['data'] != null
+        ) {
+          let data = response['data'];
+          // console.log(data);
+          if (
+            typeof data == 'object' &&
+            Array.isArray(data) == false &&
+            data['threat_score'] &&
+            data['threat_score'] != null &&
+            Array.isArray(data) == false
+          ) {
+
+            this.threatScores = data['threat_score']
+            this.finalThreatScore();
+          }
+        }
+      }
+    })
+  }
+
+  isArray(arg0: any): any {
+    return Array.isArray(arg0);
   }
 
   returnSetOfArray(array: any[]) {
     let set = new Set(array);
-
-    console.log(set);
-
     return set;
   }
 
@@ -78,4 +120,43 @@ export class SingleViewComponent implements OnInit {
     return regional_internet_registry.every(registry => registry === regional_internet_registry[0]);
   }
 
+  finalThreatScore(): void {
+    let tmp_score = 0;
+
+    Object.entries(this.threatScores).forEach((entry) => {
+      // console.log(entry);
+      // console.log(typeof entry);
+
+      tmp_score = tmp_score + entry[1];
+    });
+
+    // console.log(tmp_score);
+
+    this.threatScore = tmp_score.toFixed(2);
+  }
+
+  isSuspicious() {
+    // throw new Error('Method not implemented.');
+    try {
+      let score = parseFloat(this.threatScore);
+
+      if (score < 4) {
+        return false;
+      } else {
+        return true
+      }
+    } catch (error) {
+      if (error instanceof Error) {
+        console.error('parseFloat error ', error.message);
+      }
+      return true;
+    }
+  }
+
+  print(): void {
+    const content = document.getElementById('content');;
+    if (content) {
+
+    }
+  }
 }

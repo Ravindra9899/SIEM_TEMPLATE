@@ -1,6 +1,7 @@
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
-import { Observable } from 'rxjs';
+import { Observable, of } from 'rxjs';
+import { catchError } from 'rxjs/operators';
 
 @Injectable({
   providedIn: 'root'
@@ -13,8 +14,29 @@ export class ReaderService {
 
   apiCallToGetSingleViewAsn(ipAddress: string): Observable<any> {
 
-    const requestUri1 = this.url + `/single-view-asn?ipAddress=${ipAddress}`;
+    const requestUri = this.url + `/single-view-asn?ipAddress=${ipAddress}`;
 
-    return this.httpClient.get(requestUri1);
+    return this.httpClient.get(requestUri).pipe(
+      catchError(
+        (err) => {
+          console.error("error in single view report read ", err);
+          return of([]);
+        }
+      )
+    );
+  }
+
+  apiCallToGetThreatScore(ipAddress: string): Observable<any> {
+
+    const requestUri = this.url + 'test-calculate?permit=1&ipAddress=' + ipAddress;
+
+    return this.httpClient.get(requestUri).pipe(
+      catchError(
+        (err) => {
+          console.error("error in threat score read ", err);
+          return of([]);
+        }
+      )
+    );
   }
 }
