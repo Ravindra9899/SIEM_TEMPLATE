@@ -6,6 +6,15 @@ div {
     padding: 2vh 2vw;
 }
 
-.asn-div {
-    text-align: center;
+.asn-div * {
+    text-align: left;
+    color: whitesmoke;
+}
+
+.clear * {
+    color: rgb(10, 187, 19);
+}
+
+.suspicious * {
+    color: rgb(228, 174, 75);
 }

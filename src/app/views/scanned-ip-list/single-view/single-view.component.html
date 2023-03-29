@@ -1,21 +1,55 @@
 <app-content>
     <ng-container class="inner-dynamic-content">
         <div>
-            <p>single-view works!</p>
-            {{ ipAddress }}
+            <b>IP Address</b> {{ ipAddress }}
+        </div>
+        <div>
+            <b>{{ returnSetOfArray(countryCodes).size > 0 ? "Countries": "Country"}}</b>
+            <ul>
+                <li *ngFor="let countryCode of returnSetOfArray(countryCodes)">
+                    {{ countryCode }}
+                </li>
+            </ul>
         </div>
         <div class="asn-div">
-            <div style="display: inline;">
-                <div style="display: inline-block;">
-                    ASN
-                </div>
-                <div style="display: inline-block;">
-                    ASN Name
-                </div>
-                <div style="display: inline-block;">
-                    ASN Country
-                </div>
-            </div>
+            <table>
+                <tr>
+                    <th>AS Id</th>
+                    <td>
+                        <div [ngClass]="isAsnIdSame(asnIds)?'clear':'suspicious'">
+                            <ul>
+                                <li *ngFor="let asnId of returnSetOfArray(asnIds)">
+                                    {{ asnId }}
+                                </li>
+                            </ul>
+                        </div>
+                    </td>
+                </tr>
+                <tr>
+                    <th>AS Owner</th>
+                    <td>
+                        <div [ngClass]="returnSetOfArray(asnNames).size==1?'clear':'suspicious'">
+                            <ul>
+                                <li *ngFor="let asName of returnSetOfArray(asnNames)">
+                                    {{ asName }}
+                                </li>
+                            </ul>
+                        </div>
+                    </td>
+                </tr>
+                <tr>
+                    <th>Regional Internet Registry</th>
+                    <td>
+                        <div [ngClass]="isRegistrySame(regionalInternetRegistry) ?'clear':'suspicious'">
+                            <ul>
+                                <li *ngFor="let rInReg of returnSetOfArray(regionalInternetRegistry)">
+                                    {{ rInReg }}
+                                </li>
+                            </ul>
+                        </div>
+                    </td>
+                </tr>
+            </table>
         </div>
         <div class="threat-score-div">
             <span>

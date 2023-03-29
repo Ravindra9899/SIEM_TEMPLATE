@@ -7,7 +7,7 @@ import { Observable } from 'rxjs';
 })
 export class ReaderService {
 
-  private url = '/api/';
+  private url = '/api/ipscan/';
 
   constructor(private httpClient: HttpClient) { }
 
