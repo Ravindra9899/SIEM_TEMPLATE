@@ -18,3 +18,7 @@ div {
 .suspicious * {
     color: rgb(228, 174, 75);
 }
+
+.critical * {
+    color: 'red';
+}

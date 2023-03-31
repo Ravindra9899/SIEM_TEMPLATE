@@ -135,21 +135,25 @@ export class SingleViewComponent implements OnInit {
     this.threatScore = tmp_score.toFixed(2);
   }
 
-  isSuspicious() {
+  whatColor() {
     // throw new Error('Method not implemented.');
     try {
       let score = parseFloat(this.threatScore);
 
-      if (score < 4) {
-        return false;
-      } else {
-        return true
+      if (score > 8) {
+        return 'critical';
+      }
+      else if (score >= 4 && score < 8) {
+        return 'suspicious'
+      }
+      else {
+        return 'clear';
       }
     } catch (error) {
       if (error instanceof Error) {
         console.error('parseFloat error ', error.message);
       }
-      return true;
+      return 'suscpicious';
     }
   }
 

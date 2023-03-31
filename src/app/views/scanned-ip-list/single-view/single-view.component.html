@@ -63,7 +63,7 @@
             <div class="threat-score-div">
                 <span>
                     <b>Aggregate Threat Score: </b>
-                    <span [ngClass]="isSuspicious()?'suspicious':'clear'"><b>{{ threatScore }}</b></span>
+                    <span [ngClass]="whatColor()"><b>{{ threatScore }}</b></span>
                 </span>
             </div>
         </div>
