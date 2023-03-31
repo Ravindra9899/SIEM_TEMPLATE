@@ -39,4 +39,21 @@ export class ReaderService {
       )
     );
   }
+
+  apiCallToGeneratePdf(content: string, name: string): Observable<any> {
+    const requestUri = this.url + 'pdf';
+
+    const requestData = {
+      content: content,
+      name: name
+    };
+
+    return this.httpClient.post(
+      requestUri,
+      requestData,
+      {
+        responseType: 'blob'
+      }
+    );
+  }
 }

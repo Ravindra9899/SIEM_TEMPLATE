@@ -1,8 +1,8 @@
 import { Component, ElementRef, OnInit, ViewChild } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 
-import * as pdfMake from 'pdfmake/build/pdfmake';
-import * as pdfFonts from 'pdfmake/build/vfs_fonts';
+import html2canvas from 'html2canvas';
+import jspdf from 'jspdf';
 
 import { ReaderService } from 'src/app/services/reader.service';
 
@@ -13,7 +13,7 @@ import { ReaderService } from 'src/app/services/reader.service';
 })
 export class SingleViewComponent implements OnInit {
 
-  @ViewChild('content')
+  @ViewChild('pdf-content')
   content!: ElementRef;
 
   ipAddress: string = "";
@@ -154,9 +154,31 @@ export class SingleViewComponent implements OnInit {
   }
 
   print(): void {
-    const content = document.getElementById('content');;
-    if (content) {
+    const data = document.getElementById('pdf-content'); // get the HTML element to be converted to PDF
+    if (
+      data &&
+      data != null
+    ) {
+      html2canvas(data).then(canvas => {
+        const imgWidth = 208; // set the width of the PDF document
+        const imgHeight = canvas.height * imgWidth / canvas.width; // calculate the height of the PDF document
+        const contentDataURL = canvas.toDataURL('image/png'); // convert canvas to base64 image data
+        // const pdf = new jspdf('p', 'mm', 'a4'); // create a new jspdf instance
+        // const position = 0;
+        // pdf.addImage(contentDataURL, 'PNG', 0, position, imgWidth, imgHeight); // add the image data to the PDF document
+        // pdf.save(`IP_${this.ipAddress.replace(/\./g, '_')}.pdf`); // save the PDF document
 
+        const pdfName = `IP_${this.ipAddress.replace(/\./g, '_')}.pdf`;
+
+        console.clear();
+
+        this.readerService.apiCallToGeneratePdf(contentDataURL, pdfName).subscribe((blob: Blob) => {
+          const link = document.createElement('a');
+          link.href = window.URL.createObjectURL(blob);
+          link.download = pdfName;
+          link.click();
+        })
+      });
     }
   }
 }
