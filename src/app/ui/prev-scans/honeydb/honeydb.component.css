@@ -2,24 +2,6 @@ div * {
     color: whitesmoke !important;
 }
 
-div {
-    max-height: 40vh;
-    height: 35vh;
-    /* background-color: aliceblue; */
-    padding: 2vh 2vw;
-    overflow-y: scroll;
-}
-
-table {
-    max-height: 36vh;
-    height: 30vh;
-    /* background-color: aqua; */
-    /* overflow-y: auto; */
-}
-
-.tbody {
-    height: 30vh;
-    max-height: 32vh;
-    /* overflow-y: auto; */
-    /* background-color: beige; */
+.scan-report {
+    color: whitesmoke;
 }

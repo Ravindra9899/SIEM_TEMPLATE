@@ -2,7 +2,8 @@ import { Component, ElementRef, OnInit, ViewChild } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 
 import html2canvas from 'html2canvas';
-import jspdf from 'jspdf';
+import jspdf, { jsPDF } from 'jspdf';
+import * as htmlToImage from 'html-to-image';
 
 import { ReaderService } from 'src/app/services/reader.service';
 
@@ -13,9 +14,6 @@ import { ReaderService } from 'src/app/services/reader.service';
 })
 export class SingleViewComponent implements OnInit {
 
-  @ViewChild('pdf-content')
-  content!: ElementRef;
-
   ipAddress: string = "";
 
   countryCodes: any;
@@ -25,7 +23,7 @@ export class SingleViewComponent implements OnInit {
   threatScore = "0";
   threatScores: Record<string, number> = {};
 
-  isReportOpen = true;
+  isReportOpen = false;
 
   scanReports!: any[];
 
@@ -183,20 +181,45 @@ export class SingleViewComponent implements OnInit {
   }
 
   print(): void {
+    console.log('clicked print');
     this.isReportOpen = true;
+    console.log('isReport ', this.isReportOpen);
+
+
+    // this.generatePdf();
     setTimeout(() => {
       window.print();
-      this.isReportOpen = false;
     }, 0);
+    // this.isReportOpen = false;
+    console.log('isReport ', this.isReportOpen);
+
   }
 
+  // async generatePdf() {
+  //   const pages = document.querySelectorAll('#collapsible-container');
+  //   const images: string[] = [];
 
-  getScanReport() {
-    // throw new Error('Method not implemented.');
-    return { "record": { "isThreat": false }, 'API_Name': 'Abuse IPDB' };
-  }
-  toggleCollapse() {
-    this.isReportOpen = !this.isReportOpen; // toggle the boolean value
-  }
+  //   for (let i = 0; i < pages.length; i++) {
+  //     const page = pages[i] as HTMLElement;
+  //     const dataUrl = await htmlToImage.toPng(page);
+  //     images.push(dataUrl);
+  //   }
 
+  //   const pdf = new jsPDF();
+
+  //   for (let i = 0; i < images.length; i++) {
+  //     if (i > 0) {
+  //       pdf.addPage();
+  //     }
+
+  //     const imgWidth = pdf.internal.pageSize.getWidth();
+  //     const imgHeight = pdf.internal.pageSize.getHeight();
+  //     pdf.addImage(images[i], 'PNG', 0, 0, imgWidth, imgHeight);
+  //   }
+
+  //   pdf.autoPrint();
+  //   window.open(pdf.output('bloburl'), '_blank');
+  //   window.print();
+  //   // pdf.save('document.pdf');
+  // }
 }

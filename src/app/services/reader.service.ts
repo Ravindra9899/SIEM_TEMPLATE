@@ -52,4 +52,22 @@ export class ReaderService {
       })
     );
   }
+
+  apiCallToPrintScanReport(name: string, content: any) {
+    let requestUri = this.url + 'pdf';
+
+    let data = {
+      'content': content,
+      'name': name
+    };
+
+    console.log(data);
+
+    return this.httpClient.post(requestUri, data).pipe(
+      catchError(err => {
+        console.error('error in post print ', err);
+        return of([]);
+      })
+    )
+  }
 }

@@ -30,6 +30,7 @@
     "bootstrap": "^5.2.3",
     "datatables.net-dt": "^1.13.4",
     "highcharts": "^10.3.3",
+    "html-to-image": "^1.11.11",
     "html2canvas": "^1.4.1",
     "jquery": "^3.6.3",
     "jspdf": "^2.5.1",

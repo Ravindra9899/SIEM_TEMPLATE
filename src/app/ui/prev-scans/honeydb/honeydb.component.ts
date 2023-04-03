@@ -13,8 +13,20 @@ export class HoneydbComponent implements OnInit {
 
   ngOnInit(): void {
     console.log('honey db')
-    console.log(this.scanReport);
+    console.log(typeof this.scanReport);
     // this.sortedScanReport = [...this.scanReport].sort((a, b) => new Date(b["date"]).getTime() - new Date(a["date"]).getTime());
+  }
+
+  getSansIntel(): string[] {
+    let intels = [''];
+    if (
+      this.scanReport['sansIp']['sansintel'] != null &&
+      typeof this.scanReport['sansIp']['sansintel'] == 'object' &&
+      this.scanReport['sansIp']['sansintel']['intel'] != null
+    ) {
+      intels = this.scanReport['sansIp']['sansintel']['intel'].toString().split(',');
+    }
+    return intels;
   }
 
 }
