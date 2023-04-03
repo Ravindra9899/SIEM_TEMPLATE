@@ -13,19 +13,21 @@ export class AlienvaultRecordTableComponent implements OnInit {
   constructor() { }
 
   ngOnInit(): void {
+    console.log('abuse ip db');
+    console.log(this.scanReport);
   }
 
-  falsePositiveFieldValtest(): boolean{
-    if(
+  falsePositiveFieldValtest(): boolean {
+    if (
       Array.isArray(this.scanReport['false_positive']) &&
       this.scanReport['false_positive'].length > 0
-      ) {
+    ) {
       return true;
     }
     return false;
   }
 
-  typeOfValidation(item: any){
+  typeOfValidation(item: any) {
     if (typeof item === 'string') {
       return 'string';
     } else {

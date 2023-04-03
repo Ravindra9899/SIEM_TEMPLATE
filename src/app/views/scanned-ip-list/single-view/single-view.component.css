@@ -22,3 +22,23 @@ div {
 .critical * {
     color: 'red';
 }
+
+.collapsible-container {
+    display: none;
+}
+
+.collapsible-container.is-open {
+    display: block;
+}
+
+@media print {
+    @page {
+        size: auto;
+        margin: 0mm;
+        background: true;
+    }
+}
+
+#collapsible-container {
+    page-break-before: always;
+}

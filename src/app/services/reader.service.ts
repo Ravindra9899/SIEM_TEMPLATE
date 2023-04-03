@@ -40,20 +40,16 @@ export class ReaderService {
     );
   }
 
-  apiCallToGeneratePdf(content: string, name: string): Observable<any> {
-    const requestUri = this.url + 'pdf';
+  apiCallToGetPrePrintScanReports(ipAddress: string): Observable<any> {
+    const requestUri = this.url + 'single-view-print?ipAddress=' + ipAddress;
 
-    const requestData = {
-      content: content,
-      name: name
-    };
+    console.log(requestUri);
 
-    return this.httpClient.post(
-      requestUri,
-      requestData,
-      {
-        responseType: 'blob'
-      }
+    return this.httpClient.get(requestUri).pipe(
+      catchError((err) => {
+        console.error('Error in single-view-print', err);
+        return of([]);
+      })
     );
   }
 }

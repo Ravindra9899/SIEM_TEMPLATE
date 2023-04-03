@@ -9,7 +9,7 @@ import { ScannerServiceService } from 'src/app/services/scanner-service.service'
 export class PrevScansComponent implements OnInit {
 
   private allScannersList: string[] = [];
-  public selectedScanner: string = "Maltiverse";
+  public selectedScanner: string = "HoneyDB";
 
   //bruteforce blocker report 195.133.40.71
   public selectedIp: string = "8.8.8.8";
@@ -25,8 +25,8 @@ export class PrevScansComponent implements OnInit {
     private scanService: ScannerServiceService,
   ) { }
 
-  showTable() : boolean{
-    if(Object.keys(this.scanReport).length>0) return true;
+  showTable(): boolean {
+    if (Object.keys(this.scanReport).length > 0) return true;
     return false;
   }
 
@@ -52,32 +52,32 @@ export class PrevScansComponent implements OnInit {
   setAllScannersList(): void {
     this.scanService.getAllScanners().subscribe(
       {
-      error: (err) => {
-        console.error("could not read scan report subscribe ", err);
+        error: (err) => {
+          console.error("could not read scan report subscribe ", err);
 
-      },
-      complete: () => {
-        console.info("Subscribe scan report completed")
-      },
-      next: (response) => {
-        console.log("set all scanners subscribe", typeof response["data"]);
+        },
+        complete: () => {
+          console.info("Subscribe scan report completed")
+        },
+        next: (response) => {
+          console.log("set all scanners subscribe", typeof response["data"]);
 
-        if(
-          response &&
-          response.hasOwnProperty("data") &&
-          response['message'] != null &&
-          response['message'] != false &&
-          response['message'] == "success" &&
-          response.hasOwnProperty("data") &&
-          response['data'] != null &&
-          response['data'] != false &&
-          Array.isArray(response["data"])
-        ){
-          console.info("All Scanners are ", typeof response["data"]);
-          this.allScannersList = response["data"].map(scanner => scanner["API_Name"]);
+          if (
+            response &&
+            response.hasOwnProperty("data") &&
+            response['message'] != null &&
+            response['message'] != false &&
+            response['message'] == "success" &&
+            response.hasOwnProperty("data") &&
+            response['data'] != null &&
+            response['data'] != false &&
+            Array.isArray(response["data"])
+          ) {
+            console.info("All Scanners are ", typeof response["data"]);
+            this.allScannersList = response["data"].map(scanner => scanner["API_Name"]);
+          }
         }
-      }
-    });
+      });
   }
 
   setSelectedScanner(selectedScannerOption: string): void {
@@ -90,7 +90,7 @@ export class PrevScansComponent implements OnInit {
   }
 
   setScanReport(): void {
-    if(this.isValidIPv4()){
+    if (this.isValidIPv4()) {
       this.scanService.readScanReportsForIpAndApiDateRange(
         this.selectedIp,
         this.selectedScanner,
@@ -103,7 +103,7 @@ export class PrevScansComponent implements OnInit {
       ).subscribe({
         error: (err) => {
           console.error("could not read scan report subscribe ", err);
-  
+
         },
         complete: () => {
           console.info("Subscribe scan report completed")
@@ -111,8 +111,8 @@ export class PrevScansComponent implements OnInit {
         next: (response) => {
           console.warn(response &&
             Array.isArray(response["data"]));
-  
-            console.log(typeof response["data"]);
+
+          console.log(typeof response["data"]);
           if (
             response &&
             response.hasOwnProperty("message") &&
@@ -131,7 +131,7 @@ export class PrevScansComponent implements OnInit {
           }
         }
       });
-    }else{
+    } else {
       window.alert("Please enter a valid IPv4 address");
     }
   }
@@ -143,7 +143,7 @@ export class PrevScansComponent implements OnInit {
     }
   }
 
-  onSubmit(): void{
+  onSubmit(): void {
     this.setScanReport();
   }
 

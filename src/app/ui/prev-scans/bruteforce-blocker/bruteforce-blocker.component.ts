@@ -13,8 +13,15 @@ export class BruteforceBlockerComponent implements OnInit {
   constructor() { }
 
   ngOnInit(): void {
-    console.info(this.scanReport["threat_reports"][0].split("\t").length);
-    console.info(this.scanReport["threat_reports"][0].split("\t"));
+    console.log('brute force ');
+    console.log(this.scanReport);
+    if (
+      Array.isArray(this.scanReport['threat_reports']) &&
+      this.scanReport['threat_reports'].length > 0
+    ) {
+      console.info(this.scanReport["threat_reports"][0].split("\t").length);
+      console.info(this.scanReport["threat_reports"][0].split("\t"));
+    }
   }
 
 }

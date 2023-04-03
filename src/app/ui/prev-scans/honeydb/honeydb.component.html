@@ -1,17 +1,31 @@
-<div>
-    <table>
+<div style="color: whitesmoke;">
+    {{ scanReport | json }}
+
+    <b>General Characteristics</b>
+    <table *ngIf="scanReport.hasOwnProperty('base') && scanReport['base']!= null">
         <thead>
             <tr>
-                <th>Date</th>
-                <th>Event Count</th>
-                <th>Service</th>
+                <th>Is Bogon (Reserved for Private or Special Use)</th>
+                <th>Is ToR exit node</th>
+                <th>Is o any known threat lists</th>
             </tr>
         </thead>
-        <tbody class="tbody">
-            <tr *ngFor="let entry of this.sortedScanReport">
-                <td>{{ entry['date'] != null ? entry['date'] : "" }}</td>
-                <td>{{ entry['event_count'] != null ? entry['event_count'] : "" }}</td>
-                <td>{{ entry['service'] != null ? entry['service'] : "" }}</td>
+        <tbody>
+            <tr>
+                <td>
+                    <div>
+                    </div>
+                </td>
+                <td>
+                    <div>
+
+                    </div>
+                </td>
+                <td>
+                    <div>
+
+                    </div>
+                </td>
             </tr>
         </tbody>
     </table>

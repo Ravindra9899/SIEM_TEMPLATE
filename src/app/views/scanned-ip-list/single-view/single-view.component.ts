@@ -25,6 +25,10 @@ export class SingleViewComponent implements OnInit {
   threatScore = "0";
   threatScores: Record<string, number> = {};
 
+  isReportOpen = true;
+
+  scanReports!: any[];
+
   constructor(
     private route: ActivatedRoute,
     private elementRef: ElementRef,
@@ -94,6 +98,27 @@ export class SingleViewComponent implements OnInit {
         }
       }
     })
+
+    this.readerService.apiCallToGetPrePrintScanReports(this.ipAddress).subscribe({
+      complete: () => {
+        console.info("Request to get print scan completed");
+      },
+      error: (err) => {
+        console.error("Error in print score get request");
+        console.error(err);
+      },
+      next: (response) => {
+        console.log('pre-print process data');
+        console.log(typeof response['data']);
+        if (
+          response &&
+          response?.message == 'success' &&
+          Array.isArray(response?.data)
+        ) {
+          this.scanReports = response['data'];
+        }
+      }
+    });
   }
 
   isArray(arg0: any): any {
@@ -158,31 +183,20 @@ export class SingleViewComponent implements OnInit {
   }
 
   print(): void {
-    const data = document.getElementById('pdf-content'); // get the HTML element to be converted to PDF
-    if (
-      data &&
-      data != null
-    ) {
-      html2canvas(data).then(canvas => {
-        const imgWidth = 208; // set the width of the PDF document
-        const imgHeight = canvas.height * imgWidth / canvas.width; // calculate the height of the PDF document
-        const contentDataURL = canvas.toDataURL('image/png'); // convert canvas to base64 image data
-        // const pdf = new jspdf('p', 'mm', 'a4'); // create a new jspdf instance
-        // const position = 0;
-        // pdf.addImage(contentDataURL, 'PNG', 0, position, imgWidth, imgHeight); // add the image data to the PDF document
-        // pdf.save(`IP_${this.ipAddress.replace(/\./g, '_')}.pdf`); // save the PDF document
-
-        const pdfName = `IP_${this.ipAddress.replace(/\./g, '_')}.pdf`;
-
-        console.clear();
-
-        this.readerService.apiCallToGeneratePdf(contentDataURL, pdfName).subscribe((blob: Blob) => {
-          const link = document.createElement('a');
-          link.href = window.URL.createObjectURL(blob);
-          link.download = pdfName;
-          link.click();
-        })
-      });
-    }
+    this.isReportOpen = true;
+    setTimeout(() => {
+      window.print();
+      this.isReportOpen = false;
+    }, 0);
   }
+
+
+  getScanReport() {
+    // throw new Error('Method not implemented.');
+    return { "record": { "isThreat": false }, 'API_Name': 'Abuse IPDB' };
+  }
+  toggleCollapse() {
+    this.isReportOpen = !this.isReportOpen; // toggle the boolean value
+  }
+
 }

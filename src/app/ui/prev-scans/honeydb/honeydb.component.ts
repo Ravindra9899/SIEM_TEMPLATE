@@ -7,15 +7,14 @@ import { Component, Input, OnInit } from '@angular/core';
 })
 export class HoneydbComponent implements OnInit {
   @Input()
-  scanReport = [];
-
-  public sortedScanReport= [];
+  scanReport: Record<string, any> = {};
 
   constructor() { }
 
   ngOnInit(): void {
+    console.log('honey db')
     console.log(this.scanReport);
-    this.sortedScanReport = [...this.scanReport].sort((a, b) => new Date(b["date"]).getTime() - new Date(a["date"]).getTime());
+    // this.sortedScanReport = [...this.scanReport].sort((a, b) => new Date(b["date"]).getTime() - new Date(a["date"]).getTime());
   }
 
 }

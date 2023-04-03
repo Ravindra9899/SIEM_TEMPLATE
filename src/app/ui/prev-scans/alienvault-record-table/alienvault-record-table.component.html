@@ -1,60 +1,19 @@
 <div class="record-parent">
     <table>
-        <tr>
-            <td>asn:</td>
-            <td>{{ scanReport['asn'] }}</td>
-        </tr>
-
-        <ng-container
-            *ngIf="scanReport.hasOwnProperty('base_indicator') && scanReport['base_indicator'].hasOwnProperty('id')">
-            <tr>
-                <td>base_indicator id:</td>
-                <td>{{ scanReport['base_indicator']['id'] }}</td>
-            </tr>
-        </ng-container>
-
-        <ng-container
-            *ngIf="scanReport.hasOwnProperty('base_indicator') && scanReport['base_indicator'].hasOwnProperty('id')">
-            <tr>
-                <td>base_indicator indicator:</td>
-                <td>{{ scanReport['base_indicator']['indicator'] }}</td>
-            </tr>
-        </ng-container>
-
-        <ng-container
-            *ngIf="scanReport.hasOwnProperty('base_indicator') && scanReport['base_indicator'].hasOwnProperty('id')">
-            <tr>
-                <td>base_indicator type:</td>
-                <td>{{ scanReport['base_indicator']['type'] }}</td>
-            </tr>
-        </ng-container>
-
         <ng-container>
             <tr>
-                <td>latitude:</td>
-                <td>{{ scanReport['latitude'] }}</td>
-            </tr>
-            <tr>
-                <td>longitude:</td>
-                <td>{{ scanReport['longitude'] }}</td>
-            </tr>
-            <tr>
-                <td>malware count:</td>
+                <td>Malware Count:</td>
                 <td>{{ scanReport['malware']['count'] }}</td>
             </tr>
             <tr>
-                <td>malware size:</td>
+                <td>Malware Size:</td>
                 <td>{{ scanReport['malware']['size'] }}</td>
             </tr>
             <tr>
-                <td>reputation:</td>
-                <td>{{ scanReport['reputation'] }}</td>
+                <td>Reputation:</td>
+                <td>{{ scanReport['reputation']['reputation'] }}</td>
             </tr>
         </ng-container>
-        <tr>
-            <td>whois:</td>
-            <td>{{ scanReport['whois'] }}</td>
-        </tr>
     </table>
 
     <ng-container *ngIf="scanReport.hasOwnProperty('false_positive') && scanReport['false_positive']!=null">
@@ -110,7 +69,7 @@
         *ngIf="scanReport.hasOwnProperty('malware') && scanReport['malware'].hasOwnProperty('data') && scanReport['malware']['data'] != null">
         <br>
         <strong>Malware data:</strong>
-        <div class=""malware-data-child>
+        <div class="" malware-data-child>
             <table>
                 <tr>
                     <th>
