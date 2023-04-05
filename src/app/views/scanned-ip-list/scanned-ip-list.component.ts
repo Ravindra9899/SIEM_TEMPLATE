@@ -40,13 +40,14 @@ export class ScannedIpListComponent implements AfterViewInit, OnInit, OnDestroy 
         emptyTable: '',
         info: 'Showing _START_ to _END_ of _TOTAL_ entries',
         // infoEmpty: 'Showing 0 to 0 of 0 entries',
+        infoEmpty: '',
         lengthMenu: 'Show _MENU_ records',
         // lengthMenu: '',
         search: '_INPUT_',
         searchPlaceholder: 'Search...',
         zeroRecords: ''
       },
-      order: [[2, 'asc']],
+      // order: [[1, 'asc']],
       // dom: 'Bfrtip',
       // buttons: [
       //   'copy', 'csv', 'excel', 'pdf', 'print'

@@ -22,3 +22,8 @@ i {
     color: white;
     background-color: #181c28;
 }
+
+:host ::ng-deep .dataTables_filter input {
+    color: white;
+    background-color: #181c28;
+}
