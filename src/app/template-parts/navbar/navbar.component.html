@@ -3,22 +3,39 @@
         <ul class="sidebar-menu" data-widget="tree">
             <li class="header">Dashboard</li>
             <li routerLinkActive="active">
-                <a class="nav-link" [routerLink]="['/dashboard']"><i class="fa fa-tachometer"></i> <span style="color: #EEC75D">Dashboard</span></a>
+                <a class="nav-link" [routerLink]="['/dashboard']">
+                    <i class="fa fa-home"></i>
+                    <span style="color: #EEC75D">Home</span>
+                </a>
             </li>
             <li routerLinkActive="active" class="nav-item">
-                <a class="nav-link" [routerLink]="['/charts']"><i class="fa fa-book"></i><span style="color: #EEC75D">Charts</span></a>
+                <a class="nav-link" [routerLink]="['/charts']">
+                    <i class="fa fa-book"></i>
+                    <span style="color: #EEC75D">Charts</span>
+                </a>
             </li>
-            <li routerLinkActive="active" class="nav-item">
+            <!-- <li routerLinkActive="active" class="nav-item">
                 <a class="nav-link" [routerLink]="['/read']"><i class="fa fa-book"></i><span style="color: #EEC75D">Recent Scans</span></a>
-            </li>
+            </li> -->
             <li routerLinkActive="active" class="nav-item">
-                <a class="nav-link" [routerLink]="['/scan']"><i class="fa fa-book"></i><span style="color: #EEC75D">Scan IPv4</span></a>
+                <a class="nav-link" [routerLink]="['/scan']">
+                    <i class="fa fa-book"></i>
+                    <span style="color: #EEC75D">Scan</span>
+                </a>
             </li>
             <li routerLinkActive="active">
-                <a class="nav-link" [routerLink]="['/config']"><i class="fa fa-cog"></i><span style="color: #EEC75D">Manage Configurations</span></a>
+                <a class="nav-link" [routerLink]="['/config']">
+                    <i class="fa fa-cog"></i><span style="color: #EEC75D">Configure</span>
+                </a>
             </li>
             <li routerLinkActive="active">
-                <div class="customfooterlogo"><a><i><img src="./assets/img/cdac_logo.png" width="42px" class="fixedimagefooter"></i></a></div>
+                <div class="customfooterlogo">
+                    <a>
+                        <i>
+                            <img src="./assets/img/cdac_logo.png" width="42px" class="fixedimagefooter">
+                        </i>
+                    </a>
+                </div>
             </li>
         </ul>
     </section>

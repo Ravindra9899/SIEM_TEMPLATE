@@ -16,7 +16,7 @@ export class ScannerComponent implements OnInit {
   private scanOptions: string[] = [];
 
   // private scanStarted: boolean = false;
-  public scanProgress: string = "";
+  public scanProgress: number[] = [];
   public selectedScanners: string[] = [];
   public scanReportStatus: Record<string, string> = {};
   public scanReport: Record<string, any> = {};
@@ -26,6 +26,7 @@ export class ScannerComponent implements OnInit {
   public limit: string = "1";
   public skip: string = "0";
   public order: string = "desc";
+  public errors: string[] = [];
 
 
   constructor(
@@ -36,7 +37,7 @@ export class ScannerComponent implements OnInit {
   ngOnInit(): void {
     this.setScanOptions();
 
-    console.log(this.getScanOptions());
+    // console.log(this.getScanOptions());
   }
 
   /**
@@ -60,7 +61,7 @@ export class ScannerComponent implements OnInit {
     }
   }
 
-  removeOption(selectedOptions: string): void{
+  removeOption(selectedOptions: string): void {
     if (this.isChecked(selectedOptions)) {
       this.selectedScanners = this.selectedScanners.filter((option) => option !== selectedOptions);
     }
@@ -103,7 +104,7 @@ export class ScannerComponent implements OnInit {
           response["data"] != null) {
           this.scanOptions = response["data"];
           console.log("Active scanners :", typeof this.scanOptions);
-          
+
         }
       },
       "error": (err) => {
@@ -120,8 +121,12 @@ export class ScannerComponent implements OnInit {
    * @returns The scanOptions object.
    */
   getScanOptions() {
-    console.log("scanOptions ", this.scanOptions);
+    // console.log("scanOptions ", this.scanOptions);
     return this.scanOptions;
+  }
+
+  getMaxScanProgress(): number {
+    return Math.max(...this.scanProgress);
   }
 
   /**
@@ -136,7 +141,7 @@ export class ScannerComponent implements OnInit {
         // this.scanStarted = true;
 
         for (let apiName of this.selectedScanners) {
-          let scanStatus = new Subject<string>();
+          let scanStatus = new Subject<number>();
 
           console.log("current scanner ", apiName);
 
@@ -158,8 +163,8 @@ export class ScannerComponent implements OnInit {
               {
                 next: (response) => {
                   console.log("scan status subscribe " + response);
-                  // scanStatus.next(`Processing response ${scanIndex}/${N}`);
-                  console.log(response);
+                  console.log(apiName);
+                  console.log(typeof response['data']);
 
                   if (
                     response.hasOwnProperty("message") &&
@@ -191,9 +196,10 @@ export class ScannerComponent implements OnInit {
                   console.error('An error occurred during scan for scanner ', apiName, " ", error);
                   this.scanReportStatus[apiName] = "";
                   this.scanReport[apiName] = "";
+                  this.errors.push(apiName);
                 },
                 complete: () => {
-                  console.log("Completed ", `${scanIndex}/${N}`)
+                  console.log("Complet ", `${scanIndex}/${N}`)
                   this.loading = false;
                 }
               }
@@ -202,9 +208,12 @@ export class ScannerComponent implements OnInit {
             (status) => {
               console.log("scanStatus");
               console.log(status);
-              this.scanProgress = status;
+              this.scanProgress.push(status);
             }
           );
+          setTimeout(() => {
+            console.log('wait 500ms to send the next request')
+          }, 900);
         }
       } else {
         console.error("Please select at least one scanner");
@@ -216,6 +225,8 @@ export class ScannerComponent implements OnInit {
 
       this.openDialog("<h5 style='color: whitesmoke;'>Please enter a valid IPv4 Address</h5>")
     }
+
+
   }
 
   /**

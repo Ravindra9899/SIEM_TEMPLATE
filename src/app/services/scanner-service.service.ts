@@ -137,7 +137,7 @@ export class ScannerServiceService {
    * @param scanStatus - Subject<string>
    * @returns An observable of the response from the backend.
    */
-  getIpScanResponse(ipToScan: string, apiName: string, numberOfScanners: Number, scanIndex: Number, scanStatus: Subject<any>): Observable<any> {
+  getIpScanResponse(ipToScan: string, apiName: string, numberOfScanners: Number, scanIndex: number, scanStatus: Subject<any>): Observable<any> {
 
     const N = numberOfScanners;
 
@@ -163,13 +163,12 @@ export class ScannerServiceService {
     scanObservable.subscribe({
       next: (response) => {
         console.log("scan status subscribe " + response);
-        scanStatus.next(`Completed ${scanIndex}/${N}`);
+        scanStatus.next(scanIndex);
       },
       error: (error) => {
-        console.error('An error occurred during whois-ip-netblocks:', error);
+        console.error('An error occurred during' + apiName, error);
       },
       complete: () => {
-        scanStatus.next(`Completed ${scanIndex}/${N}`);
         scanStatus.complete();
       }
     });

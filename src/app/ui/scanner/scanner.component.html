@@ -39,14 +39,15 @@
                 </div>
             </div>
             <br>
-            <div *ngIf="loading" class="spinner-container">
+            <div *ngIf="loading && !(this.errors.length == this.selectedScanners.length)" class="spinner-container">
                 <!-- <mat-spinner></mat-spinner> -->
                 <img src="assets/img/ajax-loader-big.gif" alt="loading">
             </div>
-            <div *ngIf="!loading" class="status-div">
-                {{ this.scanProgress }}
+            <div *ngIf="!loading && scanProgress.length!=0" class="status-div">
+                Completed {{ this.getMaxScanProgress() }} / {{ selectedScanners.length }}
             </div>
-            <div *ngIf="!loading && !(scanProgress=='')" class="report-table">
+            <br>
+            <div *ngIf="!loading && scanProgress.length!=0" class="report-table">
                 <table>
                     <tr>
                         <th>S. No.</th>
@@ -59,8 +60,14 @@
                         <td>{{ this.selectedScanners.indexOf(element) + 1 }}</td>
                         <td>{{ element }}</td>
                         <td>{{ this.scanReportStatus[element] | titlecase }}</td>
-                        <td>{{ (this.scanReport[element] != null && this.scanReport[element] != "")?"Generated":"Not
-                            Generated" }}</td>
+                        <td>
+                            {{
+                            (this.scanReport[element] != null &&
+                            this.scanReport[element] != "")
+                            ?"Generated":
+                            "Not Generated"
+                            }}
+                        </td>
                         <td><i class="fa fa-eye"
                                 *ngIf='(this.scanReport[element] != null && this.scanReport[element] != "")'
                                 (click)="viewReport(element)"></i></td>
