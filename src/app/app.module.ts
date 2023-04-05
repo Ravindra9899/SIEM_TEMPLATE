@@ -36,6 +36,8 @@ import { ScannedIpListComponent } from './views/scanned-ip-list/scanned-ip-list.
 import { ScannedUrlsListComponent } from './views/scanned-urls-list/scanned-urls-list.component';
 import { DataTablesModule } from 'angular-datatables';
 import { SingleViewComponent } from './views/scanned-ip-list/single-view/single-view.component';
+import { LoginComponent } from './views/user/login/login.component';
+import { SignupComponent } from './views/user/signup/signup.component';
 
 
 @NgModule({
@@ -61,6 +63,8 @@ import { SingleViewComponent } from './views/scanned-ip-list/single-view/single-
     ScannedIpListComponent,
     ScannedUrlsListComponent,
     SingleViewComponent,
+    LoginComponent,
+    SignupComponent,
   ],
   imports: [
     BrowserModule,

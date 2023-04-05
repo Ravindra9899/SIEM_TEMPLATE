@@ -7,6 +7,7 @@ import { PrevScansComponent } from './ui/prev-scans/prev-scans.component';
 import { ScanReportComponent } from './ui/scan-report/scan-report.component';
 import { ScannerComponent } from './ui/scanner/scanner.component';
 import { SingleViewComponent } from './views/scanned-ip-list/single-view/single-view.component';
+import { LoginComponent } from './views/user/login/login.component';
 
 const routes: Routes = [
   { path: "dashboard", component: DashboardComponent },
@@ -16,7 +17,8 @@ const routes: Routes = [
   { path: "charts", component: ChartsComponent },
   { path: "read", component: PrevScansComponent },
   { path: 'single-view', component: SingleViewComponent },
-  { path: '', redirectTo: '/dashboard', pathMatch: 'full' },
+  { path: '', redirectTo: '/login', pathMatch: 'full' },
+  { path: 'login', component: LoginComponent }
 ];
 
 @NgModule({

@@ -38,7 +38,8 @@
               "src/assets/theme/dist/css/skins/_all-skins.min.css",
               "src/assets/theme/bower_components/font-awesome/css/font-awesome.min.css",
               "node_modules/bootstrap/dist/css/bootstrap.min.css",
-              "node_modules/datatables.net-dt/css/jquery.dataTables.min.css"
+              "node_modules/datatables.net-dt/css/jquery.dataTables.min.css",
+              "node_modules/bcryptjs/dist/bcrypt.js"
             ],
             "stylePreprocessorOptions": {
               "includePaths": [
