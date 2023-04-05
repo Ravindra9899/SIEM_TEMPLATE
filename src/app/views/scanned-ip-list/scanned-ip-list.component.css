@@ -16,3 +16,9 @@ i {
 .mat-form-field-appearance-fill .mat-form-field-flex input {
     color: whitesmoke;
 }
+
+/* .dataTables_length select, */
+:host ::ng-deep .dataTables_length select {
+    color: white;
+    background-color: #181c28;
+}

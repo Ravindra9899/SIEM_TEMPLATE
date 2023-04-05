@@ -33,9 +33,10 @@ div {
 
 @media print {
     @page {
-        size: auto;
+        size: landscape;
         margin: 0mm;
         background: true;
+        /* orientation: landscape; */
     }
 }
 
