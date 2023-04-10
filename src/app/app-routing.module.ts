@@ -30,7 +30,7 @@ const routes: Routes = [
   },
   {
     path: "charts", component: ChartsComponent,
-    canActivate: [AuthGuard, AdminRoleGuard]
+    canActivate: [AdminRoleGuard]
   },
   {
     path: "read", component: PrevScansComponent,

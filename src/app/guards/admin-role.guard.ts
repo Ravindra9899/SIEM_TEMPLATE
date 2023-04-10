@@ -40,11 +40,24 @@ export class AdminRoleGuard implements CanActivate {
           return false;
         }
 
-      default:
+      case 'guest':
         const allowedRoutesGuest = ['charts', 'login'];
         const currentRouteGuest = this.router.url.split('/')[1];
 
+        console.log('guest role', allowedRoutesGuest.includes(currentRouteGuest))
+
         if (allowedRoutesGuest.includes(currentRouteGuest)) {
+          return true;
+        } else {
+          this.router.navigate(['/login']);
+          return false;
+        }
+
+      default:
+        const allowedRoutesDefault = ['charts', 'login'];
+        const currentRouteDefault = this.router.url.split('/')[1];
+
+        if (allowedRoutesDefault.includes(currentRouteDefault)) {
           return true;
         } else {
           this.router.navigate(['/login']);
