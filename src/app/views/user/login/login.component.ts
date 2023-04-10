@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
-import { Router } from '@angular/router';
-import { LoginService } from 'src/app/services/user/login.service';
+import { NavigationExtras, Router } from '@angular/router';
+import { AuthService } from 'src/app/services/user/auth.service';
 
 @Component({
   selector: 'app-login',
@@ -13,7 +13,7 @@ export class LoginComponent implements OnInit {
   errorMessage: string = '';
 
   constructor(
-    private authService: LoginService,
+    private authService: AuthService,
     private router: Router
   ) { }
 
@@ -22,7 +22,7 @@ export class LoginComponent implements OnInit {
 
   onSubmit(): void {
 
-    console.log('entered ', this.username, this.password)
+    // console.log('entered ', this.username, this.password)
     console.log('hashing password ',);
 
     this.authService.login(this.username, this.password).subscribe(
@@ -38,12 +38,14 @@ export class LoginComponent implements OnInit {
             response?.data?.token != ''
           ) {
             let jwt = response['data']['token'];
-            let role = response['data']['role']
 
             localStorage.setItem('jwt', jwt);
-            localStorage.setItem('role', role);
 
-            this.router.navigate(['/dashboard']);
+            const navigationExtras: NavigationExtras = {
+              skipLocationChange: true
+            };
+
+            this.router.navigate(['/dashboard'], navigationExtras);
           } else {
             console.log('login failed')
           }

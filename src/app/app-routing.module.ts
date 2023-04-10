@@ -8,17 +8,46 @@ import { ScanReportComponent } from './ui/scan-report/scan-report.component';
 import { ScannerComponent } from './ui/scanner/scanner.component';
 import { SingleViewComponent } from './views/scanned-ip-list/single-view/single-view.component';
 import { LoginComponent } from './views/user/login/login.component';
+import { AuthGuard } from './guards/auth.guard';
+import { AdminRoleGuard } from './guards/admin-role.guard';
 
 const routes: Routes = [
-  { path: "dashboard", component: DashboardComponent },
-  { path: "config", component: ConfigurationComponent },
-  { path: "scan", component: ScannerComponent },
-  { path: "view-report", component: ScanReportComponent },
-  { path: "charts", component: ChartsComponent },
-  { path: "read", component: PrevScansComponent },
-  { path: 'single-view', component: SingleViewComponent },
-  { path: '', redirectTo: '/login', pathMatch: 'full' },
-  { path: 'login', component: LoginComponent }
+  {
+    path: "dashboard", component: DashboardComponent,
+    canActivate: [AuthGuard, AdminRoleGuard]
+  },
+  {
+    path: "config", component: ConfigurationComponent,
+    canActivate: [AuthGuard, AdminRoleGuard]
+  },
+  {
+    path: "scan", component: ScannerComponent,
+    canActivate: [AuthGuard, AdminRoleGuard]
+  },
+  {
+    path: "view-report", component: ScanReportComponent,
+    canActivate: [AuthGuard, AdminRoleGuard]
+  },
+  {
+    path: "charts", component: ChartsComponent,
+    canActivate: [AuthGuard, AdminRoleGuard]
+  },
+  {
+    path: "read", component: PrevScansComponent,
+    canActivate: [AuthGuard]
+  },
+  {
+    path: 'single-view', component: SingleViewComponent,
+    canActivate: [AuthGuard, AdminRoleGuard]
+  },
+  {
+    path: '',
+    redirectTo: '/login',
+    pathMatch: 'full'
+  },
+  {
+    path: 'login', component: LoginComponent
+  }
 ];
 
 @NgModule({
