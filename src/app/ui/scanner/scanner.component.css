@@ -1,7 +1,7 @@
 .config-content {
     background-color: #181c28;
     color: whitesmoke;
-    height: 90vh;
+    height: max-content;
     /* width: 87vw; */
     /* position: relative; */
     padding: 2vh 2vw;
@@ -22,7 +22,6 @@
 .content-child-child {
     margin: 4vh 4vw;
     width: 50vw;
-    overflow-x: scroll;
     display: flex;
     align-items: center;
 }
@@ -86,4 +85,8 @@ td {
 
 .submit-button-div>button:hover {
     box-shadow: 0 4px 8px rgba(0, 0, 0, 0.6);
+}
+
+.submit-button-div {
+    margin: 2vh 0;
 }

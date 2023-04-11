@@ -1,7 +1,8 @@
-.inner-dynamic-content{
+.inner-dynamic-content {
     margin: 0;
 }
-.config-content{
+
+.config-content {
     background-color: #222736;
     color: whitesmoke;
     max-height: 70vh;
@@ -10,7 +11,7 @@
     padding: 2vh 22%;
 }
 
-.config-content-child{
+.config-content-child {
     overflow: scroll;
     max-height: 60vh;
     height: 50vh;
@@ -25,16 +26,17 @@
     overflow-x: scroll;
 }
 
-td,th{
+td,
+th {
     border: 1px solid #3f3c3c;
     /* color: white; */
 }
 
-i{
+i {
     margin-right: 1vw;
 }
 
-.config-content-2{
+.config-content-2 {
     background-color: #222736;
     color: whitesmoke;
     max-height: 50vh;
@@ -45,18 +47,23 @@ i{
     overflow: scroll;
 }
 
-button{
+button {
     margin-top: 2vh;
     background-color: rgb(252, 242, 242);
     background-color: #181c28;
     font-weight: bolder;
 }
 
-form>*{
+form>* {
     margin-top: 2vh;
 }
 
-.config-update-button{
+.config-update-button {
     color: whitesmoke;
     background-color: #3f3c3c;
+}
+
+.config-content-child table tr td,
+.config-content-child table tr th {
+    overflow-x: hidden;
 }

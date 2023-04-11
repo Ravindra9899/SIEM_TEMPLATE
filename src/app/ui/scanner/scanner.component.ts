@@ -183,6 +183,8 @@ export class ScannerComponent implements OnInit {
                     response["infoText"].toString().toLowerCase() == "success" &&
                     response["data"].toString().toLowerCase() == "success"
                   ) {
+                    console.log(apiName + " succcess");
+
                     this.scanReportStatus[apiName] = response['data'].toString();
                     this.scanReport[apiName] = response['data'].toString();
                   } else {
@@ -199,7 +201,7 @@ export class ScannerComponent implements OnInit {
                   this.errors.push(apiName);
                 },
                 complete: () => {
-                  console.log("Complet ", `${scanIndex}/${N}`)
+                  console.log("Completed ", `${scanIndex}/${N}`)
                   this.loading = false;
                 }
               }

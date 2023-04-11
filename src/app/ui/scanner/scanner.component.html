@@ -7,16 +7,9 @@
                 <input type="text" name="ipAddress" id="ipInputField" placeholder="Enter the IP Address"
                     [(ngModel)]="ipAddress">
                 <br />
-                <!-- <div *ngFor="let scanOption of getScanOptions()" class="checkbox-div">
-                    <mat-checkbox [checked]="isChecked(scanOption)" color="accent"
-                        (change)="markOptionChange(scanOption)">
-                        {{ scanOption }}
-                    </mat-checkbox>
-                </div> -->
                 <div class="content-child-child">
                     <mat-label>Select Scanner(s)</mat-label>
                     <mat-select [(ngModel)]="selectedScanners" multiple placeholder="Options">
-
                         <mat-option *ngFor="let scanOption of getScanOptions()" [value]="scanOption">
                             {{ scanOption }}
                         </mat-option>
