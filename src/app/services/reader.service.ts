@@ -53,20 +53,23 @@ export class ReaderService {
     );
   }
 
-  apiCallToPrintScanReport(name: string, content: any) {
+  apiCallToPrintScanReport(ipAddress: string): Observable<Blob> {
     let requestUri = this.url + 'pdf';
 
     let data = {
-      'content': content,
-      'name': name
+      'ipAddress': ipAddress
     };
 
     console.log(data);
 
-    return this.httpClient.post(requestUri, data).pipe(
-      catchError(err => {
+    return this.httpClient.post(
+      requestUri,
+      data,
+      { responseType: 'blob' }
+    ).pipe(
+      catchError((err: any): Observable<Blob> => {
         console.error('error in post print ', err);
-        return of([]);
+        return of(new Blob);
       })
     )
   }

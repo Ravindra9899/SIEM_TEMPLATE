@@ -147,14 +147,8 @@ export class SingleViewComponent implements OnInit {
     let tmp_score = 0;
 
     Object.entries(this.threatScores).forEach((entry) => {
-      // console.log(entry);
-      // console.log(typeof entry);
-
       tmp_score = tmp_score + entry[1];
     });
-
-    // console.log(tmp_score);
-
     this.threatScore = tmp_score.toFixed(2);
   }
 
@@ -180,46 +174,49 @@ export class SingleViewComponent implements OnInit {
     }
   }
 
-  print(): void {
-    console.log('clicked print');
-    this.isReportOpen = true;
-    console.log('isReport ', this.isReportOpen);
+  async generatePdf() {
 
+    // since the scanReports is coming from back-end 
+    // and the pdf generation is taking place at the back-end also
+    // the entire process will be done at the backe-end. 
+    // here only the service to download the response file will be called
+    console.log('Calling Service');
 
-    // this.generatePdf();
-    setTimeout(() => {
-      window.print();
-    }, 0);
-    // this.isReportOpen = false;
-    console.log('isReport ', this.isReportOpen);
+    this.readerService.apiCallToPrintScanReport(this.ipAddress).subscribe({
+      complete: () => {
+        console.log('request to print detailed report complete');
+      },
+      error: (err) => {
+        console.error('Error occurred in printing detailed report');
+        console.error(err)
+      },
+      next: (response: Blob) => {
+        console.log("response print received",);
+
+        if (response && response != null && response.size != 0) {
+          const fileURL = URL.createObjectURL(response);
+          window.open(fileURL);
+        } else {
+          window.alert('The download of report failed. Please try again later');
+        }
+      },
+    });
 
   }
 
-  // async generatePdf() {
-  //   const pages = document.querySelectorAll('#collapsible-container');
-  //   const images: string[] = [];
 
-  //   for (let i = 0; i < pages.length; i++) {
-  //     const page = pages[i] as HTMLElement;
-  //     const dataUrl = await htmlToImage.toPng(page);
-  //     images.push(dataUrl);
-  //   }
+  // print(): void {
+  //   console.log('clicked print');
+  //   this.isReportOpen = true;
+  //   console.log('isReport ', this.isReportOpen);
 
-  //   const pdf = new jsPDF();
 
-  //   for (let i = 0; i < images.length; i++) {
-  //     if (i > 0) {
-  //       pdf.addPage();
-  //     }
+  //   // this.generatePdf();
+  //   setTimeout(() => {
+  //     window.print();
+  //   }, 0);
+  //   // this.isReportOpen = false;
+  //   console.log('isReport ', this.isReportOpen);
 
-  //     const imgWidth = pdf.internal.pageSize.getWidth();
-  //     const imgHeight = pdf.internal.pageSize.getHeight();
-  //     pdf.addImage(images[i], 'PNG', 0, 0, imgWidth, imgHeight);
-  //   }
-
-  //   pdf.autoPrint();
-  //   window.open(pdf.output('bloburl'), '_blank');
-  //   window.print();
-  //   // pdf.save('document.pdf');
   // }
 }
