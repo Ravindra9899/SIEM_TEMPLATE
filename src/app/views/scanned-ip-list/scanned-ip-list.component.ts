@@ -1,4 +1,5 @@
 import { Component, OnDestroy, OnInit } from '@angular/core';
+import { ReaderService } from 'src/app/services/reader.service';
 
 import { IpListService } from 'src/app/services/views/ip-list.service';
 
@@ -18,7 +19,10 @@ export class ScannedIpListComponent implements OnInit, OnDestroy {
 
   private records: any[] = [];
 
-  constructor(private ipListService: IpListService) { }
+  constructor(
+    private ipListService: IpListService,
+    private readerService: ReaderService
+  ) { }
 
   getRecords(): any[] {
     return this.records;
@@ -81,9 +85,11 @@ export class ScannedIpListComponent implements OnInit, OnDestroy {
   viewRecordReport(record: Record<string, any>): void {
     console.log("the record view ", this.records.indexOf(record));
 
-    this.singleViewUrl = this.singleViewUrl + record['ipAddress'];
+    // this.singleViewUrl = this.singleViewUrl + record['ipAddress'];
 
-    window.open(this.singleViewUrl, '_blank');
+    // window.open(this.singleViewUrl, '_blank');
+
+    this.generatePdf(record['ipAddress']);
   }
 
   downloadRecordReport(record: Record<string, any>): void {
@@ -94,6 +100,36 @@ export class ScannedIpListComponent implements OnInit, OnDestroy {
 
   deleteRecordReport(record: Record<string, any>): void {
     console.log("the record delete ", this.records.indexOf(record));
+  }
+
+  async generatePdf(ipAddress: string) {
+
+    // since the scanReports is coming from back-end 
+    // and the pdf generation is taking place at the back-end also
+    // the entire process will be done at the backe-end. 
+    // here only the service to download the response file will be called
+    console.log('Calling Service');
+
+    this.readerService.apiCallToPrintScanReport(ipAddress).subscribe({
+      complete: () => {
+        console.log('request to print detailed report complete');
+      },
+      error: (err) => {
+        console.error('Error occurred in printing detailed report');
+        console.error(err)
+      },
+      next: (response: Blob) => {
+        console.log("response print received",);
+
+        if (response && response != null && response.size != 0) {
+          const fileURL = URL.createObjectURL(response);
+          window.open(fileURL);
+        } else {
+          window.alert('The download of report failed. Please try again later');
+        }
+      },
+    });
+
   }
 
 
