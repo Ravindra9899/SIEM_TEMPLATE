@@ -1,4 +1,6 @@
-import { Component, OnDestroy, OnInit } from '@angular/core';
+import { Component, Input, OnDestroy, OnInit, SimpleChanges, ViewChild } from '@angular/core';
+import { DataTableDirective } from 'angular-datatables';
+import { Subject } from 'rxjs';
 import { ReaderService } from 'src/app/services/reader.service';
 
 import { IpListService } from 'src/app/services/views/ip-list.service';
@@ -12,8 +14,12 @@ export class ScannedIpListComponent implements OnInit, OnDestroy {
 
   // @ViewChild(DataTableDirective, { static: true })
   // datatableElement!: DataTableDirective;
+
+  @Input() tableData!: any[];
+  @ViewChild(DataTableDirective, { static: false }) datatableElement!: DataTableDirective;
+
   dtOptions: any = {};
-  // dtTrigger: Subject<any> = new Subject();
+  dtTrigger: Subject<any> = new Subject();
 
   private singleViewUrl = '/single-view?ipAddress=';
 
@@ -30,13 +36,16 @@ export class ScannedIpListComponent implements OnInit, OnDestroy {
 
   ngOnInit(): void {
 
+    console.clear();
+
     this.ipListService
       .getMostRecentlyScannedIpList()
       .subscribe(
         {
           next: (response) => {
             console.log('response received scanned ip list');
-            console.log(response);
+            console.log(response['message'])
+            console.log(typeof response['data']);
 
             if (
               response.message?.toLowerCase() === 'success' &&
@@ -63,16 +72,10 @@ export class ScannedIpListComponent implements OnInit, OnDestroy {
       lengthChange: true,
       jQueryUI: true,
       language: {
-        emptyTable: '',
-        info: 'Showing _START_ to _END_ of _TOTAL_ entries',
-        // infoEmpty: 'Showing 0 to 0 of 0 entries',
-        infoEmpty: '',
-        lengthMenu: 'Show _MENU_ records',
-        // lengthMenu: '',
         search: '_INPUT_',
         searchPlaceholder: 'Search...',
-        zeroRecords: ''
-      },
+        lengthMenu: 'Show _MENU_ records',
+      }
     };
 
     $(document).ready(function () {
@@ -85,29 +88,18 @@ export class ScannedIpListComponent implements OnInit, OnDestroy {
   viewRecordReport(record: Record<string, any>): void {
     console.log("the record view ", this.records.indexOf(record));
 
-    // this.singleViewUrl = this.singleViewUrl + record['ipAddress'];
-
-    // window.open(this.singleViewUrl, '_blank');
-
     this.generatePdf(record['ipAddress']);
   }
 
-  downloadRecordReport(record: Record<string, any>): void {
-    console.log("the record download ", this.records.indexOf(record));
+  // downloadRecordReport(record: Record<string, any>): void {
+  //   console.log("the record download ", this.records.indexOf(record));
+  // }
 
-
-  }
-
-  deleteRecordReport(record: Record<string, any>): void {
-    console.log("the record delete ", this.records.indexOf(record));
-  }
+  // deleteRecordReport(record: Record<string, any>): void {
+  //   console.log("the record delete ", this.records.indexOf(record));
+  // }
 
   async generatePdf(ipAddress: string) {
-
-    // since the scanReports is coming from back-end 
-    // and the pdf generation is taking place at the back-end also
-    // the entire process will be done at the backe-end. 
-    // here only the service to download the response file will be called
     console.log('Calling Service');
 
     this.readerService.apiCallToPrintScanReport(ipAddress).subscribe({
@@ -134,7 +126,17 @@ export class ScannedIpListComponent implements OnInit, OnDestroy {
 
 
   ngOnDestroy(): void {
-    // this.dtTrigger.unsubscribe();
+    this.dtTrigger.unsubscribe();
   }
 
+  // ngOnChanges(changes: SimpleChanges): void {
+  //   if (changes['record']) {
+  //     if (this.datatableElement && this.datatableElement.dtInstance) {
+  //       this.datatableElement.dtInstance.then((dtInstance: DataTables.Api) => {
+  //         dtInstance.destroy();
+  //         this.dtTrigger.next();
+  //       });
+  //     }
+  //   }
+  // }
 }

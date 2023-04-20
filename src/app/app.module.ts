@@ -24,7 +24,6 @@ import { PrevScansComponent } from './ui/prev-scans/prev-scans.component';
 import { AbuseIPDBRecordTableComponent } from './ui/prev-scans/abuse-ipdbrecord-table/abuse-ipdbrecord-table.component';
 import { AlienvaultRecordTableComponent } from './ui/prev-scans/alienvault-record-table/alienvault-record-table.component';
 import { BotvijComponent } from './ui/prev-scans/botvij/botvij.component';
-import { BinaryDefenceComponent } from './ui/prev-scans/binary-defence/binary-defence.component';
 import { BruteforceBlockerComponent } from './ui/prev-scans/bruteforce-blocker/bruteforce-blocker.component';
 import { CinsComponent } from './ui/prev-scans/cins/cins.component';
 import { CirclComponent } from './ui/prev-scans/circl/circl.component';
@@ -52,7 +51,6 @@ import { SignupComponent } from './views/user/signup/signup.component';
     AbuseIPDBRecordTableComponent,
     AlienvaultRecordTableComponent,
     BotvijComponent,
-    BinaryDefenceComponent,
     BruteforceBlockerComponent,
     CinsComponent,
     CirclComponent,
