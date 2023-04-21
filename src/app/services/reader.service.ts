@@ -66,11 +66,15 @@ export class ReaderService {
       requestUri,
       data,
       { responseType: 'blob' }
-    ).pipe(
-      catchError((err: any): Observable<Blob> => {
-        console.error('error in post print ', err);
-        return of(new Blob);
-      })
     )
+      .pipe(
+        catchError((error) => {
+          console.error('An error occurred:', error);
+          return of(
+            new Blob
+          );
+        })
+      )
+      ;
   }
 }

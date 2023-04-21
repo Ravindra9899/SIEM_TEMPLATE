@@ -88,55 +88,76 @@ export class ScannedIpListComponent implements OnInit, OnDestroy {
   viewRecordReport(record: Record<string, any>): void {
     console.log("the record view ", this.records.indexOf(record));
 
-    this.generatePdf(record['ipAddress']);
+    this.downloadPdf(record['ipAddress']);
   }
 
-  // downloadRecordReport(record: Record<string, any>): void {
-  //   console.log("the record download ", this.records.indexOf(record));
+  // async generatePdf(ipAddress: string) {
+  //   console.log('Calling View Service');
+
+  //   this.readerService.apiCallToPrintScanReport(ipAddress).subscribe(
+  //     {
+  //       next: (response: Blob) => {
+  //         // console.log(response.hasOwnProperty['headers'])
+  //         console.log(response)
+  //         // Handle the response here
+  //         let fileName = 'Scan-Report-' + `${ipAddress}.pdf`;
+  //         // Create a URL for the Blob object
+  //         const url = URL.createObjectURL(response);
+
+  //         const newUrl = url + `?fileName=${fileName}`;
+  //         // Open a new window or tab with the new URL
+  //         const newWindow = window.open(newUrl, '_blank');
+
+  //         // Clean up the URL object
+  //         URL.revokeObjectURL(url);
+
+  //       },
+  //       error: (error) => {
+  //         // Handle the error here
+  //         console.error('An error occurred:', error);
+  //         // Display an error message to the user
+  //         alert('Failed to retrieve PDF file: ' + error.message);
+  //       }
+  //     }
+  //   );
   // }
 
-  // deleteRecordReport(record: Record<string, any>): void {
-  //   console.log("the record delete ", this.records.indexOf(record));
-  // }
+  async downloadPdf(ipAddress: string) {
+    console.log('Calling download Service');
 
-  async generatePdf(ipAddress: string) {
-    console.log('Calling Service');
+    this.readerService.apiCallToPrintScanReport(ipAddress).subscribe(
+      {
+        next: (response: Blob) => {
+          // console.log(response.hasOwnProperty['headers'])
+          console.log(response)
+          // Handle the response here
+          let fileName = 'Scan-Report-' + `${ipAddress}.pdf`;
+          // Create a URL for the Blob object
+          const url = URL.createObjectURL(response);
 
-    this.readerService.apiCallToPrintScanReport(ipAddress).subscribe({
-      complete: () => {
-        console.log('request to print detailed report complete');
-      },
-      error: (err) => {
-        console.error('Error occurred in printing detailed report');
-        console.error(err)
-      },
-      next: (response: Blob) => {
-        console.log("response print received",);
+          // Create an anchor element and set its href attribute to the URL
+          const a = document.createElement('a');
+          a.href = url;
+          // Set the anchor element's download attribute to the file name
+          a.download = fileName;
+          // Trigger a click event on the anchor element to download the file
+          a.click();
+          // Clean up the URL object
+          URL.revokeObjectURL(url);
 
-        if (response && response != null && response.size != 0) {
-          const fileURL = URL.createObjectURL(response);
-          window.open(fileURL);
-        } else {
-          window.alert('The download of report failed. Please try again later');
+        },
+        error: (error) => {
+          // Handle the error here
+          console.error('An error occurred:', error);
+          // Display an error message to the user
+          alert('Failed to retrieve PDF file: ' + error.message);
         }
-      },
-    });
-
+      }
+    );
   }
 
 
   ngOnDestroy(): void {
     this.dtTrigger.unsubscribe();
   }
-
-  // ngOnChanges(changes: SimpleChanges): void {
-  //   if (changes['record']) {
-  //     if (this.datatableElement && this.datatableElement.dtInstance) {
-  //       this.datatableElement.dtInstance.then((dtInstance: DataTables.Api) => {
-  //         dtInstance.destroy();
-  //         this.dtTrigger.next();
-  //       });
-  //     }
-  //   }
-  // }
 }

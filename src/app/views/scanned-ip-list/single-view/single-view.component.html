@@ -90,8 +90,8 @@
                             *ngIf="scanReport['API_Name']=='AlienVault'"></app-alienvault-record-table>
 
                         <!-- // Binary Defence -->
-                        <app-binary-defence [scanReport]="scanReport['record']!= null ? scanReport['record']: {}"
-                            *ngIf="scanReport['API_Name']=='Binary Defence Systems Banlist'"></app-binary-defence>
+                        <!-- <app-binary-defence [scanReport]="scanReport['record']!= null ? scanReport['record']: {}"
+                            *ngIf="scanReport['API_Name']=='Binary Defence Systems Banlist'"></app-binary-defence> -->
 
                         <!-- // BotVij -->
                         <app-botvij [scanReport]="scanReport['record']!= null ? scanReport['record']: {}"
