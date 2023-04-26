@@ -13,17 +13,17 @@ i {
     margin: 0 0.5vw;
 }
 
-.mat-form-field-appearance-fill .mat-form-field-flex input {
-    color: whitesmoke;
+
+mat-header-cell {
+    font-size: 16px;
+    border-width: 2px;
+    border-style: groove;
+    text-align: center;
 }
 
-/* .dataTables_length select, */
-:host ::ng-deep .dataTables_length select {
-    color: white;
-    background-color: #181c28;
-}
-
-:host ::ng-deep .dataTables_filter input {
-    color: white;
-    background-color: #181c28;
+mat-cell {
+    font-size: 14px;
+    border-width: 2px;
+    border-style: groove;
+    text-align: center;
 }

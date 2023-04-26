@@ -1,37 +1,96 @@
-import { Component, Input, OnDestroy, OnInit, SimpleChanges, ViewChild } from '@angular/core';
-import { DataTableDirective } from 'angular-datatables';
-import { Subject } from 'rxjs';
+import { AfterViewInit, Component, OnInit, ViewChild } from '@angular/core';
+import { MatTableDataSource } from '@angular/material/table';
+import { MatPaginator } from '@angular/material/paginator';
+
 import { ReaderService } from 'src/app/services/reader.service';
 
 import { IpListService } from 'src/app/services/views/ip-list.service';
+import { MatSort } from '@angular/material/sort';
+
+export interface ScanElement {
+  id: string,
+  ipAddress: string,
+  createdAt: string,
+  updatedAt: string
+};
 
 @Component({
   selector: 'app-scanned-ip-list',
   templateUrl: './scanned-ip-list.component.html',
   styleUrls: ['./scanned-ip-list.component.css']
 })
-export class ScannedIpListComponent implements OnInit, OnDestroy {
-
-  // @ViewChild(DataTableDirective, { static: true })
-  // datatableElement!: DataTableDirective;
-
-  @Input() tableData!: any[];
-  @ViewChild(DataTableDirective, { static: false }) datatableElement!: DataTableDirective;
-
-  dtOptions: any = {};
-  dtTrigger: Subject<any> = new Subject();
-
-  private singleViewUrl = '/single-view?ipAddress=';
+export class ScannedIpListComponent implements OnInit, AfterViewInit {
 
   private records: any[] = [];
+  displayedColumnNames = ['S.No', 'Target IP Address', 'Scanned On', 'Updated On', 'Actions'];
+  displayedRecords = new MatTableDataSource<any>([]);
+
+  @ViewChild('paginator', { static: false }) paginator!: MatPaginator;
+
+  @ViewChild(MatSort, { static: false }) sort!: MatSort;
+
 
   constructor(
     private ipListService: IpListService,
     private readerService: ReaderService
-  ) { }
+  ) {
+    console.clear();
+  }
+
+  ngAfterViewInit(): void {
+    // throw new Error('Method not implemented.');
+    console.log("getting this.paginator");
+    console.log(this.paginator);
+    if (this.paginator) {
+      this.displayedRecords.paginator = this.paginator;
+    }
+
+    console.log('getting this.sort')
+    console.log(this.sort);
+    if (this.sort) {
+      this.displayedRecords.sort = this.sort;
+    }
+  }
 
   getRecords(): any[] {
     return this.records;
+  }
+
+  processRecordsForDisplay(): void {
+    if (this.records.length > 0) {
+      let tmp: ScanElement[] = [];
+      for (let i = 0; i < this.records.length; i++) {
+        let record = this.records[i];
+
+        let id = i + 1;
+        let ipAddress = record['ipAddress'] || '';
+        let createdAt = record['createdAt'] || '';
+        let updatedAt = record['updatedAt'] || '';
+
+        // if (ipAddress) {
+        const newRow: ScanElement = {
+          id: id.toString(),
+          ipAddress: ipAddress,
+          createdAt: createdAt,
+          updatedAt: updatedAt
+        };
+
+        tmp.push(newRow);
+        // }
+      }
+
+      this.displayedRecords.data = tmp;
+
+      console.log("here");
+      console.log('this paginator')
+      console.log(this.paginator);
+
+      console.log('this sort')
+      console.log(this.sort);
+      console.log('this displayrecords')
+      console.log(this.displayedRecords.sort);
+      console.log(this.displayedRecords.paginator);
+    }
   }
 
   ngOnInit(): void {
@@ -44,7 +103,7 @@ export class ScannedIpListComponent implements OnInit, OnDestroy {
         {
           next: (response) => {
             console.log('response received scanned ip list');
-            console.log(response['message'])
+            console.log(response['data'])
             console.log(typeof response['data']);
 
             if (
@@ -53,6 +112,8 @@ export class ScannedIpListComponent implements OnInit, OnDestroy {
               Array.isArray(response.data)
             ) {
               this.records = response['data'];
+
+              this.processRecordsForDisplay();
             }
           },
           error: (err) => {
@@ -63,64 +124,43 @@ export class ScannedIpListComponent implements OnInit, OnDestroy {
           },
         }
       );
-
-    this.dtOptions = {
-      pagingType: 'full_numbers',
-      pageLength: 10,
-      processing: true,
-      searching: true,
-      lengthChange: true,
-      jQueryUI: true,
-      language: {
-        search: '_INPUT_',
-        searchPlaceholder: 'Search...',
-        lengthMenu: 'Show _MENU_ records',
-      }
-    };
-
-    $(document).ready(function () {
-      let variable = $('#example').DataTable({
-        responsive: true
-      })
-    });
   }
 
   viewRecordReport(record: Record<string, any>): void {
     console.log("the record view ", this.records.indexOf(record));
 
-    this.downloadPdf(record['ipAddress']);
+    this.generatePdf(record['ipAddress']);
   }
 
-  // async generatePdf(ipAddress: string) {
-  //   console.log('Calling View Service');
+  async generatePdf(ipAddress: string) {
+    console.log('Calling View Service');
 
-  //   this.readerService.apiCallToPrintScanReport(ipAddress).subscribe(
-  //     {
-  //       next: (response: Blob) => {
-  //         // console.log(response.hasOwnProperty['headers'])
-  //         console.log(response)
-  //         // Handle the response here
-  //         let fileName = 'Scan-Report-' + `${ipAddress}.pdf`;
-  //         // Create a URL for the Blob object
-  //         const url = URL.createObjectURL(response);
+    this.readerService.apiCallToPrintScanReport(ipAddress).subscribe(
+      {
+        next: (response: Blob) => {
+          // console.log(response.hasOwnProperty['headers'])
+          console.log(response)
+          // Handle the response here
+          let fileName = 'Scan-Report-' + `${ipAddress}.pdf`;
+          // Create a URL for the Blob object
+          const url = URL.createObjectURL(response);
 
-  //         const newUrl = url + `?fileName=${fileName}`;
-  //         // Open a new window or tab with the new URL
-  //         const newWindow = window.open(newUrl, '_blank');
+          // Open a new window or tab with the new URL
+          const newWindow = window.open(url, '_blank');
 
-  //         // Clean up the URL object
-  //         URL.revokeObjectURL(url);
+          // Clean up the URL object
+          URL.revokeObjectURL(url);
 
-  //       },
-  //       error: (error) => {
-  //         // Handle the error here
-  //         console.error('An error occurred:', error);
-  //         // Display an error message to the user
-  //         alert('Failed to retrieve PDF file: ' + error.message);
-  //       }
-  //     }
-  //   );
-  // }
+        },
+        error: (error) => {
+          // Handle the error here
+          console.error('An error occurred:', error);
+          // Display an error message to the user
+          alert('Failed to retrieve PDF file: ' + error.message);
+        }
+      }
+    );
+  }
 
   async downloadPdf(ipAddress: string) {
     console.log('Calling download Service');
@@ -154,10 +194,5 @@ export class ScannedIpListComponent implements OnInit, OnDestroy {
         }
       }
     );
-  }
-
-
-  ngOnDestroy(): void {
-    this.dtTrigger.unsubscribe();
   }
 }

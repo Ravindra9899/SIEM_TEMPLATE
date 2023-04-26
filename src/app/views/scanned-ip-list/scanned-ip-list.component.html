@@ -2,41 +2,55 @@
     <p>
         Total IP Scanned : {{ getRecords().length }}
     </p>
-    <div>
-        <table datatable [dtOptions]="dtOptions" class="table">
-            <thead>
-                <tr>
-                    <td>S.No.</td>
-                    <td>Record Id</td>
-                    <td>Target IP Address</td>
-                    <td>Scanned On</td>
-                    <td>Updated On</td>
-                    <td>Actions</td>
-                </tr>
-            </thead>
-            <tbody>
-                <tr *ngFor="let record of getRecords()">
-                    <td>{{ getRecords().indexOf(record) + 1 }}</td>
-                    <td>{{ record['scanReportId'] }}</td>
-                    <td style="color: rgb(233, 194, 87)">{{ record['ipAddress'] }}</td>
-                    <td>{{ record['createdAt'] | date:'MMM dd, yyyy' }}</td>
-                    <td>{{ record['updatedAt'] | date:'MMM dd, yyyy'}}</td>
-                    <td>
-                        <div style="display: inline;">
-                            <div class="action-div">
-                                <i class="fa fa-eye" (click)="viewRecordReport(record)">
-                                </i>
-                            </div>
-                        </div>
-                    </td>
-                </tr>
-            </tbody>
-        </table>
-    </div>
+    <ng-container>
+        <div>
+            <mat-table [dataSource]="displayedRecords" matSort>
+                <!-- S.No. column -->
+                <ng-container matColumnDef="S.No">
+                    <mat-header-cell *matHeaderCellDef mat-sort-header="id">S.No</mat-header-cell>
+                    <mat-cell *matCellDef="let element">{{ element.id }}</mat-cell>
+                </ng-container>
+
+                <!-- Target IP Address column -->
+                <ng-container matColumnDef="Target IP Address">
+                    <mat-header-cell *matHeaderCellDef mat-sort-header="ipAddress">Target IP Address</mat-header-cell>
+                    <mat-cell *matCellDef="let element">{{ element.ipAddress }}</mat-cell>
+                </ng-container>
+
+                <!-- Scanned On column -->
+                <ng-container matColumnDef="Scanned On">
+                    <mat-header-cell *matHeaderCellDef mat-sort-header="createdAt">Scanned On</mat-header-cell>
+                    <mat-cell *matCellDef="let element">{{ element.createdAt | date:"EEE, MMM dd ,yyyy"
+                        }}</mat-cell>
+                </ng-container>
+
+                <!-- Updated On column -->
+                <ng-container matColumnDef="Updated On">
+                    <mat-header-cell *matHeaderCellDef mat-sort-header="updatedAt">Updated On</mat-header-cell>
+                    <mat-cell *matCellDef="let element">{{ element.updatedAt | date: "EEE, MMM dd ,yyyy"
+                        }}</mat-cell>
+                </ng-container>
+
+                <!-- Actions column -->
+                <ng-container matColumnDef="Actions">
+                    <mat-header-cell *matHeaderCellDef>Actions</mat-header-cell>
+                    <mat-cell *matCellDef="let element">
+                        <button mat-icon-button (click)="viewRecordReport(element)">
+                            <i class="fa fa-eye"></i>
+                        </button>
+                        <button mat-icon-button (click)="downloadPdf(element.ipAddress)">
+                            <i class="fa fa-download"></i>
+                        </button>
+                    </mat-cell>
+                </ng-container>
+
+                <!-- Table rows -->
+                <mat-header-row *matHeaderRowDef="displayedColumnNames"></mat-header-row>
+                <mat-row *matRowDef="let row; columns: displayedColumnNames;"></mat-row>
+            </mat-table>
+            <!-- Pagination -->
+            <mat-paginator #paginator [length]="getRecords().length" [pageSize]="5" [pageSizeOptions]="[5, 10, 25, 50]">
+            </mat-paginator>
+        </div>
+    </ng-container>
 </div>
-
-
-<!-- <div class="action-div">
-                                <i class="fa fa-trash" style="color: red;">
-                                </i>
-                            </div> -->

@@ -13,6 +13,10 @@ import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { MatSelectModule } from '@angular/material/select';
 import { MatChipsModule } from "@angular/material/chips";
+import { DataTablesModule } from 'angular-datatables';
+import { MatTableModule } from '@angular/material/table';
+import { MatPaginatorModule } from '@angular/material/paginator';
+import { MatSortModule } from '@angular/material/sort';
 
 import { ScannerComponent } from './ui/scanner/scanner.component';
 import { ConfigurationComponent } from './ui/configuration/configuration.component';
@@ -33,7 +37,6 @@ import { VirustotalComponent } from './ui/prev-scans/virustotal/virustotal.compo
 import { WhoisComponent } from './ui/prev-scans/whois/whois.component';
 import { ScannedIpListComponent } from './views/scanned-ip-list/scanned-ip-list.component';
 import { ScannedUrlsListComponent } from './views/scanned-urls-list/scanned-urls-list.component';
-import { DataTablesModule } from 'angular-datatables';
 import { SingleViewComponent } from './views/scanned-ip-list/single-view/single-view.component';
 import { LoginComponent } from './views/user/login/login.component';
 import { SignupComponent } from './views/user/signup/signup.component';
@@ -80,7 +83,9 @@ import { SignupComponent } from './views/user/signup/signup.component';
     MatProgressSpinnerModule,
     MatSelectModule,
     MatChipsModule,
-    DataTablesModule,
+    MatTableModule,
+    MatPaginatorModule,
+    MatSortModule
   ],
   providers: [],
   bootstrap: [AppComponent]
