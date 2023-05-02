@@ -6,6 +6,7 @@ import { ReaderService } from 'src/app/services/reader.service';
 
 import { IpListService } from 'src/app/services/views/ip-list.service';
 import { MatSort } from '@angular/material/sort';
+import { Router } from '@angular/router';
 
 export interface ScanElement {
   id: string,
@@ -32,7 +33,9 @@ export class ScannedIpListComponent implements OnInit, AfterViewInit {
 
   constructor(
     private ipListService: IpListService,
-    private readerService: ReaderService
+    private readerService: ReaderService,
+    private router: Router
+
   ) {
     console.clear();
   }
@@ -127,9 +130,15 @@ export class ScannedIpListComponent implements OnInit, AfterViewInit {
   }
 
   viewRecordReport(record: Record<string, any>): void {
-    console.log("the record view ", this.records.indexOf(record));
+    // console.log("the record view ", this.records.indexOf(record));
 
-    this.generatePdf(record['ipAddress']);
+    let ipAddress = record['ipAddress'];
+    // console.log(record);
+    console.log("ghhghghfg", ipAddress);
+
+    // this.readerService.apiCallToGetSingleView()
+    this.router.navigate(['/single-view', ipAddress])
+
   }
 
   async generatePdf(ipAddress: string) {

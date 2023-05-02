@@ -37,8 +37,7 @@ const routes: Routes = [
     canActivate: [AuthGuard]
   },
   {
-    path: 'single-view', component: SingleViewComponent,
-    canActivate: [AuthGuard, AdminRoleGuard]
+    path: 'single-view/:ipAddress', component: SingleViewComponent
   },
   {
     path: '',
