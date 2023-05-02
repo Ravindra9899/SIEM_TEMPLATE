@@ -10,7 +10,7 @@
                 </a>
             </li>
 
-            <li routerLinkActive="active" class="nav-item">
+            <li routerLinkActive="active" class="nav-item" *ngIf="isSuperadmin">
                 <a class="nav-link" [routerLink]="['/charts']">
                     <i class="fa fa-tachometer"></i>
                     <span style="color: #EEC75D">Charts</span>
