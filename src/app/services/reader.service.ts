@@ -51,9 +51,9 @@ export class ReaderService {
     }
   }
 
-  apiCallToGetSingleViewAsn(ipAddress: string): Observable<any> {
+  apiCallToGetSingleView(ipAddress: string): Observable<any> {
 
-    const requestUri = this.url + `/single-view-asn?ipAddress=${ipAddress}`;
+    const requestUri = this.url + `/single-view?ipAddress=${ipAddress}`;
 
     return this.httpClient.get(requestUri).pipe(
       catchError(
