@@ -1,17 +1,40 @@
 <app-content>
     <ng-container class="inner-dynamic-content">
-        <div>
-            <!-- <pre>
-                        {{ content | json }}
-            </pre> -->
+        <div *ngIf="isArray(content)">
+            <ng-container
+                *ngIf="doesArrayElementExists(content, 3) && content[3]['text'] == 'Summary' && doesArrayElementExists(content, 4)">
+                <div *ngIf="doesObjectPropertyExists(content[4], 'body') && isArray(content[4]['body'])">
+                    <h4>Summary</h4>
+                    <br>
+                    <div>
+                        <table>
+                            <tr>
+                                <th>
+                                    IP Address
+                                </th>
+                                <td>
+                                    {{ content[4]['body'][0][1]['text'] }}
+                                </td>
+                            </tr>
+                            <tr>
+                                <th>
+                                    Threat Score
+                                </th>
+                                <td>
+                                    <div
+                                        [ngStyle]="{'background-color': content[4]['body'][1][1]['fillColor'] || 'orange'}">
+                                        {{ content[4]['body'][1][1]['text'] }}
+                                    </div>
+                                </td>
+                            </tr>
+                        </table>
+                        <pre>
+                            {{ content[4]['body'][2] | json }}
+                        </pre>
+                    </div>
+                </div>
 
-            <pre>
-                {{ content[3] | json }}
-            </pre>
-            <br>
-            <pre>
-                {{ content[4] | json }}
-            </pre>
+            </ng-container>
             <br>
             <!-- <pre>
                 {{ content[5] | json }}

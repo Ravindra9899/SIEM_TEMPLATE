@@ -1,3 +1,15 @@
-div pre {
+div {
+    color: whitesmoke red !important;
+}
+
+div * {
+    color: whitesmoke red !important;
+}
+
+pre {
+    color: whitesmoke !important
+}
+
+h4 {
     color: whitesmoke !important;
 }

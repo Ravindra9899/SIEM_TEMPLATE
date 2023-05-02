@@ -52,4 +52,56 @@ export class SingleViewComponent implements OnInit {
     });
   }
 
+  doesExist(parameter: any): boolean {
+    if (
+      parameter &&
+      parameter != null
+    ) {
+      return true;
+    } else {
+      return false;
+    }
+  }
+
+  isArray(parameter: any): boolean {
+    if (
+      Array.isArray(parameter) &&
+      parameter.length > 0
+    ) {
+      return true;
+    } else {
+      return false;
+    }
+  }
+
+  isObject(parameter: any): boolean {
+    if (typeof parameter == 'object' && !Array.isArray(parameter)) {
+      return true;
+    } else {
+      return false;
+    }
+  }
+
+  doesArrayElementExists(array: any, index: number): boolean {
+    if (
+      this.isArray(array) && array.length > index
+    ) {
+      return true;
+    } else {
+      return false;
+    }
+  }
+
+  doesObjectPropertyExists(object: any, property: string) {
+    if (
+      this.isObject(object) &&
+      object[`${property}`] != null &&
+      object[`${property}`] != undefined
+    ) {
+      return true;
+    } else {
+      return false;
+    }
+  }
+
 }
