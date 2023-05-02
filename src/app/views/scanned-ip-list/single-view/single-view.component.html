@@ -10,35 +10,119 @@
                         <table>
                             <tr>
                                 <th>
-                                    IP Address
+                                    <div>
+                                        IP Address
+                                    </div>
                                 </th>
                                 <td>
-                                    {{ content[4]['body'][0][1]['text'] }}
+                                    <div>
+                                        {{ content[4]['body'][0][1]['text'] }}
+                                    </div>
                                 </td>
                             </tr>
+
                             <tr>
                                 <th>
-                                    Threat Score
+                                    <div>
+                                        Threat Score
+                                    </div>
                                 </th>
                                 <td>
                                     <div
-                                        [ngStyle]="{'background-color': content[4]['body'][1][1]['fillColor'] || 'orange'}">
+                                        [ngStyle]="{'background-color': content[4]['body'][1][1]['fillColor'] || '#ed841a'}">
                                         {{ content[4]['body'][1][1]['text'] }}
                                     </div>
                                 </td>
                             </tr>
+
+                            <tr>
+                                <th>
+                                    <div>
+                                        Country
+                                    </div>
+                                </th>
+                                <td>
+                                    <div
+                                        [ngStyle]="{'background-color': content[4]['body'][2][1]['table']['body'][0][0]['fillColor']}">
+                                        <ul *ngIf="content[4]['body'][2][1]['table']['body'][0].length>0">
+                                            <li *ngFor="let country of content[4]['body'][2][1]['table']['body'][0]">
+                                                {{ country['text'] }}
+                                            </li>
+                                        </ul>
+
+                                    </div>
+                                </td>
+                            </tr>
+
+                            <tr>
+                                <th>
+                                    <div>
+                                        ASN ID
+                                    </div>
+                                </th>
+                                <td>
+                                    <div
+                                        [ngStyle]="{'background-color': content[4]['body'][3][1]['table']['body'][0][0]['fillColor']}">
+                                        <ul *ngIf="content[4]['body'][3][1]['table']['body'][0].length>0">
+                                            <li *ngFor="let asn of content[4]['body'][3][1]['table']['body'][0]">
+                                                {{ asn['text'] }}
+                                            </li>
+                                        </ul>
+
+                                    </div>
+                                </td>
+                            </tr>
+
+                            <tr>
+                                <th>
+                                    <div>
+                                        ASN Name
+                                    </div>
+                                </th>
+                                <td>
+                                    <div
+                                        [ngStyle]="{'background-color': content[4]['body'][4][1]['table']['body'][0][0]['fillColor']}">
+                                        <ul *ngIf="content[4]['body'][4][1]['table']['body'][0].length>0">
+                                            <li *ngFor="let asn_name of content[4]['body'][4][1]['table']['body'][0]">
+                                                {{ asn_name['text'] }}
+                                            </li>
+                                        </ul>
+
+                                    </div>
+                                </td>
+                            </tr>
+
+                            <tr>
+                                <th>
+                                    <div>
+                                        Regional Internet Registry
+                                    </div>
+                                </th>
+                                <td>
+                                    <div
+                                        [ngStyle]="{'background-color': content[4]['body'][5][1]['table']['body'][0][0]['fillColor']}">
+                                        <ul *ngIf="content[4]['body'][5][1]['table']['body'][0].length>0">
+                                            <li *ngFor="let rir of content[4]['body'][5][1]['table']['body'][0]">
+                                                {{ rir['text'] }}
+                                            </li>
+                                        </ul>
+
+                                    </div>
+                                </td>
+                            </tr>
                         </table>
-                        <pre>
-                            {{ content[4]['body'][2] | json }}
-                        </pre>
                     </div>
                 </div>
 
             </ng-container>
-            <br>
-            <!-- <pre>
-                {{ content[5] | json }}
-            </pre> -->
+
+            <div class="report-print">
+                <button (click)="downloadPdf()">
+                    <span>
+                        Print Detail Report
+                    </span>
+                </button>
+            </div>
         </div>
     </ng-container>
 </app-content>

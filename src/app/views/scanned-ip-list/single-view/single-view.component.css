@@ -1,15 +1,40 @@
 div {
-    color: whitesmoke !important;
+    color: whitesmoke;
 }
 
 div * {
-    color: whitesmoke !important;
+    color: whitesmoke;
 }
 
 pre {
-    color: whitesmoke !important
+    color: whitesmoke
 }
 
 h4 {
-    color: whitesmoke !important;
+    color: whitesmoke;
+}
+
+table,
+th,
+td {
+    border: 1px solid wheat;
+}
+
+th,
+td {
+    width: 50%;
+}
+
+th div,
+td div {
+    margin: 2vh 1.5vw;
+}
+
+.report-print {
+    text-align: center;
+    margin-top: 2vh;
+}
+
+.report-print * {
+    color: black !important;
 }

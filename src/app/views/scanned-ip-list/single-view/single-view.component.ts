@@ -104,4 +104,40 @@ export class SingleViewComponent implements OnInit {
     }
   }
 
+  async downloadPdf() {
+    console.log('Calling download Service');
+
+
+
+    this.readerService.apiCallToPrintScanReport(this.ipAddress).subscribe(
+      {
+        next: (response: Blob) => {
+          // console.log(response.hasOwnProperty['headers'])
+          console.log(response)
+          // Handle the response here
+          let fileName = 'Scan-Report-' + `${this.ipAddress}.pdf`;
+          // Create a URL for the Blob object
+          const url = URL.createObjectURL(response);
+
+          // Create an anchor element and set its href attribute to the URL
+          const a = document.createElement('a');
+          a.href = url;
+          // Set the anchor element's download attribute to the file name
+          a.download = fileName;
+          // Trigger a click event on the anchor element to download the file
+          a.click();
+          // Clean up the URL object
+          URL.revokeObjectURL(url);
+
+        },
+        error: (error) => {
+          // Handle the error here
+          console.error('An error occurred:', error);
+          // Display an error message to the user
+          alert('Failed to retrieve PDF file: ' + error.message);
+        }
+      }
+    );
+  }
+
 }
