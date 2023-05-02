@@ -1,9 +1,9 @@
 div {
-    color: whitesmoke red !important;
+    color: whitesmoke !important;
 }
 
 div * {
-    color: whitesmoke red !important;
+    color: whitesmoke !important;
 }
 
 pre {
