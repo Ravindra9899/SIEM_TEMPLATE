@@ -1,0 +1,11 @@
+.charts-div{
+    color: whitesmoke;
+    padding: 4vh 2vw;
+    background-color: #222736;
+}
+#pie-chart-scanreport{
+    padding: 0 0;
+    height: 50vh;
+    width: 35vw;
+    background-color: #222735;
+}

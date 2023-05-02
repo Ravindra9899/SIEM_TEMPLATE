@@ -1,0 +1,29 @@
+div {
+    color: whitesmoke;
+    text-align: left;
+    font-size: 14px;
+}
+
+i {
+    color: whitesmoke;
+}
+
+.action-div {
+    display: inline-block;
+    margin: 0 0.5vw;
+}
+
+
+mat-header-cell {
+    font-size: 16px;
+    border-width: 2px;
+    border-style: groove;
+    text-align: center;
+}
+
+mat-cell {
+    font-size: 14px;
+    border-width: 2px;
+    border-style: groove;
+    text-align: center;
+}

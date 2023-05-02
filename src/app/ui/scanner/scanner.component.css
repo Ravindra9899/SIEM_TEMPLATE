@@ -1,0 +1,92 @@
+.config-content {
+    background-color: #181c28;
+    color: whitesmoke;
+    height: max-content;
+    /* width: 87vw; */
+    /* position: relative; */
+    padding: 2vh 2vw;
+}
+
+.content-child {
+    display: block;
+    margin-top: 7vh;
+    padding: 4vh 4vw;
+    align-items: center;
+    text-align: center;
+    background-color: #222736;
+    color: #181c28;
+    font-weight: bolder;
+    color: whitesmoke;
+}
+
+.content-child-child {
+    margin: 4vh 4vw;
+    width: 50vw;
+    display: flex;
+    align-items: center;
+}
+
+.content-child-child>mat-label {
+    margin-right: 8vw;
+    width: 40vw;
+}
+
+::ng-deep .mat-select-arrow {
+    color: aquamarine;
+    transform: scale(1.5);
+}
+
+::ng-deep .mat-select-placeholder {
+    color: whitesmoke;
+}
+
+::ng-deep .mat-select-value-text {
+    display: none;
+}
+
+::ng-deep .mat-option-text {
+    color: whitesmoke;
+}
+
+::ng-deep .mat-option .mat-pseudo-checkbox-checked {
+    background-color: rgb(44, 138, 130);
+}
+
+.status-div {
+    text-align: center;
+}
+
+table,
+tr,
+th,
+td {
+    text-align: center;
+    border-color: rgb(145, 143, 143);
+    border-width: 1px;
+}
+
+.spinner-container {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100%;
+}
+
+.report-table {
+    overflow: scroll;
+}
+
+.submit-button-div>button {
+    box-shadow: 0.6vw 0.8vh 8px rgba(99, 96, 96, 0.2);
+    background-color: #181c28;
+    color: whitesmoke;
+    width: 9vw;
+}
+
+.submit-button-div>button:hover {
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.6);
+}
+
+.submit-button-div {
+    margin: 2vh 0;
+}

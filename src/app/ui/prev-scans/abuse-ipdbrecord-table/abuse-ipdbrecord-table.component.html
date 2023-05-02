@@ -1,0 +1,78 @@
+<!-- <pre>{{ scanReport | json }}</pre> -->
+<div class="scan-report">
+    <b>Scan Report</b>
+    <div class="scan-details">
+        <table>
+            <tr>
+                <td><strong>IP Address:</strong></td>
+                <td>{{scanReport["ipAddress"]}}</td>
+            </tr>
+            <tr>
+                <td><strong>IP Version:</strong></td>
+                <td>{{scanReport["ipVersion"]}}</td>
+            </tr>
+            <tr>
+                <td><strong>Domain:</strong></td>
+                <td>{{scanReport["domain"]}}</td>
+            </tr>
+            <tr>
+                <td><strong>ISP:</strong></td>
+                <td>{{ scanReport["isp"] }}</td>
+            </tr>
+            <tr>
+                <td><strong>Country:</strong></td>
+                <td>{{scanReport["countryName"]}} ({{scanReport["countryCode"]}})</td>
+            </tr>
+            <tr>
+                <td><strong>Usage Type:</strong></td>
+                <td>{{scanReport["usageType"]}}</td>
+            </tr>
+            <tr>
+                <td><strong>Public:</strong></td>
+                <td>{{scanReport["isPublic"]}}</td>
+            </tr>
+            <tr>
+                <td><strong>Whitelisted:</strong></td>
+                <td>{{scanReport["isWhitelisted"]}}</td>
+            </tr>
+            <tr>
+                <td><strong>Last Reported At:</strong></td>
+                <td>{{scanReport["lastReportedAt"]}}</td>
+            </tr>
+        </table>
+
+        <table>
+            <tr>
+                <td><strong>Hostnames:</strong></td>
+                <td>
+                    <ul>
+                        <li *ngFor="let hostname of scanReport['hostnames']">{{hostname}}</li>
+                    </ul>
+                </td>
+            </tr>
+        </table>
+    </div>
+    <div class="reports">
+        <h3>Reports ({{scanReport["totalReports"]}})</h3>
+        <table class="table-report">
+            <thead>
+                <tr>
+                    <th class="table-head-report">Reported At</th>
+                    <th class="table-head-report">Reporter Country Code</th>
+                    <th class="table-head-report">Reporter Country Name</th>
+                    <th class="table-head-report">Report Categories</th>
+                    <th class="table-head-report">Comment</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr *ngFor="let report of scanReport['reports']">
+                    <td class="table-cell-report">{{report["reportedAt"]}}</td>
+                    <td class="table-cell-report">{{report["reporterCountryCode"]}}</td>
+                    <td class="table-cell-report">{{report["reporterCountryName"]}}</td>
+                    <td class="table-cell-report">{{report["categories"] | json}}</td>
+                    <td class="table-cell-report">{{report["comment"]}}</td>
+                </tr>
+            </tbody>
+        </table>
+    </div>
+</div>

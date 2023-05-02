@@ -1,0 +1,145 @@
+<app-content>
+    <ng-container class="inner-dynamic-content">
+        <div class="config-content">
+            <div style="text-align: center;font-weight: bold; font-size: large; margin: 2vh 0 2vh 0;">
+                Configuration Page
+            </div>
+            <div class="config-content-child">
+                <table>
+                    <tr>
+                        <th>S. No.</th>
+                        <th>API Name</th>
+                        <th>Status</th>
+                        <th>Actions</th>
+                    </tr>
+                    <tr *ngFor="let api of getAvailableApis()">
+                        <td>
+                            {{ getAvailableApis().indexOf(api) + 1 }}
+                        </td>
+                        <td>
+                            {{ api["API_Name"] }}
+                        </td>
+                        <td
+                            [ngStyle]="{'color': api['status'] === 'Active' ? 'green' : api['status'] === 'Disabled' ? 'red' : 'yellow'}">
+                            {{ api["status"] }}</td>
+                        <td>
+                            <i class="fa fa-eye" matTooltip="View" aria-hidden="true"
+                                (click)="onApiView(getAvailableApis().indexOf(api))" *ngIf="showScannerView(api)">
+                            </i>
+                            <i class="fa fa-edit" matTooltip="Edit" aria-hidden="true"
+                                (click)="onApiEdit(getAvailableApis().indexOf(api))" *ngIf="showScannerEdit(api)">
+                            </i>
+                            <i class="fa fa-circle" matTooltip="Edit" aria-hidden="true" style="color: #222736;"
+                                *ngIf="!showScannerEdit(api)">
+                            </i>
+                            <i class="fa"
+                                [ngClass]="{'fa-ban': api['status']=='Active', 'fa-check': api['status']=='Inactive'}"
+                                [matTooltip]="api['status']=='Active'? 'Disable':'Activate'" aria-hidden="true"
+                                (click)="onApiDisable(getAvailableApis().indexOf(api))">
+                            </i>
+                        </td>
+                    </tr>
+                </table>
+            </div>
+        </div>
+    </ng-container>
+    <ng-container class="inner-dynamic-content-2" *ngIf="this.showEditor">
+        <div class="config-content-2">
+            <h3 style="text-align: center;"> {{ this.getAvailableApis()[this.currentIdOfApi]['API_Name'] }} </h3>
+            
+            <!-- Abuse IP DB -->
+            <form *ngIf="getAvailableApis()[currentIdOfApi]['API_Name']=='Abuse IPDB'"
+                [formGroup]="forms['Abuse IPDB']">
+                Current API key:
+                <div style="width: 40vw; max-width: 40vw; margin-left: 20vw; overflow-x: scroll;">
+                    <b>{{ this.getAvailableApis()[currentIdOfApi]['config']['Key'] }}</b>
+                </div>
+                <div>
+                    Enter new API Key: <input type="text" formControlName="newApiKey"
+                        placeholder="Enter new API key">
+                </div>
+                <button class="config-update-button" (click)="onApiConfigUpdateClick('Abuse IPDB')">Submit</button>
+                <br>
+            </form>
+
+            <!-- AlienVault -->
+            <form *ngIf="getAvailableApis()[currentIdOfApi]['API_Name']=='AlienVault'"
+                [formGroup]="forms['AlienVault']">
+                Current API key:
+                <div style="width: 40vw; max-width: 40vw; margin-left: 20vw; overflow-x: scroll;">
+                    <b>{{ this.getAvailableApis()[currentIdOfApi]['config']['api_otx_key'] }}</b>
+                </div>
+                <div>
+                    Enter new API Key: <input type="text" formControlName="newApiKey"
+                        placeholder="Enter new API key">
+                </div>
+                <button class="config-update-button" (click)="onApiConfigUpdateClick('AlienVault')">Submit</button>
+                <br>
+            </form>
+            
+            <!-- HoneyDB -->
+            <form *ngIf="getAvailableApis()[currentIdOfApi]['API_Name']=='HoneyDB'" [formGroup]="forms['HoneyDB']">
+                <div>
+                    Current API Id:
+                    <span style="width: 40vw; max-width: 40vw; margin-left: 20vw; overflow-x: scroll;">
+                        <b>{{ this.getAvailableApis()[currentIdOfApi]['config']['api_id'] }}</b>
+                    </span>
+                    <br>
+                    Current API Key:
+                    <span style="width: 40vw; max-width: 40vw; margin-left: 20vw; overflow-x: scroll;">
+                        <b>{{ this.getAvailableApis()[currentIdOfApi]['config']['api_key'] }}</b>
+                    </span>
+                </div>
+                Enter API Id:
+                <input type="text" formControlName="newApiId" placeholder="Enter new API Id">
+                <br>
+                Enter API Key:
+                <input type="text" formControlName="newApiKey" placeholder="Enter new API Key">
+                <br>
+                <button class="config-update-button" (click)="onApiConfigUpdateClick('HoneyDB')">Submit</button>
+                <br>
+            </form>
+
+            <!-- Maltiverse -->
+            <form *ngIf="getAvailableApis()[currentIdOfApi]['API_Name']=='Maltiverse'"
+                [formGroup]="forms['Maltiverse']">
+                Current Auth Token:
+                <div style="width: 40vw; max-width: 40vw; margin-left: 20vw; overflow-x: scroll;">
+                    <b>{{ this.getAvailableApis()[currentIdOfApi]['config']['bearerToken'] }}</b>
+                </div>
+
+                <div>
+                    Enter new API Key: <input type="text" formControlName="newBearerToken"
+                        placeholder="Enter new Auth Token">
+                </div>
+                <button class="config-update-button" (click)="onApiConfigUpdateClick('Maltiverse')">Submit</button>
+                <br>
+            </form>
+
+            <!--  Virus Total -->
+            <form *ngIf="getAvailableApis()[currentIdOfApi]['API_Name']=='Virus Total'"
+                [formGroup]="forms['Virus Total']">
+                Current API Key: <b>{{ this.getAvailableApis()[currentIdOfApi]['config']['api_key'] }}</b>
+                <br>
+                <div>
+                    Enter new API Key <input type="text" formControlName="newApiKey" placeholder="Enter new API Key">
+                </div>
+                <button class="config-update-button" (click)="onApiConfigUpdateClick('Virus Total')">Submit</button>
+                <br>
+            </form>
+
+            <!-- Who Is IP Netblocks -->
+            <form *ngIf="getAvailableApis()[currentIdOfApi]['API_Name']=='Who Is IP Netblocks'"
+                [formGroup]="forms['Who Is IP Netblocks']">
+                Current API Key: <b>{{ this.getAvailableApis()[currentIdOfApi]['config']['apiKey'] }}</b>
+                <br>
+                <div>
+                    Enter new API Key <input type="text" formControlName="newApiKey" placeholder="Enter new API Key">
+                </div>
+                <button class="config-update-button"
+                    (click)="onApiConfigUpdateClick('Who Is IP Netblocks')">Submit</button>
+                <br>
+            </form>
+        </div>
+    </ng-container>
+</app-content>

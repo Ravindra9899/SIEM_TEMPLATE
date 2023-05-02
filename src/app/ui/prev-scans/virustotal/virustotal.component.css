@@ -1,0 +1,20 @@
+div{
+    margin-bottom: 2vh;
+    color: whitesmoke;
+}
+
+table{
+    border-collapse: collapse;
+}
+
+tr,th, td{
+    border: 1px solid white;
+    padding-top: 4px;
+    padding-bottom: 4px;
+    padding-left: 10px;
+}
+
+.child-div{
+    margin-top: 2vh;
+    margin-bottom: 2vh;
+}

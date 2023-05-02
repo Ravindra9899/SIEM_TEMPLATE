@@ -1,0 +1,45 @@
+div {
+    color: whitesmoke;
+    /* text-align: left; */
+    background-color: #222736;
+    margin: 2vh 2vw;
+    padding: 2vh 2vw;
+}
+
+.asn-div * {
+    text-align: left;
+    color: whitesmoke;
+}
+
+.clear * {
+    color: rgb(10, 187, 19);
+}
+
+.suspicious * {
+    color: rgb(228, 174, 75);
+}
+
+.critical * {
+    color: 'red';
+}
+
+.collapsible-container {
+    display: none;
+}
+
+.collapsible-container.is-open {
+    display: block;
+}
+
+@media print {
+    @page {
+        size: landscape;
+        margin: 0mm;
+        background: true;
+        /* orientation: landscape; */
+    }
+}
+
+#collapsible-container {
+    page-break-before: always;
+}

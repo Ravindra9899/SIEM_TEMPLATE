@@ -1,0 +1,108 @@
+<div class="scan-report">
+    <ng-container *ngIf="scanReport['netinfo'] != null">
+        <p>
+            <span>
+                <b>Latitude: </b> <b>{{ scanReport['netinfo']['latitude'] }}</b>
+            </span>
+        </p>
+        <p>
+            <span>
+                <b>Longitude: </b> <b>{{ scanReport['netinfo']['longitude'] }}</b>
+            </span>
+        </p>
+    </ng-container>
+
+    <ng-container *ngIf="scanReport['base'] != null">
+        <div>
+            <b>General Characteristics</b>
+            <table class="table table-bordered">
+                <thead>
+                    <tr>
+                        <th>Is Bogon (Reserved for Private or Special Use)</th>
+                        <th>Is ToR exit node</th>
+                        <th>Belongs to any known threat lists</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td>
+                            <div>
+                                {{ scanReport['base']['is_bogon'] ? 'Yes': 'No' }}
+                            </div>
+                        </td>
+                        <td>
+                            <div>
+                                {{ scanReport['base']['is_tor'] ? 'Yes': 'No' }}
+                            </div>
+                        </td>
+                        <td>
+                            <div>
+                                {{ scanReport['base']['is_threat'] ? 'Yes': 'No' }}
+                            </div>
+                        </td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+    </ng-container>
+
+    <ng-container *ngIf="scanReport['base']['threat_lists'] != null">
+        <div>
+            <b>Threat Lists</b>
+            <table class="table table-bordered">
+                <thead>
+                    <tr>
+                        <th>Is SANS IP</th>
+                        <th>Is blocked by CI Army</th>
+                        <th>Is ET Compromised</th>
+                        <th>Is Project Honeypot</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td>
+                            {{ scanReport['base']['threat_lists']['is_sansip'] ? 'Yes': 'No' }}
+                        </td>
+                        <td>
+                            {{ scanReport['base']['threat_lists']['is_ciarmy'] ? 'Yes': 'No' }}
+                        </td>
+                        <td>
+                            {{ scanReport['base']['threat_lists']['is_et_compromised'] ? 'Yes': 'No' }}
+                        </td>
+                        <td>
+                            {{ scanReport['base']['threat_lists']['is_project_honeypot'] ? 'Yes': 'No' }}
+                        </td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+    </ng-container>
+
+    <ng-container
+        *ngIf="scanReport['projectHoneypot']!=null && scanReport['projectHoneypot']['is_project_honeypot']!=false">
+        <div>
+            <table>
+                <tr
+                    *ngIf="scanReport['projectHoneypot']['threat']!=null && scanReport['projectHoneypot']['threat']!= ''">
+                    <th>Threat</th>
+                    <td>{{ scanReport['projectHoneypot']['threat'] }}</td>
+                </tr>
+                <tr *ngIf="scanReport['projectHoneypot']['type']!=null && scanReport['projectHoneypot']['type']!= ''">
+                    <th>Type</th>
+                    <td>{{ scanReport['projectHoneypot']['type'] }}</td>
+                </tr>
+            </table>
+        </div>
+    </ng-container>
+
+    <ng-container *ngIf="scanReport['sansIp']!=null">
+        <b>SANS Intel</b>
+        <div>
+            <ul>
+                <li *ngFor="let sansIntel of getSansIntel()">
+                    {{ sansIntel }}
+                </li>
+            </ul>
+        </div>
+    </ng-container>
+</div>

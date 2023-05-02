@@ -1,0 +1,67 @@
+.parent {
+    color: whitesmoke;
+    background-color: #222736;
+    margin: 2vh 1vw 2vh 0;
+    padding: 2vh 1vw;
+    width: auto;
+    height: auto;
+}
+
+.child{
+    margin-top: 5vh;
+    background-color: #222736;
+    padding: 5vh;
+}
+
+.content-child {
+    margin: 5vh auto;
+    padding: 5vh 0;
+    text-align: center;
+    width: 30vw;
+    background-color: #181c28;
+}
+
+.content-child .mat-label {
+    display: inline-block;
+    margin-right: 1rem;
+}
+
+.content-child input,
+.content-child mat-select {
+    display: inline-block;
+    vertical-align: middle;
+    margin-right: 1rem;
+}
+
+.submit-button-div {
+    margin-top: 5vh;
+    text-align: center;
+}
+
+.submit-button-div>button {
+    box-shadow: 0.6vw 0.8vh 8px rgba(99, 96, 96, 0.2);
+    background-color: #181c28;
+    color: whitesmoke;
+    width: 9vw;
+}
+
+.submit-button-div>button:hover {
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.6);
+}
+
+::ng-deep .mat-select-placeholder {
+    color: #a1a1a1;
+}
+
+::ng-deep .mat-select-value-text {
+    color: whitesmoke;
+}
+
+::ng-deep .mat-option-text {
+    color: whitesmoke;
+}
+
+::ng-deep .mat-select-arrow {
+    color: aquamarine;
+    transform: scale(1.5);
+}

@@ -1,0 +1,29 @@
+<div>
+    <table>
+        <tr>
+            <th>Associated with Threat</th>
+            <td>{{ scanReport['isAssociatedWithThreat'] == true ? "Yes" : "No" }}</td>
+        </tr>
+        <tr>
+            <th>Threat reports</th>
+            <td>
+                <table *ngIf="scanReport && scanReport['threat_reports']!= null && scanReport['threat_reports'].length>0">
+                    <thead>
+                        <tr>
+                            <th>IP</th>
+                            <th>Timestamp</th>
+                            <th>Count</th>
+                            <th>Id</th>
+                        </tr>
+                    </thead>
+                    <tr *ngFor="let threatReport of scanReport['threat_reports']">
+                        <td>{{ threatReport.split("\t")[0].trim() }}</td>
+                        <td>{{ threatReport.split("\t")[2].split("#")[1].trim() }}</td>
+                        <td>{{ threatReport.split("\t")[4] }}</td>
+                        <td>{{ threatReport.split("\t")[5] }}</td>
+                    </tr>
+                </table>
+            </td>
+        </tr>
+    </table>
+</div>

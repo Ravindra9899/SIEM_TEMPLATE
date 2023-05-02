@@ -1,0 +1,120 @@
+<div class="record-parent">
+    <table>
+        <ng-container>
+            <tr>
+                <td>Malware Count:</td>
+                <td>{{ scanReport['malware']['count'] }}</td>
+            </tr>
+            <tr>
+                <td>Malware Size:</td>
+                <td>{{ scanReport['malware']['size'] }}</td>
+            </tr>
+            <tr>
+                <td>Reputation:</td>
+                <td>{{ scanReport['reputation']['reputation'] }}</td>
+            </tr>
+        </ng-container>
+    </table>
+
+    <ng-container *ngIf="scanReport.hasOwnProperty('false_positive') && scanReport['false_positive']!=null">
+        <table *ngIf="falsePositiveFieldValtest()" class="inner-table">
+            <tbody>
+                <tr>
+                    <th>Assessment</th>
+                    <th>Assessment Date</th>
+                    <th>Report Date</th>
+                </tr>
+                <tr *ngFor="let fp of scanReport['false_positive']">
+                    <td>{{ fp['assessment'] }}</td>
+                    <td>{{ fp['assessment_date'] }}</td>
+                    <td>{{ fp['report_date'] }}</td>
+                </tr>
+            </tbody>
+        </table>
+    </ng-container>
+
+    <ng-container *ngIf="scanReport.hasOwnProperty('validation') && scanReport['validation'] != null">
+        <br>
+        <strong>Validation:</strong>
+        <table *ngIf="scanReport['validation']?.length > 0" class="inner-table">
+            <tbody>
+                <ng-container *ngFor="let item of scanReport['validation']">
+                    <tr>
+                        <td>{{ item['name'] }}</td>
+                        <ng-container [ngSwitch]="typeOfValidation(item['message'])">
+                            <table>
+                                <tr>
+                                    <th>Message:</th>
+                                    <td>{{ item['message'] | titlecase }}</td>
+                                </tr>
+                                <tr>
+                                    <th>Name:</th>
+                                    <td>{{ item['name'] | titlecase }}</td>
+                                </tr>
+                                <tr>
+                                    <th>Source:</th>
+                                    <td>{{ item['source'] | titlecase }}</td>
+                                </tr>
+                            </table>
+                        </ng-container>
+                    </tr>
+                </ng-container>
+            </tbody>
+        </table>
+
+        <span *ngIf="!scanReport['validation'] || scanReport['validation']?.length == 0">None</span>
+    </ng-container>
+
+    <ng-container
+        *ngIf="scanReport.hasOwnProperty('malware') && scanReport['malware'].hasOwnProperty('data') && scanReport['malware']['data'] != null">
+        <br>
+        <strong>Malware data:</strong>
+        <div class="" malware-data-child>
+            <table>
+                <tr>
+                    <th>
+                        <div class="malware-data-child-date">
+                            Date
+                        </div>
+                    </th>
+                    <th>
+                        <div class="malware-data-child-hash">
+                            Hash
+                        </div>
+                    </th>
+                    <th>
+                        <div class="malware-data-child-detections">
+                            Detections
+                        </div>
+                    </th>
+                </tr>
+                <tr *ngFor="let item of scanReport['malware']['data']">
+                    <td>
+                        <div class="malware-data-child-date">
+                            {{ item['date'] }}
+                        </div>
+                    </td>
+                    <td>
+                        <div class="malware-data-child-hash">
+                            {{ item['hash'] }}
+                        </div>
+                    </td>
+                    <td>
+                        <div class="malware-data-child-detections">
+                            <table>
+                                <tr>
+                                    <th>antivirus</th>
+                                    <th>signature</th>
+                                </tr>
+                                <tr *ngFor="let detection of item['detections'] | keyvalue">
+                                    <td>{{ detection.key }}</td>
+                                    <td>{{ detection.value }}</td>
+                                </tr>
+                            </table>
+                        </div>
+                    </td>
+                </tr>
+            </table>
+        </div>
+    </ng-container>
+</div>

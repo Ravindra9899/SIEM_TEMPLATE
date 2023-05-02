@@ -1,0 +1,72 @@
+<app-content>
+    <ng-container class="inner-dynamic-content">
+        <div class="config-content">
+            Lorem ipsum dolor sit amet consectetur adipisicing elit.
+            Lorem ipsum dolor sit amet consectetur adipisicing elit.
+            <div class="content-child">
+                <input type="text" name="ipAddress" id="ipInputField" placeholder="Enter the IP Address"
+                    [(ngModel)]="ipAddress">
+                <br />
+                <div class="content-child-child">
+                    <mat-label>Select Scanner(s)</mat-label>
+                    <mat-select [(ngModel)]="selectedScanners" multiple placeholder="Options">
+                        <mat-option *ngFor="let scanOption of getScanOptions()" [value]="scanOption">
+                            {{ scanOption }}
+                        </mat-option>
+                    </mat-select>
+                </div>
+                <div>
+                    <mat-chip-list>
+                        <mat-chip *ngFor="let selectedOption of selectedScanners" removable="true"
+                            (removed)="removeOption(selectedOption)">
+                            {{ selectedOption }}
+                            <mat-icon matChipRemove>cancel</mat-icon>
+                        </mat-chip>
+                    </mat-chip-list>
+                </div>
+                <div class="submit-button-div">
+                    <button type="submit" mat-button value="Start Scan" (click)="startScan()"
+                        [disabled]="!(getScanOptions().length>0)">
+                        Start Scan
+                    </button>
+                </div>
+            </div>
+            <br>
+            <div *ngIf="loading && !(this.errors.length == this.selectedScanners.length)" class="spinner-container">
+                <!-- <mat-spinner></mat-spinner> -->
+                <img src="assets/img/ajax-loader-big.gif" alt="loading">
+            </div>
+            <div *ngIf="!loading && scanProgress.length!=0" class="status-div">
+                Completed {{ this.getMaxScanProgress() }} / {{ selectedScanners.length }}
+            </div>
+            <br>
+            <div *ngIf="!loading && scanProgress.length!=0" class="report-table">
+                <table>
+                    <tr>
+                        <th>S. No.</th>
+                        <th>Scanner Name</th>
+                        <th>Scan Completed</th>
+                        <th>Report Created</th>
+                        <th>View Full Report</th>
+                    </tr>
+                    <tr *ngFor="let element of this.selectedScanners">
+                        <td>{{ this.selectedScanners.indexOf(element) + 1 }}</td>
+                        <td>{{ element }}</td>
+                        <td>{{ this.scanReportStatus[element] | titlecase }}</td>
+                        <td>
+                            {{
+                            (this.scanReport[element] != null &&
+                            this.scanReport[element] != "")
+                            ?"Generated":
+                            "Not Generated"
+                            }}
+                        </td>
+                        <td><i class="fa fa-eye"
+                                *ngIf='(this.scanReport[element] != null && this.scanReport[element] != "")'
+                                (click)="viewReport(element)"></i></td>
+                    </tr>
+                </table>
+            </div>
+        </div>
+    </ng-container>
+</app-content>

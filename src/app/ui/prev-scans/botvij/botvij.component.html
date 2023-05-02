@@ -1,0 +1,22 @@
+<div>
+    <table>
+        <thead>
+            <tr>
+                <th>Is Associated With Theat</th>
+                <th>Threat Reports</th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr>
+                <td>{{ scanReport['isAssociatedWithThreat'] == true ? "Yes" : "No" }}</td>
+                <td>
+                    <table *ngIf="scanReport && scanReport['threat_reports']!= null && scanReport['threat_reports'].length>0">
+                        <tr *ngFor="let threatReport of scanReport['threat_reports']" >
+                            <td>{{ threatReport }}</td>
+                        </tr>
+                    </table>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+</div>

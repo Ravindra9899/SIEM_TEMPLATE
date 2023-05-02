@@ -1,0 +1,136 @@
+<app-content>
+    <ng-container class="inner-dynamic-content">
+        <div id="pdf-content">
+            <div>
+                <b>IP Address</b> {{ ipAddress }}
+            </div>
+            <div>
+                <b>{{ returnSetOfArray(countryCodes).size > 0 ? "Countries": "Country"}}</b>
+                <ng-container *ngIf="isArray(countryCodes)">
+                    <ul [ngClass]="returnSetOfArray(countryCodes).size>1?'suspicious': 'clear'">
+                        <li *ngFor="let countryCode of returnSetOfArray(countryCodes)">
+                            {{ countryCode }}
+                        </li>
+                    </ul>
+                </ng-container>
+            </div>
+            <div class="asn-div">
+                <table>
+                    <tr>
+                        <th>AS Id</th>
+                        <td>
+                            <ng-container *ngIf="isArray(asnIds)">
+                                <div [ngClass]="isAsnIdSame(asnIds)?'clear':'suspicious'">
+                                    <ul>
+                                        <li *ngFor="let asnId of returnSetOfArray(asnIds)">
+                                            {{ asnId }}
+                                        </li>
+                                    </ul>
+                                </div>
+                            </ng-container>
+                        </td>
+                    </tr>
+                    <tr>
+                        <th>AS Owner</th>
+                        <td>
+                            <ng-container *ngIf="isArray(asnNames)">
+                                <div [ngClass]="returnSetOfArray(asnNames).size==1?'clear':'suspicious'">
+                                    <ul>
+                                        <li *ngFor="let asName of returnSetOfArray(asnNames)">
+                                            {{ asName }}
+                                        </li>
+                                    </ul>
+                                </div>
+                            </ng-container>
+                        </td>
+                    </tr>
+                    <tr>
+                        <th>Regional Internet Registry</th>
+                        <td>
+                            <ng-container *ngIf="isArray(regionalInternetRegistry)">
+                                <div [ngClass]="isRegistrySame(regionalInternetRegistry) ?'clear':'suspicious'">
+                                    <ul>
+                                        <li *ngFor="let rInReg of returnSetOfArray(regionalInternetRegistry)">
+                                            {{ rInReg }}
+                                        </li>
+                                    </ul>
+                                </div>
+                            </ng-container>
+                        </td>
+                    </tr>
+                </table>
+            </div>
+            <div class="threat-score-div">
+                <span>
+                    <b>Aggregate Threat Score: </b>
+                    <span [ngClass]="whatColor()"><b>{{ threatScore }}</b></span>
+                </span>
+            </div>
+            <!-- <button (click)="toggleCollapse()">Toggle Collapse/Expand</button> -->
+            <ng-container *ngIf=" scanReports && scanReports.length>0">
+                <ng-container *ngFor="let scanReport of scanReports">
+                    <div class="collapsible-container" [ngClass]="{'is-open': isReportOpen}" id="collapsible-container">
+
+                        <div>
+                            <b>
+                                <u>
+                                    {{ scanReport['API_Name'] }}
+                                </u>
+                            </b>
+                        </div>
+
+                        <!-- // abuse ipdb -->
+                        <app-abuse-ipdbrecord-table
+                            [scanReport]="scanReport['record']!= null ? scanReport['record']: {}"
+                            *ngIf="scanReport['API_Name']=='Abuse IPDB'"></app-abuse-ipdbrecord-table>
+
+                        <!-- // alien vault -->
+                        <app-alienvault-record-table
+                            [scanReport]="scanReport['record']!= null ? scanReport['record']: {}"
+                            *ngIf="scanReport['API_Name']=='AlienVault'"></app-alienvault-record-table>
+
+                        <!-- // Binary Defence -->
+                        <!-- <app-binary-defence [scanReport]="scanReport['record']!= null ? scanReport['record']: {}"
+                            *ngIf="scanReport['API_Name']=='Binary Defence Systems Banlist'"></app-binary-defence> -->
+
+                        <!-- // BotVij -->
+                        <app-botvij [scanReport]="scanReport['record']!= null ? scanReport['record']: {}"
+                            *ngIf="scanReport['API_Name']=='BOTVIJ.EU IP List'"></app-botvij>
+
+                        <!-- // Brute Force Blocker -->
+                        <app-bruteforce-blocker [scanReport]="scanReport['record']!= null ? scanReport['record']: {}"
+                            *ngIf="scanReport['API_Name']=='BruteForce Blocker'"></app-bruteforce-blocker>
+
+                        <!-- // CINS -->
+                        <app-cins [scanReport]="scanReport['record']!= null ? scanReport['record']: {}"
+                            *ngIf="scanReport['API_Name']=='CI Army List'"></app-cins>
+
+                        <!-- // CIRCL -->
+                        <app-circl [scanReport]="scanReport['record']!= null ? scanReport['record']: {}"
+                            *ngIf="scanReport['API_Name']=='CIRCL BGP Ranking'"></app-circl>
+
+                        <!-- // Honey DB -->
+                        <app-honeydb [scanReport]="scanReport['record']!= null ? scanReport['record']: {}"
+                            *ngIf="scanReport['API_Name']=='HoneyDB'"></app-honeydb>
+
+                        <!-- // Maltiverse -->
+                        <app-maltiverse [scanReport]="scanReport['record']!= null ? scanReport['record']: {}"
+                            *ngIf="scanReport['API_Name']=='Maltiverse'"></app-maltiverse>
+
+                        <!-- // Virus Total -->
+                        <app-virustotal [scanReport]="scanReport['record']!= null ? scanReport['record']: {}"
+                            *ngIf="scanReport['API_Name']=='Virus Total'"></app-virustotal>
+
+                        <!-- // WhoIS -->
+                        <app-whois [scanReport]="scanReport['record']!= null ? scanReport['record']: {}"
+                            *ngIf="scanReport['API_Name']=='Who Is IP Netblocks'"></app-whois>
+                    </div>
+                </ng-container>
+            </ng-container>
+        </div>
+
+        <div style="text-align: center;">
+            <button (click)="generatePdf()">Print</button>
+        </div>
+    </ng-container>
+</app-content>

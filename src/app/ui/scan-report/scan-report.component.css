@@ -1,0 +1,22 @@
+div{
+    padding: 2vh 0;
+    background-color: #181c28;
+    color: whitesmoke;
+    text-align: center;
+    height: 80vh;
+
+}
+
+.report-parent{
+    overflow-y: scroll;
+    max-height: 82vh;
+    display: block;
+}
+
+.report{
+    text-align: left;
+    margin-left: 2vw;
+    justify-content: left;
+    width: 50vw;
+    overflow-x: scroll;
+}

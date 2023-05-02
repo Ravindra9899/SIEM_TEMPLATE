@@ -1,0 +1,69 @@
+.inner-dynamic-content {
+    margin: 0;
+}
+
+.config-content {
+    background-color: #222736;
+    color: whitesmoke;
+    max-height: 70vh;
+    height: 60vh;
+    align-items: center;
+    padding: 2vh 22%;
+}
+
+.config-content-child {
+    overflow: scroll;
+    max-height: 60vh;
+    height: 50vh;
+    width: 50vw;
+    justify-content: center;
+}
+
+.config-content-child>table>tr>th,
+.config-content-child>table>tr>td {
+    padding-left: 2vw;
+    /* width: 2vw; */
+    overflow-x: scroll;
+}
+
+td,
+th {
+    border: 1px solid #3f3c3c;
+    /* color: white; */
+}
+
+i {
+    margin-right: 1vw;
+}
+
+.config-content-2 {
+    background-color: #222736;
+    color: whitesmoke;
+    max-height: 50vh;
+    height: 40vh;
+    text-align: center;
+    vertical-align: middle;
+    margin: 2vh 0;
+    overflow: scroll;
+}
+
+button {
+    margin-top: 2vh;
+    background-color: rgb(252, 242, 242);
+    background-color: #181c28;
+    font-weight: bolder;
+}
+
+form>* {
+    margin-top: 2vh;
+}
+
+.config-update-button {
+    color: whitesmoke;
+    background-color: #3f3c3c;
+}
+
+.config-content-child table tr td,
+.config-content-child table tr th {
+    overflow-x: hidden;
+}

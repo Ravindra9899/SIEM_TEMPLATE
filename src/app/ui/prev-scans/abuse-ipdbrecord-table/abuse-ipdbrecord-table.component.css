@@ -1,0 +1,26 @@
+.table-report {
+    border-collapse: collapse;
+}
+
+.table-cell-report {
+    border: 1px solid white; 
+    padding-left: 10px;
+}
+
+.table-head-report {
+    border: 1px solid white; 
+    padding-left: 10px;
+}
+
+.scan-details {
+    color: whitesmoke;
+    margin-bottom: 2vh;
+}
+
+.scan-details>table{
+    border-collapse: collapse;
+}
+.scan-details>table>tr>* {
+    border: 1px solid white; 
+    padding-left: 10px;
+}

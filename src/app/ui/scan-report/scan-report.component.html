@@ -1,0 +1,32 @@
+<app-content>
+    <ng-container class="inner-dynamic-content">
+        <div>
+            <br>
+            {{ this.apiName }}
+            <br>
+            <div class="report-parent">
+                
+                <table>
+                    <tr>
+                        <th>S. No.</th>
+                        <th>Report</th>
+                    </tr>
+                    <tr *ngFor="let scanReport of this.scanReports">
+                        <td>
+                            {{ scanReports.indexOf(scanReport) + 1 }}
+                        </td>
+                        <td>
+                            <div class="report">
+                                <pre>
+                            {{ this.getStringifiedOutput(scanReport) }}
+
+                                </pre>
+                            </div>
+                        </td>
+                    </tr>
+                </table>
+                <br>
+            </div>
+        </div>        
+    </ng-container>
+</app-content>

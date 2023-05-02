@@ -1,0 +1,192 @@
+<div>
+    <table>
+        <tr>
+            <th>Address</th>
+            <td>{{ scanReport['address'] }}</td>
+        </tr>
+        <tr>
+            <th>AS Name</th>
+            <td>{{ scanReport['as_name'] }}</td>
+        </tr>
+        <tr>
+            <th>ASN CIDR</th>
+            <td>{{ scanReport['asn_cidr'] }}</td>
+        </tr>
+        <tr>
+            <th>ASN Country Code</th>
+            <td>{{ scanReport['asn_country_code'] }}</td>
+        </tr>
+        <tr>
+            <th>ASN Date</th>
+            <td>{{ scanReport['asn_date'] }}</td>
+        </tr>
+        <tr>
+            <th>ASN Registry</th>
+            <td>{{ scanReport['asn_registry'] }}</td>
+        </tr>
+        <tr>
+            <th>City</th>
+            <td>{{ scanReport['city'] }}</td>
+        </tr>
+        <tr>
+            <th>Classification</th>
+            <td>{{ scanReport['classification'] }}</td>
+        </tr>
+        <tr>
+            <th>Country Code</th>
+            <td>{{ scanReport['country_code'] }}</td>
+        </tr>
+        <tr>
+            <th>Creation Time</th>
+            <td>{{ scanReport['creation_time'] }}</td>
+        </tr>
+        <tr>
+            <th>Modification Time</th>
+            <td>{{ scanReport['modification_time'] }}</td>
+        </tr>
+        <tr>
+            <th>Number of Blacklisted Domains Resolving</th>
+            <td>{{ scanReport['number_of_blacklisted_domains_resolving'] }}</td>
+        </tr>
+        <tr>
+            <th>Number of Domains Resolving</th>
+            <td>{{ scanReport['number_of_domains_resolving'] }}</td>
+        </tr>
+        <tr>
+            <th>Number of Offline Malicious URLs Allocated</th>
+            <td>{{ scanReport['number_of_offline_malicious_urls_allocated'] }}</td>
+        </tr>
+        <tr>
+            <th>Number of Online Malicious URLs Allocated</th>
+            <td>{{ scanReport['number_of_online_malicious_urls_allocated'] }}</td>
+        </tr>
+        <tr>
+            <th>Number of Whitelisted Domains Resolving</th>
+            <td>{{ scanReport['number_of_whitelisted_domains_resolving'] }}</td>
+        </tr>
+        <tr>
+            <th>Postal Code</th>
+            <td>{{ scanReport['postal_code'] }}</td>
+        </tr>
+        <tr>
+            <th>Registrant Name</th>
+            <td>{{ scanReport['registrant_name'] }}</td>
+        </tr>
+        <tr>
+            <th>State</th>
+            <td>{{ scanReport['state'] }}</td>
+        </tr>
+        <tr>
+            <th>IP Address</th>
+            <td>{{ scanReport['ip_addr'] }}</td>
+        </tr>
+        <tr>
+            <th>Is CDN</th>
+            <td>{{ scanReport['is_cdn'] }}</td>
+        </tr>
+        <tr>
+            <th>Is CNC</th>
+            <td>{{ scanReport['is_cnc'] }}</td>
+        </tr>
+        <tr>
+            <th>Is Distributing Malware</th>
+            <td>{{ scanReport['is_distributing_malware'] }}</td>
+        </tr>
+        <tr>
+            <th>Is Hosting</th>
+            <td>{{ scanReport['is_hosting'] }}</td>
+            <th>Is IoT Threat</th>
+            <td>{{ scanReport['is_iot_threat'] }}</td>
+        </tr>
+        <tr>
+            <th>Is Known Attacker</th>
+            <td>{{ scanReport['is_known_attacker'] }}</td>
+            <th>Is Known Scanner</th>
+            <td>{{ scanReport['is_known_scanner'] }}</td>
+        </tr>
+        <tr>
+            <th>Is Mining Pool</th>
+            <td>{{ scanReport['is_mining_pool'] }}</td>
+            <th>Is Open Proxy</th>
+            <td>{{ scanReport['is_open_proxy'] }}</td>
+        </tr>
+        <tr>
+            <th>Is Sinkhole</th>
+            <td>{{ scanReport['is_sinkhole'] }}</td>
+            <th>Is Tor Node</th>
+            <td>{{ scanReport['is_tor_node'] }}</td>
+        </tr>
+        <tr>
+            <th>Is VPN Node</th>
+            <td>{{ scanReport['is_vpn_node'] }}</td>
+            <th>Last Updated</th>
+            <td>{{ scanReport['last_updated'] }}</td>
+        </tr>
+    </table>
+    <br>
+    <ng-container>
+        <span><strong>Latitude: {{ showField("location") && scanReport['location']['lat'] != null ?
+                scanReport['location']['lat']: "NA" }}</strong></span>
+        <br>
+        <span><strong>Longitude: {{ showField("location") && scanReport['location']['lon'] != null ?
+                scanReport['location']['lon']: "NA" }}</strong></span>
+    </ng-container>
+    <br>
+    <ng-container>
+        <table>
+            <tr>
+                <th>Emails</th>
+                <td *ngIf="showField('email')  && !isDictionary(scanReport['email']) && scanReport['email'].length>0">
+                    <mat-chip-list>
+                        <mat-chip *ngFor="let email of scanReport['email']" [removable]="false">
+                            {{ email }}
+                        </mat-chip>
+                    </mat-chip-list>
+                </td>
+            </tr>
+        </table>
+        <br>
+        <table>
+            <tr>
+                <th>CIDR</th>
+                <td *ngIf="showField('cidr') && !isDictionary(scanReport['cidr']) && scanReport['cidr'].length>0">
+                    <mat-chip-list>
+                        <mat-chip *ngFor="let cidr of scanReport['cidr']" [removable]="false">
+                            {{ cidr }}
+                        </mat-chip>
+                    </mat-chip-list>
+                </td>
+            </tr>
+        </table>
+        <table>
+            <thead>
+                <tr>
+                    <th>Description</th>
+                    <th>Source</th>
+                    <th>Labels</th>
+                    <th>Count</th>
+                    <th>First Seen</th>
+                    <th>Last Seen</th>
+                </tr>
+            </thead>
+            <tbody
+                *ngIf="showField('blacklist')  && !isDictionary(scanReport['blacklist']) && scanReport['blacklist'].length>0">
+                <tr *ngFor="let item of scanReport['blacklist']">
+                    <td>{{ item['description'] }}</td>
+                    <td>{{ item['source'] }}</td>
+                    <td>
+                        <mat-chip-list>
+                            <mat-chip *ngFor="let label of item['labels']" [removable]='false'>
+                                {{ label }}
+                            </mat-chip>
+                        </mat-chip-list>
+                    </td>
+                    <td>{{ item['count'] }}</td>
+                    <td>{{ item['first_seen'] }}</td>
+                    <td>{{ item['last_seen'] }}</td>
+                </tr>
+            </tbody>
+        </table>
+
+    </ng-container>
+</div>

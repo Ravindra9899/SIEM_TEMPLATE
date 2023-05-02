@@ -1,0 +1,79 @@
+<div>
+    <strong>Base Info</strong>
+    <table id="table1">
+        <thead>
+            <tr>
+                <th>Count</th>
+                <th>From</th>
+                <th>Limit</th>
+                <th>Next</th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr>
+                <td id="count">{{ count }}</td>
+                <td id="from">{{ from == "" ? "-": from }}</td>
+                <td id="limit">{{ limit }}</td>
+                <td id="next">{{ next =="" ? "-": next }}</td>
+            </tr>
+        </tbody>
+    </table>
+    <br>
+    <strong>Inetnums</strong>
+    <table *ngIf="inetnums.length>0">
+        <thead>
+            <tr>
+                <th>Netname</th>
+                <th>Nethandle</th>
+                <th>Source</th>
+                <th>Abuse Contact</th>
+                <th>Admin Contact</th>
+                <th>Address</th>
+                <th>Modified</th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr *ngFor="let inetnum of inetnums" (click)="showOrg(inetnum)">
+                <td>{{ inetnum['netname'] || 'N/A' }}</td>
+                <td>{{ inetnum['nethandle'] || 'N/A' }}</td>
+                <td>{{ inetnum['source'] || 'N/A' }}</td>
+                <td>{{ inetnum['abuseContact'] || 'N/A' }}</td>
+                <td>{{ inetnum['adminContact'] || 'N/A' }}</td>
+                <td>{{ inetnum['address'] || 'N/A' }}</td>
+                <td>{{ inetnum['modified'] || 'N/A' }}</td>
+            </tr>
+        </tbody>
+    </table>
+    <br>
+    <span *ngIf="selectedInetnum"><strong>Select Inetnum Organization info</strong></span>
+    <table *ngIf="selectedInetnum">
+        <tr>
+            <td>Netname</td>
+            <td>{{ selectedInetnum['netname'] || 'N/A' }}</td>
+        </tr>
+        <tr>
+            <td>Source</td>
+            <td>{{ selectedInetnum['source'] || 'N/A' }}</td>
+        </tr>
+        <tr>
+            <td>Abuse Contact</td>
+            <td>{{ selectedInetnum['abuseContact'] || 'N/A' }}</td>
+        </tr>
+        <tr>
+            <td>Admin Contact</td>
+            <td>{{ selectedInetnum['adminContact'] || 'N/A' }}</td>
+        </tr>
+        <tr>
+            <td>Address</td>
+            <td>{{ selectedInetnum['address'] || 'N/A' }}</td>
+        </tr>
+        <tr>
+            <td>Modified</td>
+            <td>{{ selectedInetnum['modified'] || 'N/A' }}</td>
+        </tr>
+        <tr>
+            <td>Nethandle</td>
+            <td>{{ selectedInetnum['nethandle'] || 'N/A' }}</td>
+        </tr>
+    </table>
+</div>

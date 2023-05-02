@@ -1,0 +1,54 @@
+.inner-table {
+    border-collapse: collapse;
+    width: 100%;
+}
+
+.inner-table th,
+.inner-table td {
+    border: 1px solid white;
+    padding: 10px;
+    text-align: left;
+}
+
+.inner-table th {
+    color: whitesmoke;
+    font-weight: bold;
+}
+
+.malware-data-child {
+    height: 20vh;
+    width: 60vw;
+    overflow: scroll;
+    background-color: #181c28;
+}
+
+.malware-data-child-date {
+    width: 12vw;
+}
+
+.malware-data-child-datetime-int {
+    word-wrap: break-word;
+    width: 20vw
+}
+
+.malware-data-child-hash {
+    word-wrap: break-word;
+    width: 20vw;
+}
+
+.malware-data-child-detection {
+    width: 25vw;
+}
+
+.record-parent{
+    color: whitesmoke;
+}
+
+table{
+    border-collapse: collapse;
+}
+
+table>tr>*{
+    border: 1px solid white; 
+    padding-left: 10px;
+}

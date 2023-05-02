@@ -1,0 +1,59 @@
+<app-content>
+    <ng-container class="inner-dynamic-content">
+        <div class="parent">
+            <div class="content-child">
+                <mat-label>Enter IP</mat-label> &nbsp;&nbsp;
+                <input type="text" matInput [(ngModel)]="selectedIp">
+                <mat-select [(ngModel)]="selectedScanner" placeholder="Select Scanner">
+                    <mat-option *ngFor="let scanOption of getAllScannersList()" [value]="scanOption">
+                        {{ scanOption }}
+                    </mat-option>
+                </mat-select>
+            </div>
+            <div class="submit-button-div">
+                <button type="submit" (click)="onSubmit()">Submit</button>
+            </div>
+        </div>
+        <div class="child">
+            <!-- // Abuse IP DB -->
+            <app-abuse-ipdbrecord-table [scanReport]="getScanReport()['record']!= null ? getScanReport()['record']: {}"
+                *ngIf="showTable() && getScanReport()['API_Name']=='Abuse IPDB'"></app-abuse-ipdbrecord-table>
+
+            <!-- // AlienVault -->
+            <app-alienvault-record-table [scanReport]="getScanReport()['record']!= null ? getScanReport()['record']: {}"
+                *ngIf="showTable() && getScanReport()['API_Name']=='AlienVault'"></app-alienvault-record-table>
+
+            <!-- // BotVij -->
+            <app-botvij [scanReport]="getScanReport()['record']!= null ? getScanReport()['record']: {}"
+                *ngIf="showTable() && getScanReport()['API_Name']=='BOTVIJ.EU IP List'"></app-botvij>
+
+            <!-- // Brute Force Blocker -->
+            <app-bruteforce-blocker [scanReport]="getScanReport()['record']!= null ? getScanReport()['record']: {}"
+                *ngIf="showTable() && getScanReport()['API_Name']=='BruteForce Blocker'"></app-bruteforce-blocker>
+
+            <!-- // CINS -->
+            <app-cins [scanReport]="getScanReport()['record']!= null ? getScanReport()['record']: {}"
+                *ngIf="showTable() && getScanReport()['API_Name']=='CI Army List'"></app-cins>
+
+            <!-- // CIRCL -->
+            <app-circl [scanReport]="getScanReport()['record']!= null ? getScanReport()['record']: {}"
+                *ngIf="showTable() && getScanReport()['API_Name']=='CIRCL BGP Ranking'"></app-circl>
+
+            <!-- // Honey DB -->
+            <app-honeydb [scanReport]="getScanReport()['record']!= null ? getScanReport()['record']: {}"
+                *ngIf="showTable() && getScanReport()['API_Name']=='HoneyDB'"></app-honeydb>
+
+            <!-- // Maltiverse -->
+            <app-maltiverse [scanReport]="getScanReport()['record']!= null ? getScanReport()['record']: {}"
+                *ngIf="showTable() && getScanReport()['API_Name']=='Maltiverse'"></app-maltiverse>
+
+            <!-- // Virus Total -->
+            <app-virustotal [scanReport]="getScanReport()['record']!= null ? getScanReport()['record']: {}"
+                *ngIf="showTable() && getScanReport()['API_Name']=='Virus Total'"></app-virustotal>
+
+            <!-- // WhoIS -->
+            <app-whois [scanReport]="getScanReport()['record']!= null ? getScanReport()['record']: {}"
+                *ngIf="showTable() && getScanReport()['API_Name']=='Who Is IP Netblocks'"></app-whois>
+        </div>
+    </ng-container>
+</app-content>
