@@ -4,13 +4,63 @@ import { Observable, of, Subject } from 'rxjs';
 import { catchError } from "rxjs/operators";
 import { ScanStatusService } from './scan-status.service';
 
+import { AuthService } from './user/auth.service';
+
 @Injectable({
   providedIn: 'root'
 })
 export class ScannerServiceService {
 
 
-  constructor(private http: HttpClient, private scanStatusService: ScanStatusService) { }
+  constructor(private http: HttpClient, private scanStatusService: ScanStatusService, private authService: AuthService) { }
+
+  /**
+   * This function maps different types of errors to a standardized error object.
+   * @param {any} err - The error object that is being passed to the function. It could be of any type,
+   * but the function checks if it is an object and if it has a 'status' property.
+   * @returns This function returns an Observable that emits an object with three properties:
+   * `message`, `infoText`, and `status`. The values of these properties depend on the input `err` and
+   * are determined by a switch statement that checks the `status` property of the `err` object. If
+   * `err` is not an object with a `status` property, the function returns an Observable that emits an
+   */
+  errorPipe(err: any): Observable<{ message: string; infoText: string; status: any; }> {
+    if (typeof err == 'object' && err.hasOwnProperty('status') && err['status'] != null) {
+
+      switch (err.status) {
+        case 401: return of({
+          message: 'error',
+          infoText: 'unauthorized',
+          status: 401
+        });
+        case 500: return of({
+          message: 'error',
+          infoText: 'ISE',
+          status: 500
+        });
+        case 404: return of({
+          message: 'error',
+          infoText: 'not found',
+          status: 404
+        });
+        case 400: return of({
+          message: 'error',
+          infoText: 'Bad Request',
+          status: 404
+        });
+        default: return of({
+          message: 'error',
+          infoText: 'unknown error',
+          status: err.status
+        });
+      }
+    } else {
+      return of({
+        message: 'error',
+        infoText: 'Service Unavailable',
+        status: 503
+      });
+    }
+  }
 
   /**
    * It returns an observable of an array of scanners
@@ -58,16 +108,20 @@ export class ScannerServiceService {
     console.log(config);
 
     let url = `/api/ipscan/update-config`;
+    const token = this.authService.getAuthToken() != undefined && this.authService.getAuthToken() != null && this.authService.getAuthToken() != false ? this.authService.getAuthToken().toString() : ''
+
+    const headers = { 'Authorization': `Bearer-Token ${token}` };
 
     return this.http.post(url, {
       "apiName": apiName,
       "config": config,
       "status": status
-    }).pipe(
+    }, { headers }).pipe(
       catchError((err) => {
         console.log("could not update the configuration of Virus Total");
-        console.error(err);
-        return of([]);
+        console.error(typeof err);
+        let returnObject = this.errorPipe(err);
+        return returnObject;
       })
     );
   }
@@ -82,14 +136,21 @@ export class ScannerServiceService {
   updateStatusOfScanner(apiName: string, newStatus: string): Observable<any> {
     let url = `/api/ipscan/update-status`;
 
+    const token = this.authService.getAuthToken() != undefined && this.authService.getAuthToken() != null && this.authService.getAuthToken() != false ? this.authService.getAuthToken().toString() : ''
+
+    const headers = { 'Authorization': `Bearer-Token ${token}` };
+
     return this.http.post(url, {
       "apiName": apiName,
       "newStatus": newStatus
-    }).pipe(
+    }, { headers }).pipe(
       catchError((err) => {
         console.log("error in updating the status of the api at apiName " + apiName);
-        console.error(err);
-        return of([]);
+        console.error(typeof err);
+        // console.error(typeof err);
+        let returnObject = this.errorPipe(err);
+
+        return returnObject;
       })
     );
 
@@ -124,7 +185,8 @@ export class ScannerServiceService {
         console.log(`Error in retrieving scan reports for ${apiName}`);
         console.log(err);
 
-        return of([]);
+        let returnObject = this.errorPipe(err);
+        return returnObject;
       })
     );
   }
@@ -140,11 +202,15 @@ export class ScannerServiceService {
   getIpScanResponse(ipToScan: string, apiName: string, numberOfScanners: Number, scanIndex: number, scanStatus: Subject<any>): Observable<any> {
 
     const N = numberOfScanners;
+    const token = this.authService.getAuthToken() != undefined && this.authService.getAuthToken() != null && this.authService.getAuthToken() != false ? this.authService.getAuthToken().toString() : ''
 
     const httpOptions = {
       params: {
         'ip_to_scan': ipToScan,
         'apiName': apiName
+      },
+      headers: {
+        'Authorization': 'Bearer-Token ' + token
       }
     };
 
@@ -156,7 +222,7 @@ export class ScannerServiceService {
     const scanObservable = this.http.get(url, httpOptions).pipe(
       catchError((err) => {
         console.error('An error occurred during scanning with ', apiName, " ", err);
-        return of([]);
+        return this.errorPipe(err);
       })
     );
 
@@ -186,7 +252,7 @@ export class ScannerServiceService {
     return this.http.get(url).pipe(
       catchError((err) => {
         console.log("count scan report service error " + err);
-        return of([]);
+        return this.errorPipe(err);
       })
     );
   }
@@ -207,7 +273,7 @@ export class ScannerServiceService {
       catchError((err) => {
         console.error("Error in read scan reports for ip and api date range service");
         console.error(err);
-        return of([]);
+        return this.errorPipe(err);
       })
     );
   }

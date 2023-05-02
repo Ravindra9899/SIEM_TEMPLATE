@@ -26,11 +26,13 @@ export class ConfigurationComponent implements OnInit {
     private configInnerHtmlGen: ConfigInnerhtmlGeneratorService,
     private formBuilder: FormBuilder
   ) {
+    console.clear();
   }
 
   ngOnInit(): void {
     this.setAvailableApis();
     this.createFormGroups();
+    console.clear();
   }
 
   createFormGroups() {
@@ -212,6 +214,7 @@ export class ConfigurationComponent implements OnInit {
           console.error(error);
         },
         next: (response) => {
+          console.log('in scanner next');
           console.log(response.status);
           if (response.hasOwnProperty("message") &&
             response.hasOwnProperty("infoText") &&
@@ -224,6 +227,19 @@ export class ConfigurationComponent implements OnInit {
             let innerHTML = this.configInnerHtmlGen.scannerStatusUpdatedHTMLGen(apiName, newStatus);
 
             this.openDialog(innerHTML);
+          } else {
+
+            switch (response.status) {
+              case 401:
+                window.alert('You are not authorized to perform the action.');
+                break;
+
+              case 500:
+                window.alert('The API cannot be disabled now. Please try again later.');
+                break;
+
+              default: break;
+            }
           }
         },
         complete: () => {
@@ -272,6 +288,18 @@ export class ConfigurationComponent implements OnInit {
                 console.log("Abuse IPDB Update ", response.status);
                 if (response.hasOwnProperty("message") && response['message'] == "success") {
                   console.log("Scan config updated");
+                } else {
+                  switch (response.status) {
+                    case 401:
+                      window.alert('You are not authorized to perform the action.');
+                      break;
+
+                    case 500:
+                      window.alert('The API cannot be edited now. Please try again later.');
+                      break;
+
+                    default: break;
+                  }
                 }
               }
             });
@@ -303,6 +331,18 @@ export class ConfigurationComponent implements OnInit {
                 console.log("AlienVault Update ", response.status);
                 if (response.hasOwnProperty("message") && response['message'] == "success") {
                   console.log("Scan config updated");
+                } else {
+                  switch (response.status) {
+                    case 401:
+                      window.alert('You are not authorized to perform the action.');
+                      break;
+
+                    case 500:
+                      window.alert('The API cannot be edited now. Please try again later.');
+                      break;
+
+                    default: break;
+                  }
                 }
               }
             });
@@ -339,6 +379,18 @@ export class ConfigurationComponent implements OnInit {
                 console.log("HoneyDB Update ", response.status);
                 if (response.hasOwnProperty("message") && response['message'] == "success") {
                   console.log("Scan config updated");
+                } else {
+                  switch (response.status) {
+                    case 401:
+                      window.alert('You are not authorized to perform the action.');
+                      break;
+
+                    case 500:
+                      window.alert('The API cannot be edited now. Please try again later.');
+                      break;
+
+                    default: break;
+                  }
                 }
               }
             });
@@ -370,6 +422,18 @@ export class ConfigurationComponent implements OnInit {
                 console.info("Maltiverse Update ", response.status);
                 if (response.hasOwnProperty("message") && response['message'] == "success") {
                   console.log("Scan config updated");
+                } else {
+                  switch (response.status) {
+                    case 401:
+                      window.alert('You are not authorized to perform the action.');
+                      break;
+
+                    case 500:
+                      window.alert('The API cannot be edited now. Please try again later.');
+                      break;
+
+                    default: break;
+                  }
                 }
               }
             });
@@ -401,6 +465,18 @@ export class ConfigurationComponent implements OnInit {
                 console.log("Vt Update ", response.status);
                 if (response.hasOwnProperty("message") && response['message'] == "success") {
                   console.log("Scan config updated");
+                } else {
+                  switch (response.status) {
+                    case 401:
+                      window.alert('You are not authorized to perform the action.');
+                      break;
+
+                    case 500:
+                      window.alert('The API cannot be edited now. Please try again later.');
+                      break;
+
+                    default: break;
+                  }
                 }
               }
             });
@@ -432,6 +508,18 @@ export class ConfigurationComponent implements OnInit {
                 console.log("Vt Update ", response.status);
                 if (response.hasOwnProperty("message") && response['message'] == "success") {
                   console.log("Scan config updated");
+                } else {
+                  switch (response.status) {
+                    case 401:
+                      window.alert('You are not authorized to perform the action.');
+                      break;
+
+                    case 500:
+                      window.alert('The API cannot be edited now. Please try again later.');
+                      break;
+
+                    default: break;
+                  }
                 }
               }
             });

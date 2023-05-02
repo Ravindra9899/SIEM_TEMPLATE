@@ -1,4 +1,4 @@
-import { HttpClient } from '@angular/common/http';
+import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { Observable, of } from 'rxjs';
 import { catchError } from 'rxjs/operators';
@@ -107,6 +107,16 @@ export class AuthService {
       }
     } else {
       return 'guest';
+    }
+  }
+
+  getAuthToken() {
+    const authToken = localStorage.getItem('jwt');
+
+    if (authToken && authToken != null && authToken != '' && this.isTokenValid()) {
+      return authToken;
+    } else {
+      return false;
     }
   }
 }

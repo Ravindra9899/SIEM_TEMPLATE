@@ -12,6 +12,45 @@ export class ReaderService {
 
   constructor(private httpClient: HttpClient) { }
 
+  errorPipe(err: any): Observable<{ message: string; infoText: string; status: any; }> {
+    if (typeof err == 'object' && err.hasOwnProperty('status') && err['status'] != null) {
+
+      switch (err.status) {
+        case 401: return of({
+          message: 'error',
+          infoText: 'unauthorized',
+          status: 401
+        });
+        case 500: return of({
+          message: 'error',
+          infoText: 'ISE',
+          status: 500
+        });
+        case 404: return of({
+          message: 'error',
+          infoText: 'not found',
+          status: 404
+        });
+        case 400: return of({
+          message: 'error',
+          infoText: 'Bad Request',
+          status: 404
+        });
+        default: return of({
+          message: 'error',
+          infoText: 'unknown error',
+          status: err.status
+        });
+      }
+    } else {
+      return of({
+        message: 'error',
+        infoText: 'Service Unavailable',
+        status: 503
+      });
+    }
+  }
+
   apiCallToGetSingleViewAsn(ipAddress: string): Observable<any> {
 
     const requestUri = this.url + `/single-view-asn?ipAddress=${ipAddress}`;
@@ -20,7 +59,7 @@ export class ReaderService {
       catchError(
         (err) => {
           console.error("error in single view report read ", err);
-          return of([]);
+          return this.errorPipe(err);
         }
       )
     );
