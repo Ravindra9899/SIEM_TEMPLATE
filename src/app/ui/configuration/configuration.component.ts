@@ -117,7 +117,7 @@ export class ConfigurationComponent implements OnInit {
 
     if (idOfApi < this.availableApis.length) {
 
-      let apiName = this.availableApis[idOfApi]['API_Name']
+      let apiName = this.availableApis[idOfApi]['API_Name'];
       innerHTML = this.configInnerHtmlGen.scannerConfigViewHtmlGenerator(apiName, this.availableApis[idOfApi]);
     }
 

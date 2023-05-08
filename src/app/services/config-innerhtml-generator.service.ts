@@ -44,6 +44,14 @@ export class ConfigInnerhtmlGeneratorService {
               <td>${api_data['config']['Key']}</td>
             </tr>
             <tr>
+              <th>End Point: </th>
+              <td>${api_data['end_point']}</td>
+            </tr>
+            <tr>
+              <th>Status: </th>
+              <td>${api_data['status']}</td>
+            </tr>
+            <tr>
               <th>Created :</th>
               <td>${new Date(api_data['createdAt'])}</td>
             </tr>
@@ -63,6 +71,14 @@ export class ConfigInnerhtmlGeneratorService {
               <td>${api_data['config']['api_otx_key']}</td>
             </tr>
             <tr>
+              <th>End Point: </th>
+              <td>${api_data['end_point']}</td>
+            </tr>
+            <tr>
+              <th>Status: </th>
+              <td>${api_data['status']}</td>
+            </tr>
+            <tr>
               <th>Created :</th>
               <td>${new Date(api_data['createdAt'])}</td>
             </tr>
@@ -77,6 +93,14 @@ export class ConfigInnerhtmlGeneratorService {
         return `
           <h1 style="color: whitesmoke;">${api_data['API_Name']}</h1>
           <table>
+          <tr>
+              <th>End Point: </th>
+              <td>${api_data['end_point']}</td>
+            </tr>
+            <tr>
+              <th>Status: </th>
+              <td>${api_data['status']}</td>
+            </tr>
             <tr>
               <th>Created :</th>
               <td>${new Date(api_data['createdAt'])}</td>
@@ -92,6 +116,14 @@ export class ConfigInnerhtmlGeneratorService {
         return `
           <h1 style="color: whitesmoke;">${api_data['API_Name']}</h1>
           <table>
+          <tr>
+              <th>End Point: </th>
+              <td>${api_data['end_point']}</td>
+            </tr>
+            <tr>
+              <th>Status: </th>
+              <td>${api_data['status']}</td>
+            </tr>
             <tr>
               <th>Created :</th>
               <td>${new Date(api_data['createdAt'])}</td>
@@ -108,6 +140,14 @@ export class ConfigInnerhtmlGeneratorService {
           <h1 style="color: whitesmoke;">${api_data['API_Name']}</h1>
             <table>
             <tr>
+              <th>End Point: </th>
+              <td>${api_data['end_point']}</td>
+            </tr>
+            <tr>
+              <th>Status: </th>
+              <td>${api_data['status']}</td>
+            </tr>
+            <tr>
               <th>Created :</th>
               <td>${new Date(api_data['createdAt'])}</td>
             </tr>
@@ -122,6 +162,14 @@ export class ConfigInnerhtmlGeneratorService {
         return `
           <h1 style="color: whitesmoke;">${api_data['API_Name']}</h1>
           <table>
+          <tr>
+              <th>End Point: </th>
+              <td>${api_data['end_point']}</td>
+            </tr>
+            <tr>
+              <th>Status: </th>
+              <td>${api_data['status']}</td>
+            </tr>
             <tr>
               <th>Created :</th>
               <td>${new Date(api_data['createdAt'])}</td>
@@ -137,6 +185,14 @@ export class ConfigInnerhtmlGeneratorService {
         return `
           <h1 style="color: whitesmoke;">${api_data['API_Name']}</h1>
           <table>
+          <tr>
+              <th>End Point: </th>
+              <td>${api_data['end_point']}</td>
+            </tr>
+            <tr>
+              <th>Status: </th>
+              <td>${api_data['status']}</td>
+            </tr>
             <tr>
               <th>Created :</th>
               <td>${new Date(api_data['createdAt'])}</td>
@@ -152,6 +208,14 @@ export class ConfigInnerhtmlGeneratorService {
         return `
           <h1 style="color: whitesmoke;">${api_data['API_Name']}</h1>
           <table>
+          <tr>
+              <th>End Point: </th>
+              <td>${api_data['end_point']}</td>
+            </tr>
+            <tr>
+              <th>Status: </th>
+              <td>${api_data['status']}</td>
+            </tr>
             <tr>
               <th>Created :</th>
               <td>${new Date(api_data['createdAt'])}</td>
@@ -167,6 +231,14 @@ export class ConfigInnerhtmlGeneratorService {
         return `
           <h1 style="color: whitesmoke;">${api_data['API_Name']}</h1>
           <table>
+          <tr>
+              <th>End Point: </th>
+              <td>${api_data['end_point']}</td>
+            </tr>
+            <tr>
+              <th>Status: </th>
+              <td>${api_data['status']}</td>
+            </tr>
             <tr>
               <th>API ID: </th>
               <td>${api_data['config']['api_id']}</td>
@@ -195,6 +267,14 @@ export class ConfigInnerhtmlGeneratorService {
               <td>${api_data['config']['bearerToken']}</td>
             </tr>
             <tr>
+              <th>End Point: </th>
+              <td>${api_data['end_point']}</td>
+            </tr>
+            <tr>
+              <th>Status: </th>
+              <td>${api_data['status']}</td>
+            </tr>
+            <tr>
               <th>Created :</th>
               <td>${new Date(api_data['createdAt'])}</td>
               </tr>
@@ -214,6 +294,14 @@ export class ConfigInnerhtmlGeneratorService {
               <td>${api_data['config']['api_key']}</td>
               </tr>
               <tr>
+              <th>End Point: </th>
+              <td>${api_data['end_point']}</td>
+            </tr>
+            <tr>
+              <th>Status: </th>
+              <td>${api_data['status']}</td>
+            </tr>
+              <tr>
               <th>Created :</th>
               <td>${new Date(api_data['createdAt'])}</td>
               </tr>
@@ -232,6 +320,14 @@ export class ConfigInnerhtmlGeneratorService {
               <th>API Key: </th>
               <td>${api_data['config']['apiKey']}</td>
               </tr>
+              <tr>
+              <th>End Point: </th>
+              <td>${api_data['end_point']}</td>
+            </tr>
+            <tr>
+              <th>Status: </th>
+              <td>${api_data['status']}</td>
+            </tr>
               <tr>
               <th>Created :</th>
               <td>${new Date(api_data['createdAt'])}</td>
