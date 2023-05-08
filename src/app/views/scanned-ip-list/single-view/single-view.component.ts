@@ -107,8 +107,6 @@ export class SingleViewComponent implements OnInit {
   async downloadPdf() {
     console.log('Calling download Service');
 
-
-
     this.readerService.apiCallToPrintScanReport(this.ipAddress).subscribe(
       {
         next: (response: Blob) => {
