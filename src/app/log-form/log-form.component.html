@@ -1,0 +1,34 @@
+<app-content>
+    <ng-container class="inner-dynamic-content">
+        <div class="parent">
+            <!-- <form action=""> -->
+            <table>
+                <tbody>
+                    <tr>
+                        <td>
+                            <label for="pattern"><strong>Pattern:</strong></label>
+                        </td>
+                        <td>
+                            <input type="text" name="pattern" id="pattern" [(ngModel)]="pattern">
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>
+                            <label for="dataset"><strong>Dataset:</strong></label>
+                        </td>
+                        <td>
+                            <select name="dataset" id="dataset" [(ngModel)]="selectedDataset">
+                                <option *ngFor="let value of getDatasetOptions()" [value]="value">{{value}}</option>
+                            </select>
+                        </td>
+                    </tr>
+                </tbody>
+            </table>
+            <!-- <br> -->
+            <div class="button">
+                <button type="submit" (click)="onAdd()">Add</button>
+            </div>
+            <!-- </form> -->
+        </div>
+    </ng-container>
+</app-content>

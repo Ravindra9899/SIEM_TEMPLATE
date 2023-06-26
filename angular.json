@@ -44,10 +44,9 @@
             "scripts": [
               "./node_modules/jquery/dist/jquery.min.js",
               "./node_modules/bootstrap//dist/js/bootstrap.min.js",
-              "src/assets/theme/dist/js/Adminlte.min.js",
+              "src/assets/theme/dist/js/adminlte.min.js",
               "src/assets/theme/dist/js/demo.js",
-              "src/assets/theme/dist/js/Adminlte.min.js"
-              
+              "src/assets/theme/dist/js/adminlte.min.js"
             ]
           },
           "configurations": {
