@@ -54,20 +54,20 @@ export class LogTableComponent implements OnInit, AfterViewInit {
         'dataset': dataset
       };
 
-      if (i == 0) {
-        this.service.getDatasetNameForLog(key).subscribe({
-          next: (value) => {
-            console.log('match pattern ', value);
-            newRow['dataset'] = value;
-          },
-          error: (error) => {
-            console.log('error ', error);
-          },
-          complete: () => {
-            console.log('completed')
-          }
-        });
-      }
+      // if (i == 0) {
+      this.service.getDatasetNameForLog(key).subscribe({
+        next: (value) => {
+          console.log('match pattern ', value);
+          newRow['dataset'] = value;
+        },
+        error: (error) => {
+          console.log('error ', error);
+        },
+        complete: () => {
+          console.log('completed')
+        }
+      });
+      // }
 
       tmp.push(newRow);
     }
