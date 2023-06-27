@@ -7,12 +7,16 @@ import { DashboardComponent } from './dashboard/dashboard.component';
 import { TemplatePartsModule } from './template-parts/template-parts.module';
 import { LogFormComponent } from './log-form/log-form.component';
 import { FormsModule } from '@angular/forms';
+import { LogTableComponent } from './log-table/log-table.component';
+import { HttpClientModule } from '@angular/common/http';
+import { MatTableModule } from '@angular/material/table';
 
 @NgModule({
   declarations: [
     AppComponent,
     DashboardComponent,
-    LogFormComponent
+    LogFormComponent,
+    LogTableComponent
   ],
   imports: [
     BrowserModule,
@@ -20,6 +24,7 @@ import { FormsModule } from '@angular/forms';
     TemplatePartsModule,
     BrowserAnimationsModule,
     FormsModule,
+    HttpClientModule,
   ],
   providers: [],
   bootstrap: [AppComponent]
