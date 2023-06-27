@@ -1,6 +1,7 @@
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
-import { catchError, of } from 'rxjs';
+import { Observable, of } from 'rxjs';
+import { catchError } from 'rxjs/operators';
 
 @Injectable({
   providedIn: 'root'
@@ -11,8 +12,8 @@ export class LogService {
 
   constructor(private http: HttpClient) { }
 
-  getAllDocCount() {
-    let uri = '/logs';
+  getAllDocCount(): Observable<any> {
+    let uri = '/api/logs';
 
     return this.http.get(uri).pipe(
       catchError((err) => {

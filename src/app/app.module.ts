@@ -10,6 +10,8 @@ import { FormsModule } from '@angular/forms';
 import { LogTableComponent } from './log-table/log-table.component';
 import { HttpClientModule } from '@angular/common/http';
 import { MatTableModule } from '@angular/material/table';
+import { MatPaginatorModule } from '@angular/material/paginator';
+import { MatSortModule } from '@angular/material/sort';
 
 @NgModule({
   declarations: [
@@ -25,6 +27,9 @@ import { MatTableModule } from '@angular/material/table';
     BrowserAnimationsModule,
     FormsModule,
     HttpClientModule,
+    MatTableModule,
+    MatPaginatorModule,
+    MatSortModule,
   ],
   providers: [],
   bootstrap: [AppComponent]
