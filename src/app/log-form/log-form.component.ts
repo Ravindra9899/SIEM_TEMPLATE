@@ -1,4 +1,6 @@
 import { Component, OnInit } from '@angular/core';
+import { MatDialogRef } from '@angular/material/dialog';
+import { LogService } from '../services/log.service';
 
 @Component({
   selector: 'app-log-form',
@@ -12,7 +14,9 @@ export class LogFormComponent implements OnInit {
   selectedDataset: string = '';
   pattern: string = '';
 
-  constructor() { }
+  constructor(
+    private logservice: LogService
+  ) { }
 
   ngOnInit(): void {
   }
@@ -29,6 +33,9 @@ export class LogFormComponent implements OnInit {
       && this.pattern.trim() != ""
     ) {
       console.log(this.selectedDataset);
+      console.log(this.pattern);
+
+      this.pattern = this.logservice.placeholders(this.pattern);
       console.log(this.pattern);
 
       localStorage.setItem(this.selectedDataset, this.pattern);

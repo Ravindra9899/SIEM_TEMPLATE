@@ -1,8 +1,18 @@
 <app-content>
     <ng-container class="inner-dynamic-content">
-        <p style="color: whitesmoke;">
-            Count: {{ getRecords().length }}
-        </p>
+        <table>
+            <tr>
+                <td>
+                    <p style="color: whitesmoke;">
+                        Count: {{ getRecords().length }}
+                    </p>
+                </td>
+                <!-- <td>
+                    <button (click)="openDialog()">Open Dialog</button>
+                </td> -->
+            </tr>
+        </table>
+        <br>
         <ng-container>
             <div>
                 <mat-table [dataSource]="displayedRecords" matSort>

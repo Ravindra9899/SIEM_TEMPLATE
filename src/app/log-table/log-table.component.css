@@ -1,12 +1,33 @@
 div {
-    color: whitesmoke !important;
+    color: #a1a1a1 !important;
     text-align: left;
     font-size: 14px;
 }
 
-.narrow-column {
-    width: 1vw !important;
-    text-align: left;
-    /* padding: 0 0 0 0 !important; */
-    /* ; */
+table {
+    width: 100%;
+}
+
+.mat-column-S-No- {
+    color: rgb(190, 183, 183);
+    flex: 0 0 10vw !important;
+    width: 10vw important;
+}
+
+.mat-column-Log {
+    color: rgb(190, 183, 183);
+    flex: 0 0 50vw !important;
+    width: 50vw important;
+}
+
+.mat-column-Count {
+    color: rgb(190, 183, 183);
+    flex: 0 0 12vw !important;
+    width: 12vw important;
+}
+
+.mat-column-Dataset {
+    color: rgb(190, 183, 183);
+    flex: 0 0 20vw !important;
+    width: 20vw important;
 }

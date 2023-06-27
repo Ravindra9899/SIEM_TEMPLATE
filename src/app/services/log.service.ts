@@ -10,6 +10,14 @@ export class LogService {
 
   // const baseUri = '';
 
+  private rules = {
+    "%email%": "\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+",
+    "%ipAddress%": "(25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)\.(25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)\.(25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)\.(25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)",
+    "%numeric%": "\d+",
+    "%alphabet%": "[a-zA-Z]*",
+    "%alnum%": "[a-zA-Z0-9]*"
+  };
+
   constructor(private http: HttpClient) { }
 
   getAllDocCount(): Observable<any> {
@@ -22,5 +30,27 @@ export class LogService {
         return of([]);
       })
     );
+  }
+
+  placeholders(str: string): string {
+    let pattern = str;
+    Object.entries(this.rules).forEach(([placeholder, regex]) => {
+      pattern = pattern.replace(placeholder, regex);
+    });
+
+    return pattern;
+  }
+
+  getDatasetNameForLog(log: string): Observable<string> {
+    var matchDatasetName = "";
+    for (const [key, val] of Object.entries(localStorage)) {
+      const regexPattern = new RegExp(val);
+      console.log('regexpattern ', regexPattern, " :: ", regexPattern.test(log));
+      if (regexPattern.test(log)) {
+        matchDatasetName = key;
+        break
+      }
+    }
+    return of(matchDatasetName);
   }
 }

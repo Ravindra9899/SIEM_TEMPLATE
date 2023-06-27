@@ -26,11 +26,14 @@ export class LogTableComponent implements OnInit, AfterViewInit {
 
   @ViewChild(MatSort, { static: false }) sort!: MatSort;
 
-  constructor(private service: LogService) { }
+  constructor(
+    private service: LogService
+  ) { }
 
   getRecords() {
     return this.records;
   }
+
 
   processRecordsForDisplay(): void {
     let tmp: LogRowElement[] = [];
@@ -40,7 +43,9 @@ export class LogTableComponent implements OnInit, AfterViewInit {
       const id = i + 1;
       const key = record['key'].toString();
       const count = record['doc_count'] ?? 0;
-      const dataset = 'N.A.';
+      var dataset = 'N.A.';
+
+
 
       const newRow: LogRowElement = {
         'id': id.toString(),
@@ -49,8 +54,25 @@ export class LogTableComponent implements OnInit, AfterViewInit {
         'dataset': dataset
       };
 
+      if (i == 0) {
+        this.service.getDatasetNameForLog(key).subscribe({
+          next: (value) => {
+            console.log('match pattern ', value);
+            newRow['dataset'] = value;
+          },
+          error: (error) => {
+            console.log('error ', error);
+          },
+          complete: () => {
+            console.log('completed')
+          }
+        });
+      }
+
       tmp.push(newRow);
     }
+
+
 
     this.displayedRecords.data = tmp;
     console.info('here');
@@ -96,6 +118,8 @@ export class LogTableComponent implements OnInit, AfterViewInit {
 
   ngAfterViewInit(): void {
     console.log("getting this.paginator");
+
+    // for (let i = 0; i<)
     // console.log(this.paginator);
     if (this.paginator) {
       this.displayedRecords.paginator = this.paginator;
