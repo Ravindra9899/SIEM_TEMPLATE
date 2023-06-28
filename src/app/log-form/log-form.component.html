@@ -3,29 +3,59 @@
         <div class="parent">
             <table>
                 <tbody>
+                    <!-- <tr>
+                      <td>
+                        <input type="radio" id="nw_dataset" name="dataset_radio" value="HTML">
+                        <label for="nw_dataset">New Dataset</label><br>
+                      </td>
+                      <td>
+                        <input type="radio" id="ex_dataset" name="dataset_radio" value="HTML">
+                        <label for="ex_dataset">Existing Dataset</label><br>
+                      </td>
+                    </tr> -->
                     <tr>
-                        <td>
-                            <label for="pattern"><strong>Pattern:</strong></label>
-                        </td>
-                        <td>
-                            <input type="text" name="pattern" id="pattern" [(ngModel)]="pattern">
-                        </td>
+                      <td>
+                          <label for="pattern"><strong>Pattern:</strong></label>
+                      </td>
+                      <td>
+                          <input type="text" name="pattern" id="pattern" [(ngModel)]="pattern">
+                      </td>
+                      </tr>
+                      <tr>
+                      <td>
+                        <label for="dataset"><strong>Dataset:</strong></label>
+                      </td>
+                      <td>
+                        <select name="dataset" id="dataset" [(ngModel)]="selectedDataset">
+                            <option *ngFor="let value of getDatasetOptions()" [value]="value">{{value}}</option>
+                        </select>
+                      </td>
                     </tr>
                     <tr>
-                        <td>
-                            <label for="dataset"><strong>Dataset:</strong></label>
-                        </td>
-                        <td>
-                            <select name="dataset" id="dataset" [(ngModel)]="selectedDataset">
-                                <option *ngFor="let value of getDatasetOptions()" [value]="value">{{value}}</option>
-                            </select>
-                        </td>
                     </tr>
                 </tbody>
             </table>
             <div class="button">
                 <button type="submit" (click)="onAdd()">Add</button>
             </div>
+        </div>
+        <div class="container">
+          <table class="table table-bordered table-hover">
+            <tbody>
+              <tr>
+                <th scope="col">#</th>
+                <th scope="col">placeholder</th>
+                <th scope="col">regex</th>
+                <th scope="col">description</th>
+              </tr>
+              <tr *ngFor="let item of placeholderList; let i = index">
+                <td> {{ i+1 }}</td>
+                <td>{{ item.placeholder }}</td>
+                <td>{{ item.regex }}</td>
+                <td>{{ item.description }}</td>
+              </tr>
+            </tbody>
+          </table>
         </div>
     </ng-container>
 </app-content>

@@ -13,13 +13,17 @@ import { MatTableModule } from '@angular/material/table';
 import { MatPaginatorModule } from '@angular/material/paginator';
 import { MatSortModule } from '@angular/material/sort';
 import { MatDialogModule } from '@angular/material/dialog';
+import { DatasetTagPatternComponent } from './dataset-tag-pattern/dataset-tag-pattern.component';
+import { DatasetTagPatternViewComponent } from './dataset-tag-pattern-view/dataset-tag-pattern-view.component';
 
 @NgModule({
   declarations: [
     AppComponent,
     DashboardComponent,
     LogFormComponent,
-    LogTableComponent
+    LogTableComponent,
+    DatasetTagPatternComponent,
+    DatasetTagPatternViewComponent
   ],
   imports: [
     BrowserModule,
