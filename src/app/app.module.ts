@@ -13,8 +13,12 @@ import { MatTableModule } from '@angular/material/table';
 import { MatPaginatorModule } from '@angular/material/paginator';
 import { MatSortModule } from '@angular/material/sort';
 import { MatDialogModule } from '@angular/material/dialog';
+import { MatInputModule } from '@angular/material/input';
 import { DatasetTagPatternComponent } from './dataset-tag-pattern/dataset-tag-pattern.component';
 import { DatasetTagPatternViewComponent } from './dataset-tag-pattern-view/dataset-tag-pattern-view.component';
+import { MatButtonModule } from '@angular/material/button';
+import { MatIconModule } from '@angular/material/icon';
+import { MatChipsModule } from '@angular/material/chips';
 
 @NgModule({
   declarations: [
@@ -36,6 +40,10 @@ import { DatasetTagPatternViewComponent } from './dataset-tag-pattern-view/datas
     MatPaginatorModule,
     MatSortModule,
     MatDialogModule,
+    MatInputModule,
+    MatButtonModule,
+    MatIconModule,
+    MatChipsModule
   ],
   providers: [],
   bootstrap: [AppComponent]
