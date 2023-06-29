@@ -11,7 +11,12 @@
 table {
     width: 100%;
     align-items: center;
-    text-align: center;
+    text-align: left;
+}
+
+#log-form {
+  border-collapse: separate;
+  border-spacing: 0 15px;
 }
 
 td {

@@ -53,4 +53,35 @@ export class LogService {
     }
     return of(matchDatasetName);
   }
+
+  getAllDataset(): Observable<any> {
+    let uri = '/api/dataset';
+
+    return this.http.get(uri).pipe(
+      catchError((err) => {
+        console.error('error in getAllDataset');
+        console.error(err);
+        return of([]);
+      })
+    );
+  }
+
+  postPatternForDataset(patternFormData: any): Observable<any> {
+    let uri = '/api/dataset-tag-pattern';
+
+    let reqBody = {
+      'tagName': patternFormData['pattern'],
+      'datasetName': patternFormData['selectedDataset']
+    }
+
+    console.log("sent data:::::", reqBody);
+
+    return this.http.post(uri, reqBody).pipe(
+      catchError((err) => {
+        console.error('error in datasettagpatternadd');
+        console.error(err);
+        return of([]);
+      })
+    );
+  }
 }
