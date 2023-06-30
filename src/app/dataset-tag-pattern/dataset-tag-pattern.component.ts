@@ -3,6 +3,7 @@ import { LogService } from '../services/log.service';
 import { MatTableDataSource } from '@angular/material/table';
 import { MatPaginator } from '@angular/material/paginator';
 import { MatSort } from '@angular/material/sort';
+import { Router } from '@angular/router';
 
 export interface DatasetRowElement {
   'id': string,
@@ -16,6 +17,8 @@ export interface DatasetRowElement {
 })
 export class DatasetTagPatternComponent implements OnInit, AfterViewInit {
 
+  clickedDataset!: any;
+
   private records: any[] = [];
   displayedColumnNames: string[] = ['S.No.', 'Dataset', 'Actions'];
   displayedRecords: MatTableDataSource<any> = new MatTableDataSource<any>();
@@ -23,7 +26,10 @@ export class DatasetTagPatternComponent implements OnInit, AfterViewInit {
   @ViewChild('paginator', {static: false}) paginator!: MatPaginator;
   @ViewChild(MatSort, { static: false}) sort!: MatSort;
 
-  constructor() { }
+  constructor(
+    private service: LogService,
+    private router: Router
+  ) { }
 
   getRecords() {
     return this.records;
@@ -49,17 +55,48 @@ export class DatasetTagPatternComponent implements OnInit, AfterViewInit {
   }
 
   ngOnInit(): void {
-    let tmpRec = [];
-    for(let i = 0;i < 500;i++){
-      let tmp = {
-        'dataset': "dataset-"+i
+    console.clear();
+
+    let tmpRec: any[] = [];
+
+    this.service.getAllDataset().subscribe({
+      next: (response) => {
+        console.info('getAllDataset service subscribed');
+        if (
+          response &&
+          response != null &&
+          response['message'] &&
+          response['message'] != null &&
+          response['message'].toString().toLowerCase() == 'success' &&
+          response['data'] != null &&
+          Array.isArray(response['data']) &&
+          response['data'].length > 0
+        ) {
+          console.log(response['message']);
+          console.log(response['data'][0]);
+          for(let i = 0;i < response.data.length;i++){
+            let tmp = {
+              'dataset': response.data[i]['name']
+            }
+            tmpRec.push(tmp);
+          }
+          this.records = tmpRec;
+          this.processRecordsForDisplay();
+        } else {
+          console.log(typeof response);
+          console.error("message", response['message']);
+          console.log(typeof response['data']);
+          console.error('response was undefined');
+        }
+      },
+      error: (err) => {
+        console.error('getAllDataset service subscribe error');
+        console.error(err);
+      },
+      complete: () => {
+        console.info('getAllDataset service subscribe complete');
       }
-
-      tmpRec.push(tmp);
-    }
-
-    this.records = tmpRec;
-    this.processRecordsForDisplay();
+    });
   }
 
   ngAfterViewInit(): void {
@@ -73,15 +110,22 @@ export class DatasetTagPatternComponent implements OnInit, AfterViewInit {
   }
 
   viewDataset(record: any){
+    // this.clickedDataset = record;
+    console.log("record ", record);
+    this.router.navigate(
+      ['/dataset-tag-pattern-view'],
+      {queryParams: record}
+    )
+
 
   }
 
   editDataset(record: any){
-
+    this.clickedDataset = record;
   }
 
   deleteDataset(record: any){
-
+    this.clickedDataset = record;
   }
 
 }

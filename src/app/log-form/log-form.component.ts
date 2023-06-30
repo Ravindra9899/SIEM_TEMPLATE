@@ -113,7 +113,6 @@ export class LogFormComponent implements OnInit {
         "selectedDataset": this.selectedDataset
       };
 
-      console.log("sending req :::::::");
       this.service.postPatternForDataset(patternFormData).subscribe({
         next: (response) => {
           console.info('postPatternForDataset service subscribed');
@@ -127,13 +126,11 @@ export class LogFormComponent implements OnInit {
           ) {
             // response['data'] = {status: success/failed}
             console.log(response['message']);
-
-            //alert message
-            this.postPatternFormMess = "Successfully saved the record\n"+response['data']['report'];
+            this.postPatternFormMess = response['data']['report'];
           } else {
             console.error("message", response['message']);
             console.error('response was undefined');
-            this.postPatternFormMess = "Error saving the record\n"+response['data'];
+            this.postPatternFormMess = response['data']['report'];
           }
         },
         error: (err) => {

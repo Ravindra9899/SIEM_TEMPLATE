@@ -1,5 +1,8 @@
 <app-content>
   <ng-container class="inner-dynamic-content">
-    <p>dataset-tag-pattern-view works!</p>
+    <p><strong>{{ receivedDataset }}</strong></p>
+    <mat-chip-list>
+      <mat-chip *ngFor="let tag of tagsList">{{ tag }}</mat-chip>
+    </mat-chip-list>
   </ng-container>
 </app-content>
