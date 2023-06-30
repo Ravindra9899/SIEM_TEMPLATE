@@ -13,6 +13,15 @@ export class DatasetTagPatternViewComponent implements OnInit {
 
   tagsList!: string[];
 
+  processTagRecordsForDisplay(tagRecords: any) {
+    let tags = [];
+    for(let i = 0;i < tagRecords.length;++i){
+      tags.push(tagRecords[i]['pattern']);
+    }
+
+    this.tagsList = tags;
+  }
+
   constructor(private route: ActivatedRoute, private service: DatasetTagPatternService) {}
   ngOnInit(): void {
     const t = this.route.queryParamMap
@@ -33,7 +42,7 @@ export class DatasetTagPatternViewComponent implements OnInit {
         ) {
           // response['data'] = {status: success/failed}
           console.log("Got tags::::", response['data']);
-          // this.tagsList = response['data'];
+          this.processTagRecordsForDisplay(response['data']);
         } else {
           console.error("message", response['message']);
           console.error('response was undefined');
@@ -47,8 +56,6 @@ export class DatasetTagPatternViewComponent implements OnInit {
         console.info('getTagPatternsFromDatasetName service subscribe complete');
       }
     });
-
-    this.tagsList = ["djsdljs", "dhssjg", "jsdcbsdhc", "djhdsbcbd"];
   }
 
 }

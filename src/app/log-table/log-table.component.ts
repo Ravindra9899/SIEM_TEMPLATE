@@ -55,28 +55,50 @@ export class LogTableComponent implements OnInit, AfterViewInit {
       };
 
       // if (i == 0) {
-      this.service.getDatasetNameForLog(key).subscribe({
-        next: (value) => {
-          console.log('match pattern ', value);
-          newRow['dataset'] = value;
-        },
-        error: (error) => {
-          console.log('error ', error);
-        },
-        complete: () => {
-          console.log('completed')
-        }
-      });
+        this.service.getDatasetNameForLog(key).subscribe({
+          next: (response) => {
+            console.info('getDatasetNameForLog service subscribed');
+            if (
+              response &&
+              response != null &&
+              response['message'] &&
+              response['message'] != null &&
+              response['message'].toString().toLowerCase() == 'success' &&
+              response['data'] != null
+            ) {
+              console.log(response['message']);
+              newRow['dataset'] = response['data'];
+            } else {
+              if(
+                response['message'] &&
+                response['message'] != null &&
+                response['message'].toString().trim()=='not found'
+                ){
+                  newRow['dataset'] = 'N.A.';
+              }
+              // console.log(typeof response);
+              // console.error("message", response);
+              // console.log(typeof response['data']);
+              // console.error('response was undefined');
+            }
+          },
+          error: (err) => {
+            console.error('getDatasetNameForLog service subscribe error');
+            console.error(err);
+          },
+          complete: () => {
+            console.info('getDatasetNameForLog service subscribe complete');
+          }
+        });
       // }
 
       tmp.push(newRow);
     }
 
+    this.records = tmp;
+    this.displayedRecords.data = this.records;
 
-
-    this.displayedRecords.data = tmp;
     console.info('here');
-
   }
 
   ngOnInit(): void {
@@ -119,17 +141,16 @@ export class LogTableComponent implements OnInit, AfterViewInit {
   ngAfterViewInit(): void {
     console.log("getting this.paginator");
 
-    // for (let i = 0; i<)
-    // console.log(this.paginator);
     if (this.paginator) {
       this.displayedRecords.paginator = this.paginator;
     }
 
     console.log('getting this.sort')
-    // console.log(this.sort);
     if (this.sort) {
       this.displayedRecords.sort = this.sort;
     }
   }
-
+  ngOnChanges(){
+    this.displayedRecords.data = this.records;
+  }
 }

@@ -10,13 +10,13 @@ export class LogService {
 
   // const baseUri = '';
 
-  private rules = {
-    "%email%": "\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+",
-    "%ipAddress%": "(25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)\.(25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)\.(25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)\.(25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)",
-    "%numeric%": "\d+",
-    "%alphabet%": "[a-zA-Z]*",
-    "%alnum%": "[a-zA-Z0-9]*"
-  };
+  // private rules = {
+  //   "%email%": "\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+",
+  //   "%ipAddress%": "(25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)\.(25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)\.(25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)\.(25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)",
+  //   "%numeric%": "\d+",
+  //   "%alphabet%": "[a-zA-Z]*",
+  //   "%alnum%": "[a-zA-Z0-9]*"
+  // };
 
   constructor(private http: HttpClient) { }
 
@@ -32,26 +32,50 @@ export class LogService {
     );
   }
 
-  placeholders(str: string): string {
+  getAllPlaceholders(): Observable<any> {
+    let uri = '/api/placeholder';
+
+    return this.http.get(uri).pipe(
+      catchError((err) => {
+        console.error('error in getAllPlaceholders');
+        console.error(err);
+        return of([]);
+      })
+    );
+  }
+
+  placeholders(str: string, rules: {[key: string]: string}): string {
     let pattern = str;
-    Object.entries(this.rules).forEach(([placeholder, regex]) => {
+    Object.entries(rules).forEach(([placeholder, regex]) => {
       pattern = pattern.replace(placeholder, regex);
     });
 
     return pattern;
   }
 
-  getDatasetNameForLog(log: string): Observable<string> {
-    var matchDatasetName = "";
-    for (const [key, val] of Object.entries(localStorage)) {
-      const regexPattern = new RegExp(val);
-      console.log('regexpattern ', regexPattern, " :: ", regexPattern.test(log));
-      if (regexPattern.test(log)) {
-        matchDatasetName = key;
-        break
-      }
+  getDatasetNameForLog(log: string): Observable<any> {
+
+    let uri = '/api/check-pattern';
+
+    let reqBody = {
+      'log': log
     }
-    return of(matchDatasetName);
+
+    return this.http.post(uri, reqBody).pipe(
+      catchError((err) => {
+        console.error('error in getDatasetNameForLog');
+        console.error(err['error']);
+        // console.error(JSON.stringify(err));
+        if(
+          err['error'] != null &&
+          err['error']['message']!=null &&
+          err['error']['message'].toString().trim()=='not found'
+          ){
+          return of(err['error']);
+        }
+        return of([]);
+      })
+    );
   }
 
   getAllDataset(): Observable<any> {

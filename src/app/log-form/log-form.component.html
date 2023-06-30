@@ -48,13 +48,11 @@
               <tr>
                 <th scope="col">#</th>
                 <th scope="col">placeholder</th>
-                <th scope="col">regex</th>
                 <th scope="col">description</th>
               </tr>
               <tr *ngFor="let item of placeholderList; let i = index">
                 <td> {{ i+1 }}</td>
                 <td>{{ item.placeholder }}</td>
-                <td>{{ item.regex }}</td>
                 <td>{{ item.description }}</td>
               </tr>
             </tbody>
