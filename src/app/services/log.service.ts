@@ -44,14 +44,14 @@ export class LogService {
     );
   }
 
-  placeholders(str: string, rules: {[key: string]: string}): string {
-    let pattern = str;
-    Object.entries(rules).forEach(([placeholder, regex]) => {
-      pattern = pattern.replace(placeholder, regex);
-    });
+  // placeholders(str: string, rules: {[key: string]: string}): string {
+  //   let pattern = str;
+  //   Object.entries(rules).forEach(([placeholder, regex]) => {
+  //     pattern = pattern.replaceAll(placeholder, regex);
+  //   });
 
-    return pattern;
-  }
+  //   return pattern;
+  // }
 
   getDatasetNameForLog(log: string): Observable<any> {
 

@@ -153,11 +153,11 @@ export class LogFormComponent implements OnInit {
       this.selectedDataset.trim() != ""
       && this.pattern.trim() != ""
     ) {
-      let rules: {[key: string]: string} = {};
-      for(let i = 0;i < this.placeholderList.length;++i){
-        rules[this.placeholderRecords[i].placeholder] = this.placeholderRecords[i].regex;
-      }
-      this.pattern = this.service.placeholders(this.pattern, rules);
+      // let rules: {[key: string]: string} = {};
+      // for(let i = 0;i < this.placeholderList.length;++i){
+      //   rules[this.placeholderRecords[i].placeholder] = this.placeholderRecords[i].regex;
+      // }
+      // this.pattern = this.service.placeholders(this.pattern, rules);
 
       let patternFormData = {
         "pattern": this.pattern,
