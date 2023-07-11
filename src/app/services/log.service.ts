@@ -63,8 +63,8 @@ export class LogService {
 
     return this.http.post(uri, reqBody).pipe(
       catchError((err) => {
-        console.error('error in getDatasetNameForLog');
-        console.error(err['error']);
+        console.log('error in getDatasetNameForLog');
+        console.log(err['error']);
         // console.error(JSON.stringify(err));
         if(
           err['error'] != null &&

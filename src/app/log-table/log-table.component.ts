@@ -43,9 +43,7 @@ export class LogTableComponent implements OnInit, AfterViewInit {
       const id = i + 1;
       const key = record['key'].toString();
       const count = record['doc_count'] ?? 0;
-      var dataset = 'N.A.';
-
-
+      var dataset = '';
 
       const newRow: LogRowElement = {
         'id': id.toString(),
@@ -53,9 +51,19 @@ export class LogTableComponent implements OnInit, AfterViewInit {
         'count': count,
         'dataset': dataset
       };
+      tmp.push(newRow);
+    }
 
-      // if (i == 0) {
-        this.service.getDatasetNameForLog(key).subscribe({
+    this.records = tmp;
+    this.displayedRecords.data = this.records;
+
+    for(let i=0; i<this.records.length; i++){
+      console.log(this.records[i]);
+      // const key = this.records[i].key;
+      // console.info("::: ",key);
+      console.log(this.records[i]['dataset'].toString().trim()=='')
+      if(this.records[i]['dataset'].toString().trim()==''){
+        this.service.getDatasetNameForLog(this.records[i].key).subscribe({
           next: (response) => {
             console.info('getDatasetNameForLog service subscribed');
             if (
@@ -67,19 +75,15 @@ export class LogTableComponent implements OnInit, AfterViewInit {
               response['data'] != null
             ) {
               console.log(response['message']);
-              newRow['dataset'] = response['data'];
+              this.records[i]['dataset'] = response['data'];
             } else {
               if(
                 response['message'] &&
                 response['message'] != null &&
                 response['message'].toString().trim()=='not found'
                 ){
-                  newRow['dataset'] = 'N.A.';
+                  this.records[i]['dataset'] = 'N.A.';
               }
-              // console.log(typeof response);
-              // console.error("message", response);
-              // console.log(typeof response['data']);
-              // console.error('response was undefined');
             }
           },
           error: (err) => {
@@ -90,14 +94,10 @@ export class LogTableComponent implements OnInit, AfterViewInit {
             console.info('getDatasetNameForLog service subscribe complete');
           }
         });
-      // }
-
-      tmp.push(newRow);
+      }
     }
 
-    this.records = tmp;
     this.displayedRecords.data = this.records;
-
     console.info('here');
   }
 
@@ -117,10 +117,9 @@ export class LogTableComponent implements OnInit, AfterViewInit {
           Array.isArray(response['data']) &&
           response['data'].length > 0
         ) {
-          console.log(response['message']);
+          // console.log(response['message']);
           console.log(response['data'][0]);
           this.records = response.data;
-          this.processRecordsForDisplay();
         } else {
           console.log(typeof response);
           console.error("message", response['message']);
@@ -134,8 +133,10 @@ export class LogTableComponent implements OnInit, AfterViewInit {
       },
       complete: () => {
         console.info('getAllDocCount service subscribe complete');
+        this.processRecordsForDisplay();
       }
     });
+    console.info('processing further')
   }
 
   ngAfterViewInit(): void {
@@ -149,8 +150,7 @@ export class LogTableComponent implements OnInit, AfterViewInit {
     if (this.sort) {
       this.displayedRecords.sort = this.sort;
     }
-  }
-  ngOnChanges(){
-    this.displayedRecords.data = this.records;
+
+
   }
 }
