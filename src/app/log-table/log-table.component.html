@@ -1,0 +1,53 @@
+<app-content>
+    <ng-container class="inner-dynamic-content">
+        <table>
+            <tr>
+                <td>
+                    <p style="color: whitesmoke;">
+                        Count: {{ getRecords().length }}
+                    </p>
+                </td>
+                <!-- <td>
+                    <button (click)="openDialog()">Open Dialog</button>
+                </td> -->
+            </tr>
+        </table>
+        <br>
+        <ng-container>
+            <div>
+                <mat-table [dataSource]="displayedRecords" matSort>
+                    <!-- S.No. Column -->
+                    <ng-container matColumnDef="S.No.">
+                        <mat-header-cell *matHeaderCellDef mat-sort-header="id"
+                            class="narrow-column">S.No.</mat-header-cell>
+                        <mat-cell *matCellDef="let record" class="narrow-column">{{ record.id }}</mat-cell>
+                    </ng-container>
+
+                    <!-- Log Text Column -->
+                    <ng-container matColumnDef="Log">
+                        <mat-header-cell *matHeaderCellDef mat-sort-header="Log">Log</mat-header-cell>
+                        <mat-cell *matCellDef="let record">{{ record.key }}</mat-cell>
+                    </ng-container>
+
+                    <!-- Count Column -->
+                    <ng-container matColumnDef="Count">
+                        <mat-header-cell *matHeaderCellDef mat-sort-header="count">Count</mat-header-cell>
+                        <mat-cell *matCellDef="let record">{{ record.count }}</mat-cell>
+                    </ng-container>
+
+                    <!-- DataSet Name Column -->
+                    <ng-container matColumnDef="Dataset">
+                        <mat-header-cell *matHeaderCellDef mat-sort-header="dataset">Dataset</mat-header-cell>
+                        <mat-cell *matCellDef="let record">{{ record.dataset }}</mat-cell>
+                    </ng-container>
+
+                    <mat-header-row *matHeaderRowDef="displayedColumnNames"></mat-header-row>
+                    <mat-row *matRowDef="let row; columns: displayedColumnNames;"></mat-row>
+                </mat-table>
+                <mat-paginator #paginator [length]="getRecords().length" [pageSize]="10"
+                    [pageSizeOptions]="[5, 10, 25, 50]">
+                </mat-paginator>
+            </div>
+        </ng-container>
+    </ng-container>
+</app-content>

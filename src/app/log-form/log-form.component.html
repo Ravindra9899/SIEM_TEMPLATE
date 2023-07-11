@@ -1,34 +1,62 @@
 <app-content>
     <ng-container class="inner-dynamic-content">
+      <p class="alert" *ngIf="postPatternFormMess.length > 0">
+        {{ postPatternFormMess }}
+      </p>
         <div class="parent">
-            <!-- <form action=""> -->
-            <table>
+            <table id="log-form">
                 <tbody>
+                    <!-- <tr>
+                      <td>
+                        <input type="radio" id="nw_dataset" name="dataset_radio" value="HTML">
+                        <label for="nw_dataset">New Dataset</label><br>
+                      </td>
+                      <td>
+                        <input type="radio" id="ex_dataset" name="dataset_radio" value="HTML">
+                        <label for="ex_dataset">Existing Dataset</label><br>
+                      </td>
+                    </tr> -->
                     <tr>
-                        <td>
-                            <label for="pattern"><strong>Pattern:</strong></label>
-                        </td>
-                        <td>
-                            <input type="text" name="pattern" id="pattern" [(ngModel)]="pattern">
-                        </td>
+                      <td style="padding:0 15px 0 15px;" >
+                          <label for="pattern"><strong>Pattern:</strong></label>
+                      </td>
+                      <td style="padding:0 15px 0 15px;" >
+                          <input type="text" name="pattern" id="pattern" size="70" [(ngModel)]="pattern">
+                      </td>
+                      </tr>
+                      <tr>
+                      <td style="padding:0 15px 0 15px;" >
+                        <label for="dataset"><strong>Dataset:</strong></label>
+                      </td>
+                      <td style="padding:0 15px 0 15px;" >
+                        <select name="dataset" id="dataset" [(ngModel)]="selectedDataset">
+                            <option *ngFor="let value of getDatasetOptions()" [value]="value">{{value}}</option>
+                        </select>
+                      </td>
                     </tr>
                     <tr>
-                        <td>
-                            <label for="dataset"><strong>Dataset:</strong></label>
-                        </td>
-                        <td>
-                            <select name="dataset" id="dataset" [(ngModel)]="selectedDataset">
-                                <option *ngFor="let value of getDatasetOptions()" [value]="value">{{value}}</option>
-                            </select>
-                        </td>
+                      <td style="padding:0 15px 0 15px;" >
+                        <button type="submit" (click)="onAdd()">Add</button>
+                      </td>
                     </tr>
                 </tbody>
             </table>
-            <!-- <br> -->
-            <div class="button">
-                <button type="submit" (click)="onAdd()">Add</button>
-            </div>
-            <!-- </form> -->
+        </div>
+        <div class="container" style="margin-top: 10%;">
+          <table class="table table-bordered table-hover">
+            <tbody>
+              <tr>
+                <th scope="col">#</th>
+                <th scope="col">placeholder</th>
+                <th scope="col">description</th>
+              </tr>
+              <tr *ngFor="let item of placeholderList; let i = index">
+                <td> {{ i+1 }}</td>
+                <td>{{ item.placeholder }}</td>
+                <td>{{ item.description }}</td>
+              </tr>
+            </tbody>
+          </table>
         </div>
     </ng-container>
 </app-content>

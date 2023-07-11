@@ -1,23 +1,31 @@
 .parent {
-    width: 100%;
-    height: 100vh;
+    width: 100vw;
+    /* height: 100vh; */
     text-align: center;
     align-items: center;
     padding: 0 20vw;
+    background-color: #181c28;
+    color: #a1a1a1;
 }
 
 table {
     width: 100%;
     align-items: center;
-    text-align: center;
+    text-align: left;
 }
 
-table td {
-    padding-bottom: 10px;
+#log-form {
+  border-collapse: separate;
+  border-spacing: 0 15px;
+}
+
+td {
+    margin: 10px;
+    /* background-color: antiquewhite; */
 }
 
 label {
-    display: inline-block;
+    /* display: inline-block; */
     width: 2vw;
 }
 
