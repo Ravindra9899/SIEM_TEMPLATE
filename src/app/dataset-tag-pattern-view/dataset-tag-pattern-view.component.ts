@@ -13,6 +13,11 @@ export class DatasetTagPatternViewComponent implements OnInit {
 
   tagsList!: string[];
 
+  /**
+   * The function processes tag records and extracts the 'pattern' property to create a list of tags.
+   * @param {any} tagRecords - The `tagRecords` parameter is an array of objects. Each object
+   * represents a tag record and has a property called `pattern`.
+   */
   processTagRecordsForDisplay(tagRecords: any) {
     let tags = [];
     for(let i = 0;i < tagRecords.length;++i){
@@ -23,6 +28,11 @@ export class DatasetTagPatternViewComponent implements OnInit {
   }
 
   constructor(private route: ActivatedRoute, private service: DatasetTagPatternService) {}
+
+  /**
+   * The ngOnInit function retrieves a dataset parameter from the route, calls a service to get tag
+   * patterns based on the dataset name, and processes the tag records for display.
+   */
   ngOnInit(): void {
     const t = this.route.queryParamMap
     .subscribe((params) => {

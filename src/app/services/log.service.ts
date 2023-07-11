@@ -8,18 +8,13 @@ import { catchError } from 'rxjs/operators';
 })
 export class LogService {
 
-  // const baseUri = '';
-
-  // private rules = {
-  //   "%email%": "\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+",
-  //   "%ipAddress%": "(25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)\.(25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)\.(25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)\.(25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)",
-  //   "%numeric%": "\d+",
-  //   "%alphabet%": "[a-zA-Z]*",
-  //   "%alnum%": "[a-zA-Z0-9]*"
-  // };
-
   constructor(private http: HttpClient) { }
 
+  /**
+   * The function `getAllDocCount` makes an HTTP GET request to retrieve all logs from the `/api/logs`
+   * endpoint and returns an Observable.
+   * @returns an Observable of type 'any'.
+   */
   getAllDocCount(): Observable<any> {
     let uri = '/api/logs';
 
@@ -32,6 +27,11 @@ export class LogService {
     );
   }
 
+  /**
+   * The function `getAllPlaceholders` makes an HTTP GET request to retrieve all placeholders from an
+   * API and returns an Observable.
+   * @returns an Observable of type 'any'.
+   */
   getAllPlaceholders(): Observable<any> {
     let uri = '/api/placeholder';
 
@@ -44,15 +44,13 @@ export class LogService {
     );
   }
 
-  // placeholders(str: string, rules: {[key: string]: string}): string {
-  //   let pattern = str;
-  //   Object.entries(rules).forEach(([placeholder, regex]) => {
-  //     pattern = pattern.replaceAll(placeholder, regex);
-  //   });
-
-  //   return pattern;
-  // }
-
+  /**
+   * The function `getDatasetNameForLog` sends a POST request to the `/api/check-pattern` endpoint with
+   * a log message as the request body, and returns an Observable that emits the response from the
+   * server.
+   * @param {string} log - The `log` parameter is a string that represents a log entry.
+   * @returns The function `getDatasetNameForLog` returns an Observable.
+   */
   getDatasetNameForLog(log: string): Observable<any> {
 
     let uri = '/api/check-pattern';
@@ -78,6 +76,11 @@ export class LogService {
     );
   }
 
+  /**
+   * The function `getAllDataset` makes an HTTP GET request to retrieve all datasets from the specified
+   * API endpoint and returns an Observable that emits the response data.
+   * @returns an Observable of type 'any'.
+   */
   getAllDataset(): Observable<any> {
     let uri = '/api/dataset';
 
@@ -90,6 +93,13 @@ export class LogService {
     );
   }
 
+  /**
+   * The function `postPatternForDataset` sends a POST request to the `/api/dataset-tag-pattern`
+   * endpoint with the provided pattern and selected dataset name as the request body.
+   * @param {any} patternFormData - The `patternFormData` parameter is an object that contains the form
+   * data for the pattern. It has two properties:
+   * @returns an Observable<any>.
+   */
   postPatternForDataset(patternFormData: any): Observable<any> {
     let uri = '/api/dataset-tag-pattern';
 

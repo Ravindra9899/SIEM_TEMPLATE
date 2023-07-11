@@ -35,6 +35,10 @@ export class LogTableComponent implements OnInit, AfterViewInit {
   }
 
 
+  /**
+   * The function `processRecordsForDisplay` processes records and updates the dataset field if it is
+   * empty by making a service call to get the dataset name.
+   */
   processRecordsForDisplay(): void {
     let tmp: LogRowElement[] = [];
 
@@ -101,9 +105,16 @@ export class LogTableComponent implements OnInit, AfterViewInit {
     console.info('here');
   }
 
+  /**
+   * The `ngOnInit()` function subscribes to the `getAllDocCount()` method of the `LogService` and
+   * handles the response by logging the data and error messages, and then processes the records for
+   * display.
+   */
   ngOnInit(): void {
     console.clear();
 
+    /* The code snippet is subscribing to the `getAllDocCount()` method of the `LogService` and
+    handling the response using the `subscribe()` method. */
     this.service.getAllDocCount().subscribe({
       next: (response) => {
         console.info('getAllCount service subscribed');
@@ -136,9 +147,12 @@ export class LogTableComponent implements OnInit, AfterViewInit {
         this.processRecordsForDisplay();
       }
     });
-    console.info('processing further')
   }
 
+  /**
+   * The ngAfterViewInit function sets the paginator and sort properties of the displayedRecords object
+   * if they exist.
+   */
   ngAfterViewInit(): void {
     console.log("getting this.paginator");
 
@@ -150,7 +164,5 @@ export class LogTableComponent implements OnInit, AfterViewInit {
     if (this.sort) {
       this.displayedRecords.sort = this.sort;
     }
-
-
   }
 }

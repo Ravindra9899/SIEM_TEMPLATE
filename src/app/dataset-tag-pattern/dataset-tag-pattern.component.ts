@@ -35,6 +35,10 @@ export class DatasetTagPatternComponent implements OnInit, AfterViewInit {
     return this.records;
   }
 
+  /**
+   * The function "processRecordsForDisplay" takes an array of records, assigns an ID to each record,
+   * and creates a new array of dataset rows with the assigned IDs.
+   */
   processRecordsForDisplay(): void {
     let tmp: DatasetRowElement[] = [];
 
@@ -54,9 +58,10 @@ export class DatasetTagPatternComponent implements OnInit, AfterViewInit {
     this.displayedRecords.data = tmp;
   }
 
+  /**
+   * The ngOnInit function retrieves dataset records from a service and processes them for display.
+   */
   ngOnInit(): void {
-    console.clear();
-
     let tmpRec: any[] = [];
 
     this.service.getAllDataset().subscribe({
@@ -109,23 +114,18 @@ export class DatasetTagPatternComponent implements OnInit, AfterViewInit {
     }
   }
 
+  /**
+   * The function "viewDataset" logs the record parameter and navigates to a specific route with the
+   * record as a query parameter.
+   * @param {any} record - The `record` parameter is an object that represents a dataset. It contains
+   * information about the dataset that will be used to navigate to the `dataset-tag-pattern-view`
+   * route.
+   */
   viewDataset(record: any){
-    // this.clickedDataset = record;
     console.log("record ", record);
     this.router.navigate(
       ['/dataset-tag-pattern-view'],
       {queryParams: record}
     )
-
-
   }
-
-  editDataset(record: any){
-    this.clickedDataset = record;
-  }
-
-  deleteDataset(record: any){
-    this.clickedDataset = record;
-  }
-
 }

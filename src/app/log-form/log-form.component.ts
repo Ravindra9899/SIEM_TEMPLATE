@@ -28,42 +28,23 @@ export class LogFormComponent implements OnInit {
 
   }
 
+  /**
+   * The function iterates through the dataset records and adds the name of each record to the dataset
+   * options array.
+   */
   processDatasetRecordsForDisplay(){
     for(let i = 0;i < this.datasetRecords.length; i++){
       this.datasetOptions.push(this.datasetRecords[i]['name'])
     }
   }
 
+  /**
+   * The `ngOnInit` function subscribes to the `getAllDataset` and `getAllPlaceholders` methods of the
+   * `LogService` and handles the response using the `next`, `error`, and `complete` callbacks.
+   */
   ngOnInit(): void {
-
-    // this.placeholderList = [
-    //   {
-    //     "placeholder": "__email__",
-    //     "regex": "\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+",
-    //     "description": "this will match to any valid email."
-    //   },
-    //   {
-    //     "placeholder": "__ipAddress__",
-    //     "regex": "(25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)\.(25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)\.(25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)\.(25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)",
-    //     "description": "this will match to any valid Ip address."
-    //   },
-    //   {
-    //     "placeholder": "__numeric__",
-    //     "regex": "\d+",
-    //     "description": "this will match to the digits, not any alphabets or special letters."
-    //   },
-    //   {
-    //     "placeholder": "__alphabet__",
-    //     "regex": "[a-zA-Z]*",
-    //     "description": "this will match to the alphabetic word(capital or small), not any digits or special letters."
-    //   },
-    //   {
-    //     "placeholder": "__%alnum__",
-    //     "regex": "[a-zA-Z0-9]*",
-    //     "description": "this will match to the alpha-numeric word(capital or small), not any special letters."
-    //   }
-    // ];
-
+    /* The code snippet is subscribing to the `getAllDataset()` method of the `LogService` and handling
+    the response using the `next`, `error`, and `complete` callbacks. */
     this.service.getAllDataset().subscribe({
       next: (response) => {
         console.info('getAllDataset service subscribed');
@@ -97,6 +78,8 @@ export class LogFormComponent implements OnInit {
       }
     });
 
+    /* The code snippet is subscribing to the `getAllPlaceholders()` method of the `LogService` and
+    handling the response using the `next`, `error`, and `complete` callbacks. */
     this.service.getAllPlaceholders().subscribe({
       next: (response) => {
         console.info('getAllPlaceholders service subscribed');
@@ -130,6 +113,14 @@ export class LogFormComponent implements OnInit {
     });
   }
 
+  /**
+   * The function "processPlaceholderRecordsForDisplay" takes an array of placeholder records, extracts
+   * the "placeholder" and "description" properties from each record, and assigns them to a new array
+   * called "placeholderList".
+   * @param {any} placeholderRecords - The parameter `placeholderRecords` is an array of objects. Each
+   * object in the array represents a placeholder record and has two properties: `placeholder` and
+   * `description`.
+   */
   processPlaceholderRecordsForDisplay(placeholderRecords: any){
     let tmpList = [];
     for(let i = 0;i < this.placeholderRecords.length;++i){
@@ -146,6 +137,12 @@ export class LogFormComponent implements OnInit {
     return this.datasetOptions;
   }
 
+  /**
+   * The `onAdd` function logs the selected dataset and pattern, checks if they are not empty, and then
+   * makes a POST request to the `postPatternForDataset` method of the `LogService` with the pattern
+   * and selected dataset as parameters, handling the response using the `next`, `error`, and
+   * `complete` callbacks.
+   */
   onAdd() {
     console.clear();
     console.log('onAdd Clicked =>', this.selectedDataset, " ; ", this.pattern);
@@ -153,17 +150,13 @@ export class LogFormComponent implements OnInit {
       this.selectedDataset.trim() != ""
       && this.pattern.trim() != ""
     ) {
-      // let rules: {[key: string]: string} = {};
-      // for(let i = 0;i < this.placeholderList.length;++i){
-      //   rules[this.placeholderRecords[i].placeholder] = this.placeholderRecords[i].regex;
-      // }
-      // this.pattern = this.service.placeholders(this.pattern, rules);
-
       let patternFormData = {
         "pattern": this.pattern,
         "selectedDataset": this.selectedDataset
       };
 
+      /* The code snippet is subscribing to the `postPatternForDataset` method of the `LogService` and
+      handling the response using the `next`, `error`, and `complete` callbacks. */
       this.service.postPatternForDataset(patternFormData).subscribe({
         next: (response) => {
           console.info('postPatternForDataset service subscribed');
