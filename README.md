@@ -2,26 +2,24 @@
 
 This project was generated with [Angular CLI](https://github.com/angular/angular-cli) version 13.0.0.
 
-## Development server
 
-Run `ng serve` for a dev server. Navigate to `http://localhost:4200/`. The app will automatically reload if you change any of the source files.
+## Components
 
-## Code scaffolding
+### dataset-tag-pattern
+This component contins a table containing following columns:
+1. **dataset** contains the name of the dataset.
+2. **action** will contains an eye button that will render the dataset-tag-pattern-view component.
 
-Run `ng generate component component-name` to generate a new component. You can also use `ng generate directive|pipe|service|class|guard|interface|enum|module`.
+### dataset-tag-pattern-view
+This component will render when the **eye** button is clicked from a particular dataset in dataset-tag-pattern table. It will contain all the pattern inserted for the dataset.
 
-## Build
+### log-form
+This component contains the following two parts:
+1. **form** to enter a pattern and there's a dropdown to choose under which dataset, the entered pattern will stored.
+2. **table** will show the placeholders that can be used as the alternatives to regex.
 
-Run `ng build` to build the project. The build artifacts will be stored in the `dist/` directory.
-
-## Running unit tests
-
-Run `ng test` to execute the unit tests via [Karma](https://karma-runner.github.io).
-
-## Running end-to-end tests
-
-Run `ng e2e` to execute the end-to-end tests via a platform of your choice. To use this command, you need to first add a package that implements end-to-end testing capabilities.
-
-## Further help
-
-To get more help on the Angular CLI use `ng help` or go check out the [Angular CLI Overview and Command Reference](https://angular.io/cli) page.
+### log-table
+This component contains a table containg following columns: 
+1. **tag** contains the log fetched from the elastic search.
+2. **count** contains the "doc_count" coming with the log from elasticsearch.
+3. **dataset** constains the dataset under which the log is categorised.
